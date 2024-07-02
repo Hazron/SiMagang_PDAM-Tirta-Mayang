@@ -47,7 +47,12 @@
         <div class="container text-center text-md-left">
             <h1><span>SiMagang Tirta Mayang</span></h1>
             <h2>Aplikasi Presensi, Logbook untuk Peserta Magang di PDAM Tirta Mayang</h2>
-            <a href="{{ route('login') }}" class="btn-get-started scrollto">LOGIN</a>
+            @auth
+                <a href="{{ route('dashboard') }}" class="btn-get-started scrollto">DASHBOARD</a>
+                <a href="{{ route('logout') }}" class="btn-get-started scrollto ms-3">LOGOUT</a>
+            @else
+                <a href="{{ route('login') }}" class="btn-get-started scrollto">LOGIN</a>
+            @endauth
         </div>
     </section><!-- End Hero -->
 
