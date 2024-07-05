@@ -48,11 +48,20 @@
             <h1><span>SiMagang Tirta Mayang</span></h1>
             <h2>Aplikasi Presensi, Logbook untuk Peserta Magang di PDAM Tirta Mayang</h2>
             @auth
-                <a href="{{ route('dashboard') }}" class="btn-get-started scrollto">DASHBOARD</a>
-                <a href="{{ route('logout') }}" class="btn-get-started scrollto ms-3">LOGOUT</a>
+                <a href="{{ route('dashboard') }}" class="btn-get-started scrollto me-3">DASHBOARD</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-get-started scrollto">LOGOUT</button>
+                </form>
             @else
                 <a href="{{ route('login') }}" class="btn-get-started scrollto">LOGIN</a>
             @endauth
+            @guest
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-get-started scrollto">LOGOUT</button>
+                </form>
+            @endguest
         </div>
     </section><!-- End Hero -->
 
