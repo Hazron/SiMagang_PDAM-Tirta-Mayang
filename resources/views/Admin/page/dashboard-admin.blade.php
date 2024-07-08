@@ -40,8 +40,17 @@
                                     class="rounded" />
                             </div>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Data Peserta Magang Aktif</span>
-                        <h3 class="card-title mb-2">20 Peserta</h3>
+                        @php
+                            $countMagang = App\Models\User::where('role', 'magang')->where('status', 'aktif')->count();
+                        @endphp
+
+                        @if ($countMagang > 0)
+                            <span class="fw-semibold d-block mb-1">Data Peserta Magang Aktif</span>
+                            <h3 class="card-title mb-2">{{ $countMagang }} Peserta</h3>
+                        @else
+                            <span class="fw-semibold d-block mb-1">Data Peserta Magang Aktif</span>
+                            <h3 class="card-title mb-2">Tidak Ada Peserta Magang</h3>
+                        @endif
                         <button type="button" class="btn btn-primary">
                             <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Selengkapnya
                         </button>

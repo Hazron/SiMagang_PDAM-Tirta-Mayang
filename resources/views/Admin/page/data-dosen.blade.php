@@ -6,12 +6,12 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Magang /</span> Data Peserta
-                Magang</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Magang /</span> Data Dosen
+                Instasi</h4>
             <!-- Hoverable Table rows -->
             <div class="card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
-                    Daftar Peserta Magang
+                    Daftar Dosen Instasi
                     <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
                         data-bs-target="#modalTambah">
                         <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
@@ -23,21 +23,24 @@
                             <tr>
                                 <th>Foto</th>
                                 <th>Nama</th>
-                                <th>Departemen</th>
                                 <th>Status</th>
-                                <th>Asal</th>
+                                <th>Asal Instasi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                             @foreach ($users as $user)
-                                <!-- Perbaiki $user menjadi singular -->
                                 <tr>
                                     <td>
-
+                                        @if ($user->fotoprofile)
+                                            <img src="{{ asset('path/to/foto/' . $user->fotoprofile) }}" alt="Foto"
+                                                width="50">
+                                        @else
+                                            <img src="{{ asset('path/to/default/foto.jpg') }}" alt="Foto"
+                                                width="50">
+                                        @endif
                                     </td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->departemen }}</td>
                                     <td>
                                         @if ($user->status == 'aktif')
                                             <span class="badge bg-label-success me-1">Aktif</span>
@@ -46,7 +49,6 @@
                                         @endif
                                     </td>
                                     <td>{{ $user->asal_kampus }}</td>
-                                    <!-- Sesuaikan dengan nama kolom yang benar -->
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -57,7 +59,7 @@
                                                 <a class="dropdown-item" href="#">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>
-                                                <form action="" method="POST">
+                                                <form action="#" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="dropdown-item"
@@ -73,7 +75,7 @@
                         </tbody>
                     </table>
                     <div class="pagination">
-                        {{ $users->links() }} <!-- Tampilkan pagination links -->
+                        {{ $users->links() }}
                     </div>
 
                     <!--/ Hoverable Table rows -->
@@ -85,12 +87,12 @@
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel1">Tambah Data</h4>
+                                    <h4 class="modal-title" id="myModalLabel1">Tambah Data Dosen</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('store-peserta') }}" method="POST">
+                                    <form action="{{ route('store-dosen') }}" method="POST">
                                         @csrf
                                         <div class="mb-1">
                                             <label class="form-label">Nama Lengkap</label>
@@ -111,31 +113,6 @@
                                             <label class="form-label">Asal Instasi</label>
                                             <input type="text" class="form-control" placeholder="Asal" name="asal"
                                                 required>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label">Alamat</label>
-                                            <input type="text" class="form-control" placeholder="Alamat"
-                                                name="alamat" required>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label">Departemen</label>
-                                            <select class="form-select" name="departemen" required>
-                                                <option value="">Pilih Departemen</option>
-                                                <option value="Departemen IT">Departemen IT</option>
-                                                <option value="Departemen K3">Departemen K3</option>
-                                                <option value="Departemen Perencanaan">Departemen Perencanaan
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label">Tanggal Mulai Magang</label>
-                                            <input type="date" class="form-control" placeholder="Asal"
-                                                name="tanggal_mulai" required>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label">Tanggal Selesai Magang</label>
-                                            <input type="date" class="form-control" placeholder="Asal"
-                                                name="tanggal_selesai" required>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"

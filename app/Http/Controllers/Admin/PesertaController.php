@@ -39,6 +39,6 @@ class PesertaController extends Controller
             'departemen' => $data['departemen'],
         ]);
 
-        return redirect()->route('admin.page.data-magang')->with('success', 'Data magang berhasil ditambahkan');
+        return redirect()->route('data-magang')->with('success', 'Data magang berhasil ditambahkan');
     }
 }

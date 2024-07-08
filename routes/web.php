@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //ADMIN
 use App\Http\Controllers\Admin\dashboardAdminController;
+use App\Http\Controllers\Admin\DataDosenController;
 use App\Http\Controllers\Admin\PesertaController;
 
 
@@ -24,8 +25,14 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard-admin', [dashboardAdminController::class, 'index'])->name('dashboard-admin');
+
+    // DATA PESERTA MAGANG
     Route::get('/admin/data-peserta', [PesertaController::class, 'index'])->name('data-magang');
     Route::post('/admin/store-peserta', [PesertaController::class, 'store'])->name('store-peserta');
+
+    //DATA DOSEN/GURU PEMBIMBING
+    Route::get('/admin/data-dosen', [DataDosenController::class, 'index'])->name('data-dosen');
+    Route::post('/admin/store-dosen', [DataDosenController::class, 'store'])->name('store-dosen');
 });
 
 // ADMIN
