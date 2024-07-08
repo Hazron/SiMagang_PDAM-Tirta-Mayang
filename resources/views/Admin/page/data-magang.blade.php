@@ -11,11 +11,12 @@
             <div class="card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     Daftar Peserta Magang
-                    <button type="button" class="btn btn-info float-end">
+                    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
+                        data-bs-target="#modalTambah">
                         <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
                     </button>
                 </h5>
-                <div class="table-responsive text-nowrap">
+                <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -28,44 +29,121 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <tr>
-                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong></strong>
-                                </td>
-                                <td>M.Hazron Redian</td>
-                                <td>
-                                    Departemen IT
-                                </td>
-                                <td><span class="badge bg-label-success me-1">Aktif</span></td>
-                                <td>Universitas Jambi</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="bx bx-trash me-1"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($users as $user)
+                                <!-- Perbaiki $user menjadi singular -->
+                                <tr>
+                                    <td>
 
+                                    </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->departemen }}</td>
+                                    <td>
+                                        @if ($user->status == 'active')
+                                            <span class="badge bg-label-success me-1">Aktif</span>
+                                        @else
+                                            <span class="badge bg-label-secondary me-1">Tidak Aktif</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->asal_kampus }}</td>
+                                    <!-- Sesuaikan dengan nama kolom yang benar -->
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                                </a>
+                                                <form action="" method="POST">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                        <i class="bx bx-trash me-1"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    <div class="pagination">
+                        {{ $users->links() }} <!-- Tampilkan pagination links -->
+                    </div>
+
+                    <!--/ Hoverable Table rows -->
+                    <hr class="my-5" />
+
+                    <!-- Modal Tambah -->
+                    <div class="modal fade text-left" id="modalTambah" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel1">Tambah Data</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('store-peserta') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-1">
+                                            <label class="form-label">Nama Lengkap</label>
+                                            <input type="text" class="form-control" placeholder="Nama Lengkap"
+                                                name="name" required>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Nomor Induk</label>
+                                            <input type="text" class="form-control" placeholder="Nomor Induk"
+                                                name="nomor_induk" required>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Departemen</label>
+                                            <select class="form-select" name="departemen" required>
+                                                <option value="">Pilih Departemen</option>
+                                                <option value="Departemen IT">Departemen IT</option>
+                                                <option value="Departemen K3">Departemen K3</option>
+                                                <option value="Departemen Perencanaan">Departemen Perencanaan
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" placeholder="Email"
+                                                name="email" required>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Asal Instasi</label>
+                                            <input type="text" class="form-control" placeholder="Asal" name="asal"
+                                                required>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Alamat</label>
+                                            <input type="text" class="form-control" placeholder="Alamat"
+                                                name="alamat" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-primary">Tambah</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal Tambah -->
+
+
                 </div>
+                <!-- / Content -->
+
+                <div class="content-backdrop fade"></div>
             </div>
-            <!--/ Hoverable Table rows -->
-            <hr class="my-5" />
+            <!-- Content wrapper -->
 
-
-        </div>
-        <!-- / Content -->
-
-        <div class="content-backdrop fade"></div>
-    </div>
-    <!-- Content wrapper -->
-
-    @include('Admin.layout.footer')
+            @include('Admin.layout.footer')

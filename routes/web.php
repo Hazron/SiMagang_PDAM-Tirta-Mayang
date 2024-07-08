@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard-admin', [dashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/admin/data-peserta', [PesertaController::class, 'index'])->name('data-magang');
+    Route::post('/admin/store-peserta', [PesertaController::class, 'store'])->name('store-peserta');
 });
 
 // ADMIN
