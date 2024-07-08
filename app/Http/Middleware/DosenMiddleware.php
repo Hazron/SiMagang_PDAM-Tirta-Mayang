@@ -14,11 +14,11 @@ class DosenMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    // public function handle(Request $request, Closure $next): Response
-    // {
-    //     if (Auth::user()->role != 'dosen') {
-    //         return redirect()->back();
-    //     }
-    //     return $next($request);
-    // }
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (Auth::user()->role != 'dosen') {
+            return redirect()->back();
+        }
+        return $next($request);
+    }
 }

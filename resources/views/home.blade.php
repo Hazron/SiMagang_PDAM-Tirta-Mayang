@@ -56,12 +56,6 @@
             @else
                 <a href="{{ route('login') }}" class="btn-get-started scrollto">LOGIN</a>
             @endauth
-            @guest
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn-get-started scrollto">LOGOUT</button>
-                </form>
-            @endguest
         </div>
     </section><!-- End Hero -->
 

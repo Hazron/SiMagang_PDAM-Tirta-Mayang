@@ -5,11 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 //ADMIN
 use App\Http\Controllers\Admin\dashboardAdminController;
+use App\Http\Controllers\Admin\PesertaController;
 
 
-Route::get('/', function () {
-    return view('home');
-});
+use App\Http\Controllers\Homepage;
+
+Route::get('/', [Homepage::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -22,7 +23,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard-admin', [dashboardAdminController::class, 'index']);
+    Route::get('/dashboard-admin', [dashboardAdminController::class, 'index'])->name('dashboard-admin');
+    Route::get('/admin/data-peserta', [PesertaController::class, 'index'])->name('data-magang');
 });
 
 // ADMIN

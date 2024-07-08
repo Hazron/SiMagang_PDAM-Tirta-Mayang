@@ -2,8 +2,8 @@
 
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item active">
-        <a href="index.html" class="menu-link">
+    <li class="menu-item">
+        <a href="{{ route('dashboard-admin') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -15,7 +15,7 @@
         <span class="menu-header-text">Data Magang</span>
     </li>
     <li class="menu-item">
-        <a href="#" class="menu-link">
+        <a href="{{ route('data-magang') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Data Peserta Magang</div>
         </a>
@@ -89,10 +89,8 @@
                             <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                         </div>
                     </a>
-
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="#">
+                        <li><a class="dropdown-item" href="#">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
@@ -101,30 +99,18 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-semibold d-block">Hazron Redian</span>
-                                        <small class="text-muted">Admin</small>
+                                        <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                                        <small class="text-muted">{{ Auth::user()->role }}</small>
                                     </div>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="dropdown-divider"></div>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="bx bx-user me-2"></i>
-                                <span class="align-middle">My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="dropdown-divider"></div>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="auth-login-basic.html">
-                                <i class="bx bx-power-off me-2"></i>
-                                <span class="align-middle">Log Out</span>
-                            </a>
-                        </li>
+                            </a></li>
+                        <li><a class="dropdown-item" href="#">My Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}</a></li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </ul>
                 </li>
                 <!--/ User -->
