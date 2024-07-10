@@ -12,11 +12,17 @@
             <div class="card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     Daftar Dosen Instasi
-                    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
-                        data-bs-target="#modalTambah">
-                        <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
-                    </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="me-2">
+                            <input type="text" class="form-control" placeholder="Search..." id="search">
+                        </div>
+                        <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
+                            data-bs-target="#modalTambah">
+                            <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
+                        </button>
+                    </div>
                 </h5>
+
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -40,7 +46,7 @@
                                                 width="50">
                                         @endif
                                     </td>
-                                    <td>{{ $user->name }}</td>
+                                    <td><a href="{{ route('detail-dosen', $user->id) }}">{{ $user->name }}</a></td>
                                     <td>
                                         @if ($user->status == 'aktif')
                                             <span class="badge bg-label-success me-1">Aktif</span>
@@ -56,6 +62,9 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bx bx-edit-alt me-1"></i> Tambah Peserta Pembimbing
+                                                </a>
                                                 <a class="dropdown-item" href="#">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>

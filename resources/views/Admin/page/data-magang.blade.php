@@ -6,7 +6,8 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Magang /</span> Data Peserta
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Magang /</span> Data
+                Peserta
                 Magang</h4>
             <!-- Hoverable Table rows -->
             <div class="card">
@@ -26,6 +27,7 @@
                                 <th>Departemen</th>
                                 <th>Status</th>
                                 <th>Asal</th>
+                                <th>Durasi Magang</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -46,7 +48,8 @@
                                         @endif
                                     </td>
                                     <td>{{ $user->asal_kampus }}</td>
-                                    <!-- Sesuaikan dengan nama kolom yang benar -->
+                                    <td>{{ Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(Carbon\Carbon::parse($user->tanggal_selesai)) }}
+                                        Hari</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

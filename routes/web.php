@@ -33,6 +33,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     //DATA DOSEN/GURU PEMBIMBING
     Route::get('/admin/data-dosen', [DataDosenController::class, 'index'])->name('data-dosen');
     Route::post('/admin/store-dosen', [DataDosenController::class, 'store'])->name('store-dosen');
+    Route::get('/admin/data-dosen/{id}', [DataDosenController::class, 'detail'])->name('detail-dosen');
+    Route::post('/assign-dosen', [DataDosenController::class, 'assignDosen'])->name('assign.dosen');
 });
 
 // ADMIN

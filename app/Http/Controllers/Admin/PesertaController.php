@@ -25,6 +25,8 @@ class PesertaController extends Controller
             'email' => 'required|string|email|unique:users',
             'asal' => 'required|string',
             'alamat' => 'required|string',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
         ]);
 
         User::create([
@@ -37,6 +39,8 @@ class PesertaController extends Controller
             'password' => Hash::make($data['nomor_induk'] . $data['nomor_induk']),
             'status' => 'aktif',
             'departemen' => $data['departemen'],
+            'tanggal_mulai' => $data['tanggal_mulai'],
+            'tanggal_selesai' => $data['tanggal_selesai'],
         ]);
 
         return redirect()->route('data-magang')->with('success', 'Data magang berhasil ditambahkan');

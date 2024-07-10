@@ -19,7 +19,6 @@ class DataDosenController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data yang masuk
         $request->validate([
             'name' => 'required|string|max:255',
             'nomor_induk' => 'required|string|max:255|unique:users',
@@ -27,7 +26,6 @@ class DataDosenController extends Controller
             'asal' => 'required|string|max:255',
         ]);
 
-        // Buat pengguna baru di tabel users
         $user = User::create([
             'role' => 'dosen',
             'name' => $request->name,
@@ -47,6 +45,25 @@ class DataDosenController extends Controller
             'status' => 'aktif',
         ]);
 
-        return redirect()->route('data.dosen')->with('success', 'Dosen berhasil ditambahkan');
+        return redirect()->route('admin.data-dosen')->with('success', 'Dosen berhasil ditambahkan');
+    }
+
+    public function detail($id)
+    {
+        $dosen = User::where('role', 'dosen')->findOrFail($id);
+        $pesertaBimbingan = $dosen->pembimbingan;
+        $pesertaMagang = User::where('role', 'magang')->where('dosen_id', null)->get();
+
+        return view('admin.page.detail-dosen', compact('dosen', 'pesertaBimbingan', 'pesertaMagang'));
+    }
+
+
+    public function assignDosen(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+        $user->dosen_id = $request->dosen_id;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Peserta magang berhasil ditambahkan ke dosen.');
     }
 }
