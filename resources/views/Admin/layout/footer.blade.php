@@ -16,6 +16,9 @@
        <!-- Page JS -->
        <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 
+       <!-- CDN PACKAGE -->
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
        </div>
        </body>
 

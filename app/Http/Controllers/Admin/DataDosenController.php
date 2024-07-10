@@ -45,7 +45,7 @@ class DataDosenController extends Controller
             'status' => 'aktif',
         ]);
 
-        return redirect()->route('admin.data-dosen')->with('success', 'Dosen berhasil ditambahkan');
+        return redirect()->route('data-dosen')->with('success', 'Dosen berhasil ditambahkan');
     }
 
     public function detail($id)

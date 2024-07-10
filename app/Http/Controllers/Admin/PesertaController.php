@@ -45,4 +45,18 @@ class PesertaController extends Controller
 
         return redirect()->route('data-magang')->with('success', 'Data magang berhasil ditambahkan');
     }
+
+    public function detail($id)
+    {
+        $peserta = User::where('role', 'magang')->findOrFail($id);
+        return view('admin.page.detail-magang', compact('peserta'));
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User berhasil dihapus.');
+    }
 }

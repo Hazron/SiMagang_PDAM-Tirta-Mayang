@@ -38,7 +38,7 @@
                                     <td>
 
                                     </td>
-                                    <td>{{ $user->name }}</td>
+                                    <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a></td>
                                     <td>{{ $user->departemen }}</td>
                                     <td>
                                         @if ($user->status == 'aktif')
@@ -57,16 +57,19 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                                <a class="dropdown-item text-info" href="#">
+                                                    <i class="bx bx-edit me-1"></i> Edit
                                                 </a>
-                                                <form action="" method="POST">
+                                                <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                                    onclick="deleteUser('{{ $user->id }}')">
+                                                    <i class="bx bx-trash me-1"></i> Delete
+                                                </a>
+                                                <form id="delete-form-{{ $user->id }}"
+                                                    action="{{ route('destroy-peserta', $user->id) }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="dropdown-item"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                        <i class="bx bx-trash me-1"></i> Delete
-                                                    </button>
+                                                    @method('DELETE')
+                                                </form>
                                                 </form>
                                             </div>
                                         </div>
@@ -159,5 +162,21 @@
                 <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
-
+            <script>
+                function deleteUser(userId) {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data ini akan dihapus secara permanen!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('delete-form-' + userId).submit();
+                        }
+                    })
+                }
+            </script>
             @include('Admin.layout.footer')

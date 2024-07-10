@@ -142,5 +142,21 @@
                 <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
-
+            <script>
+                function deleteUser(userId) {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data ini akan dihapus secara permanen!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('delete-form-' + userId).submit();
+                        }
+                    })
+                }
+            </script>
             @include('Admin.layout.footer')
