@@ -12,6 +12,7 @@ class DosenPembimbing extends Model
     protected $table = 'pembimbingdosen';
 
     protected $fillable = [
+        'id_pembimbing',
         'nama',
         'asal_kampus',
         'user_id',
@@ -23,9 +24,8 @@ class DosenPembimbing extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-
-    public function user()
+    public function bimbingan()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->hasMany(User::class, 'dosen_id', 'id_pembimbing');
     }
 }

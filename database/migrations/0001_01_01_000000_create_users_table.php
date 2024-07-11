@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('nomor_induk');
             $table->string('asal_kampus')->nullable();
+            $table->string('jurusan')->nullable();
             $table->string('alamat');
             $table->string('email')->unique();
             $table->string('password');

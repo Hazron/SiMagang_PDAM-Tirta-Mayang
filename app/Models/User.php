@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'nomor_induk',
         'asal_kampus',
+        'jurusan',
         'alamat',
         'email',
         'password',
@@ -58,5 +59,10 @@ class User extends Authenticatable
     public function pembimbingan()
     {
         return $this->hasMany(User::class, 'dosen_id');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(DosenPembimbing::class, 'dosen_id', 'id_pembimbing');
     }
 }

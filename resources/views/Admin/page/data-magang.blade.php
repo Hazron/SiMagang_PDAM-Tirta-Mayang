@@ -38,7 +38,8 @@
                                     <td>
 
                                     </td>
-                                    <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a></td>
+                                    <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a>
+                                    </td>
                                     <td>{{ $user->departemen }}</td>
                                     <td>
                                         @if ($user->status == 'aktif')
@@ -116,6 +117,11 @@
                                         <div class="mb-1">
                                             <label class="form-label">Asal Instasi</label>
                                             <input type="text" class="form-control" placeholder="Asal" name="asal"
+                                                required>
+                                        </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Jurusan</label>
+                                            <input type="text" class="form-control" placeholder="Asal" name="jurusan"
                                                 required>
                                         </div>
                                         <div class="mb-1">
