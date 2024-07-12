@@ -36,7 +36,13 @@
                                 <!-- Perbaiki $user menjadi singular -->
                                 <tr>
                                     <td>
-
+                                        @if ($user->fotoprofile)
+                                            <img src="{{ asset('path/to/foto/' . $user->fotoprofile) }}" alt="Foto"
+                                                width="100">
+                                        @else
+                                            <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Foto"
+                                                width="100">
+                                        @endif
                                     </td>
                                     <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a>
                                     </td>
@@ -44,6 +50,8 @@
                                     <td>
                                         @if ($user->status == 'aktif')
                                             <span class="badge bg-label-success me-1">Aktif</span>
+                                        @elseif ($user->status == 'selesai')
+                                            <span class="badge bg-label-warning me-1">Selesai</span>
                                         @else
                                             <span class="badge bg-label-secondary me-1">Tidak Aktif</span>
                                         @endif
@@ -58,7 +66,8 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item text-info" href="#">
+                                                <a class="dropdown-item text-info" data-bs-toggle="modal"
+                                                    data-bs-target="#modalEdit{{ $user->id }}">
                                                     <i class="bx bx-edit me-1"></i> Edit
                                                 </a>
                                                 <a class="dropdown-item text-danger" href="javascript:void(0)"
@@ -160,6 +169,48 @@
                         </div>
                     </div>
                     <!-- End Modal Tambah -->
+
+                    {{-- <!-- Modal Edit --> --}}
+
+                    <!-- Modal Edit -->
+                    @foreach ($users as $user)
+                        <div class="modal fade" id="modalEdit{{ $user->id }}" tabindex="-1"
+                            aria-labelledby="myModalLabel1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel1">Edit Status</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('update-peserta', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label">Status</label>
+                                                <select class="form-select" id="status" name="status" required>
+                                                    <option value="aktif"
+                                                        {{ $user->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                                    <option value="tidak aktif"
+                                                        {{ $user->status == 'tidak aktif' ? 'selected' : '' }}>Tidak
+                                                        Aktif</option>
+                                                    <option value="selesai"
+                                                        {{ $user->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <!-- End Modal Edit -->
+
+
+                    {{-- <!-- End Modal Edit --> --}}
 
 
                 </div>

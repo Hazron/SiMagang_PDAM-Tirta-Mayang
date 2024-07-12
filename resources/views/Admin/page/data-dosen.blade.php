@@ -40,10 +40,10 @@
                                     <td>
                                         @if ($user->fotoprofile)
                                             <img src="{{ asset('path/to/foto/' . $user->fotoprofile) }}" alt="Foto"
-                                                width="50">
+                                                width="75">
                                         @else
-                                            <img src="{{ asset('path/to/default/foto.jpg') }}" alt="Foto"
-                                                width="50">
+                                            <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Foto"
+                                                width="75">
                                         @endif
                                     </td>
                                     <td><a href="{{ route('detail-dosen', $user->id) }}">{{ $user->name }}</a></td>
@@ -62,19 +62,19 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bx bx-edit-alt me-1"></i> Tambah Peserta Pembimbing
+                                                <a class="dropdown-item text-info" href="#">
+                                                    <i class="bx bx-edit me-1"></i> Edit
                                                 </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                                <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                                    onclick="deleteUser('{{ $user->id }}')">
+                                                    <i class="bx bx-trash me-1"></i> Delete
                                                 </a>
-                                                <form action="#" method="POST">
+                                                <form id="delete-form-{{ $user->id }}"
+                                                    action="{{ route('destroy-peserta', $user->id) }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="dropdown-item"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                        <i class="bx bx-trash me-1"></i> Delete
-                                                    </button>
+                                                    @method('DELETE')
+                                                </form>
                                                 </form>
                                             </div>
                                         </div>

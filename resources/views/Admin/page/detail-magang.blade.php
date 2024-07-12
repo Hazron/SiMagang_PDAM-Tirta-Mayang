@@ -60,6 +60,11 @@
                                 <td>:</td>
                                 <td>{{ $peserta->departemen }}</td>
                             </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>:</td>
+                                <td>{{ $peserta->alamat }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -72,12 +77,48 @@
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
+                                    <th>Jam Masuk</th>
+                                    <th>Jam Keluar</th>
                                     <th>Status</th>
-                                    <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Tabel kosong -->
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
+                                <tr>
+                                    <td>1 Juli 2024</td>
+                                    <td>07.30</td>
+                                    <td>16.00</td>
+                                    <td style="color: green;">Hadir</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -90,13 +131,42 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Tanggal</th>
-                                    <th>Deskripsi</th>
-                                    <th>Foto</th>
+                                    <th>Tanggal & Hari</th>
+                                    <th>Deskripsi Kegiatan</th>
+                                    <th>Dokumentasi (Opsional)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Tabel kosong -->
+                                <tr>
+                                    <th>1 Juli 2024</th>
+                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
+                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
+                                        velit vitae nobis laudantium.</th>
+                                    <th>
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt="" width="50"
+                                            height="50">
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>1 Juli 2024</th>
+                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
+                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
+                                        velit vitae nobis laudantium.</th>
+                                    <th>
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt=""
+                                            width="50" height="50">
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>1 Juli 2024</th>
+                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
+                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
+                                        velit vitae nobis laudantium.</th>
+                                    <th>
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt=""
+                                            width="50" height="50">
+                                    </th>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

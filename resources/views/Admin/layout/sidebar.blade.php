@@ -45,7 +45,7 @@
         <span class="menu-header-text">Presensi</span>
     </li>
     <li class="menu-item">
-        <a href="#" class="menu-link">
+        <a href="{{ route('data-presensi') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Data Presensi</div>
         </a>

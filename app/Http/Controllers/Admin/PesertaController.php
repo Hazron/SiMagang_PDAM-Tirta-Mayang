@@ -61,4 +61,17 @@ class PesertaController extends Controller
 
         return redirect()->back()->with('success', 'User berhasil dihapus.');
     }
+
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        $peserta = User::findOrFail($id);
+        $peserta->status = $request->status;
+        $peserta->save();
+
+        return redirect()->back()->with('success', 'Status peserta berhasil diupdate');
+    }
 }
