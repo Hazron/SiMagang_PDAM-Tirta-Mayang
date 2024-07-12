@@ -7,12 +7,31 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
+
 
 class PesertaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('role', 'magang')->paginate(10);
+        $data = User::where('role', 'magang')->select('*')->get();
+        return DataTables::of($data)
+            ->addColumn('action', function ($data) {
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                $btn .= ' <a href="javascript:void(0)" onclick="deleteUser(\'' . $data->id . '\')" class="delete btn btn-danger btn-sm" data-id="' . $data->id . '">Delete</a>';
+                return $btn;
+            })
+            ->editColumn('durasi_magang', function ($user) {
+                return Carbon::parse($user->tanggal_mulai)->diffInDays(Carbon::parse($user->tanggal_selesai)) . ' Hari';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function view()
+    {
+        $users = User::where('role', 'magang')->get();
         return view('admin.page.data-magang', compact('users'));
     }
 
