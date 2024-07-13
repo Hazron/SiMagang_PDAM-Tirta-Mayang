@@ -19,8 +19,8 @@ class PesertaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
-                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                $btn .= ' <a href="javascript:void(0)" onclick="deleteUser(\'' . $data->id . '\')" class="delete btn btn-danger btn-sm" data-id="' . $data->id . '">Delete</a>';
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit' . $data->id . '">Edit</a>';
+                $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" data-id="' . $data->id . '">Delete</a>';
                 return $btn;
             })
             ->editColumn('durasi_magang', function ($user) {
@@ -84,7 +84,7 @@ class PesertaController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->back()->with('success', 'User berhasil dihapus.');
+        return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 
     public function edit(Request $request, $id)

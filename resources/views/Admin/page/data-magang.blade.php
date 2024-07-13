@@ -114,12 +114,13 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" id="status" name="status" required>
+                            <label for="status{{ $user->id }}" class="form-label">Status</label>
+                            <select class="form-select" id="status{{ $user->id }}" name="status" required>
                                 <option value="aktif" {{ $user->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                 <option value="tidak aktif" {{ $user->status == 'tidak aktif' ? 'selected' : '' }}>
-                                    Tidak
-                                    Aktif</option>
+                                    Tidak Aktif</option>
+                                <option value="selesai" {{ $user->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                </option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -137,7 +138,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#pesertaTable').DataTable({
+        var table = $('#pesertaTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('data') }}',
@@ -171,7 +172,6 @@
             ]
         });
 
-        // Handling delete action with SweetAlert
         $('#pesertaTable').on('click', '.delete', function() {
             var id = $(this).data('id');
             var url = "{{ url('admin/delete-peserta') }}" + '/' + id;
@@ -185,7 +185,6 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        // Use Ajax to delete data
                         $.ajax({
                             url: url,
                             type: 'DELETE',
@@ -196,8 +195,7 @@
                                 swal("Data berhasil dihapus!", {
                                     icon: "success",
                                 });
-                                // Refresh DataTable after deletion
-                                $('#pesertaTable').DataTable().ajax.reload();
+                                table.ajax.reload();
                             },
                             error: function(xhr) {
                                 swal("Oops...",
@@ -212,3 +210,11 @@
         });
     });
 </script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<!-- Include SweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
