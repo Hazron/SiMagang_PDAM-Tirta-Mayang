@@ -131,6 +131,7 @@
     <!-- End Modal Edit -->
 @endforeach
 
+
 @include('Admin.layout.footer')
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -143,11 +144,11 @@
             columns: [{
                     data: 'foto',
                     render: function(data, type, row) {
-                        return `<img src="${data ? `path/to/foto/${data}` : '../assets/img/blank-profile.png'}" alt="Foto" width="80">`;
+                        return `<img src="${data ? `path/to/foto/${data}` : '../assets/img/blank-profile.png'}" alt="Foto" width="75">`;
                     }
                 },
                 {
-                    data: 'name'
+                    data: 'nama',
                 },
                 {
                     data: 'departemen',
@@ -170,6 +171,44 @@
             ]
         });
 
+        // Handling delete action with SweetAlert
+        $('#pesertaTable').on('click', '.delete', function() {
+            var id = $(this).data('id');
+            var url = "{{ url('admin/delete-peserta') }}" + '/' + id;
 
+            swal({
+                    title: "Apakah Anda yakin?",
+                    text: "Data akan dihapus secara permanen!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        // Use Ajax to delete data
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                swal("Data berhasil dihapus!", {
+                                    icon: "success",
+                                });
+                                // Refresh DataTable after deletion
+                                $('#pesertaTable').DataTable().ajax.reload();
+                            },
+                            error: function(xhr) {
+                                swal("Oops...",
+                                    "Terjadi kesalahan saat menghapus data!",
+                                    "error");
+                            }
+                        });
+                    } else {
+                        swal("Data batal dihapus!");
+                    }
+                });
+        });
     });
 </script>

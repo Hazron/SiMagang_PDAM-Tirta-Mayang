@@ -15,7 +15,8 @@ class PesertaController extends Controller
 {
     public function index(Request $request)
     {
-        $data = User::where('role', 'magang')->select('*')->get();
+        $data = User::where('role', 'magang')->get();
+
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
@@ -25,9 +26,14 @@ class PesertaController extends Controller
             ->editColumn('durasi_magang', function ($user) {
                 return Carbon::parse($user->tanggal_mulai)->diffInDays(Carbon::parse($user->tanggal_selesai)) . ' Hari';
             })
-            ->rawColumns(['action'])
+            ->addColumn('nama', function ($data) {
+                $nama = '<a href="' . route('detail-peserta', ['id' => $data->id]) . '">' . $data->name . '</a>';
+                return $nama;
+            })
+            ->rawColumns(['action', 'nama'])
             ->make(true);
     }
+
 
     public function view()
     {
