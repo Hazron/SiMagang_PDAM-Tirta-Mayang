@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('asal_kampus')->nullable();
             $table->string('jurusan')->nullable();
             $table->string('alamat');
+            $table->string('no_telpon');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('status');

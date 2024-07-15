@@ -6,17 +6,16 @@
 
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Data Dosen / </span>
-            {{ $dosen->name }} | {{ $dosen->asal_kampus }}
+            {{ $dosen->dosen->name }} | {{ $dosen->asal_kampus }}
         </h4>
 
-        <div class="position-relative mb-5"> <!-- Mengubah margin-bottom menjadi mb-5 -->
+        <div class="position-relative mb-5">
             <img src="{{ asset('assets/img/banner1.jpg') }}" class="img-fluid w-100 rounded"
                 style="height:auto; max-height: 200px; filter: brightness(0.6);" alt="Banner Dosen" />
 
             <img src="{{ asset('assets/img/blank-profile.png') }}" class="img-fluid rounded-circle position-absolute"
                 style="width: 150px; height: 150px; bottom: -30px; left: 20px; border: 5px solid white;"
                 alt="blank-profile" />
-
         </div>
 
         <!-- Modal Tambah -->
@@ -45,7 +44,7 @@
                                         <td>{{ $user->durasi_magang }}</td>
                                         <td>
                                             <form
-                                                action="{{ route('assign.dosen', ['dosen_id' => $dosen->id, 'user_id' => $user->id]) }}"
+                                                action="{{ route('assign.dosen', ['dosen_id' => $dosen->id_pembimbing, 'user_id' => $user->id]) }}"
                                                 method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary">Tambahkan</button>
@@ -55,7 +54,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -74,7 +72,7 @@
                     </button>
                 </div>
             </h5>
-            <div class="table-responsive"> <!-- Menambahkan margin-top -->
+            <div class="table-responsive">
                 <table class="table table-hover mt-3">
                     <thead>
                         <tr>

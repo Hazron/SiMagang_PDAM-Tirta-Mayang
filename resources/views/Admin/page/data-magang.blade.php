@@ -72,6 +72,11 @@
                         <input type="text" class="form-control" placeholder="Alamat" name="alamat" required>
                     </div>
                     <div class="mb-1">
+                        <label class="form-label">Nomor Telepon</label>
+                        <input type="number" class="form-control" placeholder="Nomor yang dapat terhubung WhatsApp"
+                            name="no_telpon" required>
+                    </div>
+                    <div class="mb-1">
                         <label class="form-label">Departemen</label>
                         <select class="form-select" name="departemen" required>
                             <option value="">Pilih Departemen</option>
@@ -141,7 +146,7 @@
         var table = $('#pesertaTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('data') }}',
+            ajax: '{{ route('datapeserta') }}',
             columns: [{
                     data: 'foto',
                     render: function(data, type, row) {

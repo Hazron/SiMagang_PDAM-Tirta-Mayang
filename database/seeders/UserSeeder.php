@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
                 'asal_kampus' => 'PDAM-Tirta Mayang',
                 'password' => bcrypt('admin'),
                 'status' => 'aktif',
+                'no_telpon' => '081234567890',
                 'departemen' => 'SDM',
                 'email_verified_at' => now(),
                 'created_at' => now(),

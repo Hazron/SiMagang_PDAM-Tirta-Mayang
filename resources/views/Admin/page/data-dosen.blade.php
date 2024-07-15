@@ -13,9 +13,6 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     Daftar Dosen Instasi
                     <div class="d-flex align-items-center gap-2">
-                        <div class="me-2">
-                            <input type="text" class="form-control" placeholder="Search..." id="search">
-                        </div>
                         <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
                             data-bs-target="#modalTambah">
                             <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
@@ -24,7 +21,7 @@
                 </h5>
 
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table id="dosenDataTables" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Foto</th>
@@ -34,58 +31,7 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($users as $user)
-                                <tr>
-                                    <td>
-                                        @if ($user->fotoprofile)
-                                            <img src="{{ asset('path/to/foto/' . $user->fotoprofile) }}" alt="Foto"
-                                                width="75">
-                                        @else
-                                            <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Foto"
-                                                width="75">
-                                        @endif
-                                    </td>
-                                    <td><a href="{{ route('detail-dosen', $user->id) }}">{{ $user->name }}</a></td>
-                                    <td>
-                                        @if ($user->status == 'aktif')
-                                            <span class="badge bg-label-success me-1">Aktif</span>
-                                        @else
-                                            <span class="badge bg-label-secondary me-1">Tidak Aktif</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $user->asal_kampus }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item text-info" href="#">
-                                                    <i class="bx bx-edit me-1"></i> Edit
-                                                </a>
-                                                <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                                    onclick="deleteUser('{{ $user->id }}')">
-                                                    <i class="bx bx-trash me-1"></i> Delete
-                                                </a>
-                                                <form id="delete-form-{{ $user->id }}"
-                                                    action="{{ route('destroy-peserta', $user->id) }}" method="POST"
-                                                    style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
                     </table>
-                    <div class="pagination">
-                        {{ $users->links() }}
-                    </div>
 
                     <!--/ Hoverable Table rows -->
                     <hr class="my-5" />
@@ -123,6 +69,12 @@
                                             <input type="text" class="form-control" placeholder="Asal" name="asal"
                                                 required>
                                         </div>
+                                        <div class="mb-1">
+                                            <label class="form-label">Nomor Telepon</label>
+                                            <input type="text" class="form-control"
+                                                placeholder="Nomor yang dapat terhubung WhatsApp" name="no_telpon"
+                                                required>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Tutup</button>
@@ -134,29 +86,112 @@
                         </div>
                     </div>
                     <!-- End Modal Tambah -->
-
-
                 </div>
                 <!-- / Content -->
 
                 <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
-            <script>
-                function deleteUser(userId) {
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: "Data ini akan dihapus secara permanen!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, hapus!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('delete-form-' + userId).submit();
-                        }
-                    })
-                }
-            </script>
             @include('Admin.layout.footer')
+            <!-- Include jQuery -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <!-- Include DataTables JS -->
+            <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+            <!-- Include SweetAlert -->
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    var table = $('#dosenDataTables').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ajax: "{{ route('datadosen') }}",
+                        columns: [{
+                                data: 'fotoprofile'
+                            },
+                            {
+                                data: 'name',
+                                name: 'name'
+                            },
+                            {
+                                data: 'status',
+                                name: 'status'
+                            },
+                            {
+                                data: 'asal_kampus',
+                                name: 'asal_kampus'
+                            },
+                            {
+                                data: 'action',
+                                orderable: false,
+                                searchable: false
+                            }
+                        ]
+                    });
+
+                    // Delete user
+                    $('#dosenDataTables').on('click', '.delete', function() {
+                        var id = $(this).data('id');
+                        var url = "{{ url('admin/delete-dosen') }}" + '/' + id;
+
+                        swal({
+                                title: "Apakah Anda yakin?",
+                                text: "Data akan dihapus secara permanen!",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax({
+                                        url: url,
+                                        type: 'DELETE',
+                                        data: {
+                                            "_token": "{{ csrf_token() }}",
+                                        },
+                                        success: function(response) {
+                                            swal("Data berhasil dihapus!", {
+                                                icon: "success",
+                                            });
+                                            table.ajax.reload();
+                                        },
+                                        error: function(xhr) {
+                                            swal("Oops...",
+                                                "Terjadi kesalahan saat menghapus data!",
+                                                "error");
+                                        }
+                                    });
+                                } else {
+                                    swal("Data batal dihapus!");
+                                }
+                            });
+                    });
+
+                    // Edit user (AJAX form submission for edit)
+                    $('form[id^="editForm"]').on('submit', function(event) {
+                        event.preventDefault();
+                        var form = $(this);
+                        var id = form.attr('id').replace('editForm', '');
+                        var url = "{{ url('admin/edit-dosen') }}" + '/' + id;
+                        var data = form.serialize();
+
+                        $.ajax({
+                            url: url,
+                            type: 'PUT',
+                            data: data,
+                            success: function(response) {
+                                swal("Status berhasil diupdate!", {
+                                    icon: "success",
+                                });
+                                table.ajax.reload();
+                                form.closest('.modal').modal('hide');
+                            },
+                            error: function(xhr) {
+                                swal("Oops...", "Terjadi kesalahan saat mengupdate status!", "error");
+                            }
+                        });
+                    });
+                });
+            </script>

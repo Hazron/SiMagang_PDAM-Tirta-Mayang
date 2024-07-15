@@ -57,6 +57,10 @@
                     </div>
                 </div>
             </div>
+            @php
+                $countDosen = App\Models\User::where('role', 'dosen')->where('status', 'aktif')->count();
+            @endphp
+
             <div class="col-lg-3 col-md-6 order-1">
                 <div class="card mb-4" style="width: 100%;">
                     <div class="card-body">
@@ -67,7 +71,7 @@
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Data Dosen Instasi</span>
-                        <h3 class="card-title mb-2">5 Dosen</h3>
+                        <h3 class="card-title mb-2">{{ $countDosen }} Dosen</h3>
                         <button type="button" class="btn btn-primary">
                             <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Selengkapnya
                         </button>

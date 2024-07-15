@@ -24,6 +24,7 @@ class User extends Authenticatable
         'jurusan',
         'alamat',
         'email',
+        'no_telpon',
         'password',
         'status',
         'departemen',
