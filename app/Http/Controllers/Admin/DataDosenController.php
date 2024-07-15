@@ -48,6 +48,7 @@ class DataDosenController extends Controller
             'nomor_induk' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'asal' => 'required|string|max:255',
+            'no_telpon' => 'required|string|max:255',
         ]);
 
         $user = User::create([
@@ -55,6 +56,7 @@ class DataDosenController extends Controller
             'name' => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email' => $request->email,
+            'no_telpon' => $request->no_telpon,
             'password' => Hash::make($request->nomor_induk),
             'status' => 'aktif',
             'asal_kampus' => $request->asal,
