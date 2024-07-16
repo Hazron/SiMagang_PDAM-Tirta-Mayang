@@ -30,15 +30,6 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets_landing/css/style.css') }}" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-
-    <!-- =======================================================
-  * Template Name: Lumia
-  * Template URL: https://bootstrapmade.com/lumia-bootstrap-business-template/
-  * Updated: Mar 17 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>

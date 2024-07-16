@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Presensi;
+use App\Models\Logbook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 
 class PesertaController extends Controller
@@ -77,8 +80,59 @@ class PesertaController extends Controller
 
     public function detail($id)
     {
-        $peserta = User::where('role', 'magang')->findOrFail($id);
-        return view('admin.page.detail-magang', compact('peserta'));
+        $peserta = User::with('dosen')->findOrFail($id);
+        $peserta = User::findOrFail($id);
+
+        $tanggalMulai = Carbon::parse($peserta->tanggal_mulai);
+        $tanggalSelesai = Carbon::now();
+
+        $period = CarbonPeriod::create($tanggalMulai, $tanggalSelesai);
+
+        $presensiData = Presensi::where('user_id', $id)->get()->keyBy('tanggal');
+        $logbookData = Logbook::where('user_id', $id)->get()->keyBy('tanggal');
+
+        $presensi = [];
+        $logbook = [];
+
+        foreach ($period as $date) {
+            // Skip Saturdays and Sundays
+            if ($date->isWeekend()) {
+                continue;
+            }
+
+            $formattedDate = $date->format('Y-m-d');
+            if (isset($presensiData[$formattedDate])) {
+                $presensi[] = [
+                    'tanggal' => $date,
+                    'jam_masuk' => $presensiData[$formattedDate]->jam_masuk,
+                    'jam_keluar' => $presensiData[$formattedDate]->jam_keluar,
+                    'status' => 'hadir',
+                ];
+            } else {
+                $presensi[] = [
+                    'tanggal' => $date,
+                    'jam_masuk' => null,
+                    'jam_keluar' => null,
+                    'status' => 'tidak hadir',
+                ];
+            }
+
+            if (isset($logbookData[$formattedDate])) {
+                $logbook[] = [
+                    'tanggal' => $date,
+                    'deskripsi_kegiatan' => $logbookData[$formattedDate]->deskripsi_kegiatan,
+                    'dokumentasi' => $logbookData[$formattedDate]->dokumentasi,
+                ];
+            } else {
+                $logbook[] = [
+                    'tanggal' => $date,
+                    'deskripsi_kegiatan' => 'Tidak ada kegiatan tercatat',
+                    'dokumentasi' => null,
+                ];
+            }
+        }
+
+        return view('admin.page.detail-magang', compact('peserta', 'presensi', 'logbook'));
     }
 
     public function destroy($id)

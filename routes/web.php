@@ -44,6 +44,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // DATA PRESENSI MAGANG
     Route::get('/admin/data-presensi', [PresensiController::class, 'index'])->name('data-presensi');
+    Route::get('presensi/datatables', [PresensiController::class, 'datatables'])->name('presensi.datatables');
 });
 
 // ADMIN

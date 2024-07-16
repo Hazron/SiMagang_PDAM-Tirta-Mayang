@@ -13,7 +13,8 @@
             <img src="{{ asset('assets/img/banner1.jpg') }}" class="img-fluid w-100 rounded"
                 style="height:auto; max-height: 200px; filter: brightness(0.6);" alt="Banner Peserta" />
 
-            <img src="{{ asset('assets/img/blank-profile.png') }}" class="img-fluid rounded-circle position-absolute"
+            <img src="{{ asset('assets/img/fotoprofile_user/' . $peserta->fotoprofile) }}"
+                class="img-fluid rounded-circle position-absolute"
                 style="width: 150px; height: 150px; bottom: -30px; left: 20px; border: 5px solid white;"
                 alt="blank-profile" />
 
@@ -61,10 +62,25 @@
                                 <td>{{ $peserta->departemen }}</td>
                             </tr>
                             <tr>
+                                <td>Nomor Telepon</td>
+                                <td>:</td>
+                                <td>
+                                    <div id="noTelpon{{ $peserta->id }}" style="display: none;">
+                                        {{ $peserta->no_telpon }}
+                                    </div>
+                                    <button class="btn btn-sm btn-secondary"
+                                        onclick="toggleVisibility({{ $peserta->id }})">Lihat Nomor Telepon</button>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Alamat</td>
                                 <td>:</td>
                                 <td>{{ $peserta->alamat }}</td>
                             </tr>
+                            <tr>
+                                <td>Dosen Pembimbing</td>
+                                <td>:</td>
+                                <td>{{ $peserta->dosen ? $peserta->dosen->name : 'Tidak ada dosen pembimbing' }}</td>
                         </table>
                     </div>
                 </div>
@@ -83,42 +99,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Juli 2024</td>
-                                    <td>07.30</td>
-                                    <td>16.00</td>
-                                    <td style="color: green;">Hadir</td>
-                                </tr>
+                                @foreach ($presensi as $presensiItem)
+                                    <tr>
+                                        <td>{{ $presensiItem['tanggal']->translatedFormat('j F Y') }}</td>
+                                        <td>{{ $presensiItem['jam_masuk'] ?? '-' }}</td>
+                                        <td>{{ $presensiItem['jam_keluar'] ?? '-' }}</td>
+                                        <td style="color: {{ $presensiItem['status'] == 'hadir' ? 'green' : 'red' }};">
+                                            {{ ucfirst($presensiItem['status']) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -137,36 +128,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1 Juli 2024</th>
-                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
-                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
-                                        velit vitae nobis laudantium.</th>
-                                    <th>
-                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt="" width="50"
-                                            height="50">
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>1 Juli 2024</th>
-                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
-                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
-                                        velit vitae nobis laudantium.</th>
-                                    <th>
-                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt=""
-                                            width="50" height="50">
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>1 Juli 2024</th>
-                                    <th>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, voluptatum hic!
-                                        Numquam eaque sequi necessitatibus, pariatur, praesentium cumque suscipit eius
-                                        velit vitae nobis laudantium.</th>
-                                    <th>
-                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt=""
-                                            width="50" height="50">
-                                    </th>
-                                </tr>
+                                @foreach ($logbook as $entry)
+                                    <tr>
+                                        <td>{{ $entry['tanggal']->format('j F Y') }}</td>
+                                        <td>{{ $entry['deskripsi_kegiatan'] }}</td>
+                                        <td>
+                                            @if ($entry['dokumentasi'])
+                                                <img src="{{ asset('storage/' . $entry['dokumentasi']) }}"
+                                                    alt="Dokumentasi" width="50" height="50">
+                                            @else
+                                                Tidak ada dokumentasi
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -174,6 +149,20 @@
             </div>
         </div>
     </div>
+    <script>
+        function toggleVisibility(id) {
+            var element = document.getElementById('noTelpon' + id);
+            var button = element.nextElementSibling;
+
+            if (element.style.display === 'none') {
+                element.style.display = 'inline';
+                button.innerText = 'Sembunyikan Nomor Telepon';
+            } else {
+                element.style.display = 'none';
+                button.innerText = 'Lihat Nomor Telepon';
+            }
+        }
+    </script>
 
     @include('admin.Layout.footer')
 </div>

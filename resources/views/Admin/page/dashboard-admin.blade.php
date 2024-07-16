@@ -12,11 +12,8 @@
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-7">
                             <div class="card-body">
-                                <h5 class="card-title text-primary">Selamat Datang di SiMagang Tirta
-                                    Mayang</h5>
-                                <p class="mb-4">
-                                    Semangat terus beraktifitas
-                                </p>
+                                <h5 class="card-title text-primary">Selamat Datang di SiMagang Tirta Mayang</h5>
+                                <p class="mb-4">Semangat terus beraktifitas</p>
                             </div>
                         </div>
                         <div class="col-sm-5 text-center text-sm-left">
@@ -82,96 +79,61 @@
             <div class="col-lg-5 col-md-8 order-1">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Kehadiran Per-{{ \Carbon\Carbon::now()->format('l, d F Y') }}
-                        </h5>
+                        <h5 class="card-title m-0 me-2">Kehadiran Hari Ini -
+                            {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</h5>
                     </div>
                     <div class="card-body scrollable-card-body">
                         <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <!-- FOTO -->
-                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0">M.Hazron Redian</h6>
-                                        <span class="text-muted">Departemen IT</span>
+                            @foreach ($users as $user)
+                                @php
+                                    $presensi = $user->presensi->first();
+                                    $status = $presensi ? 'Hadir' : 'Tidak Hadir';
+                                    $jamMasuk = $presensi ? $presensi->jam_masuk : '-';
+                                @endphp
+                                <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                        <!-- FOTO -->
+                                        <img src="{{ $user->foto_url ?? '../assets/img/blank-profile.png' }}"
+                                            alt="User" class="rounded" width="50" height="50" />
                                     </div>
-                                    <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">Hadir</h6>
-                                        <span class="text-muted">07.45</span>
+                                    <div
+                                        class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                            <h6 class="mb-0">{{ $user->name }}</h6>
+                                            <span class="text-muted">{{ $user->departemen }}</span>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                            <h6 class="mb-0 text-{{ $status === 'Hadir' ? 'success' : 'danger' }}">
+                                                {{ $status }}</h6>
+                                            <span class="text-muted">{{ $jamMasuk }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0">M.Hazron Redian</h6>
-                                        <span class="text-muted">Departemen IT</span>
-                                    </div>
-                                    <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">Hadir</h6>
-                                        <span class="text-muted">07.45</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0">M.Hazron Redian</h6>
-                                        <span class="text-muted">Departemen IT</span>
-                                    </div>
-                                    <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">Hadir</h6>
-                                        <span class="text-muted">07.45</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0">M.Hazron Redian</h6>
-                                        <span class="text-muted">Departemen IT</span>
-                                    </div>
-                                    <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">Hadir</h6>
-                                        <span class="text-muted">07.45</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User"
-                                        class="rounded" />
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0">RTS Nuraini</h6>
-                                        <span class="text-muted">Departemen </span>
-                                    </div>
-                                    <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-danger">Tidak/Belum Hadir</h6>
-                                        <span class="text-muted"></span>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <!-- BATAS CONTENT   -->
-
-        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
+</div>
+<script>
+    function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+        setTimeout(startTime, 500);
+    }
 
-    @include('admin.layout.footer')
+    function checkTime(i) {
+        return i < 10 ? "0" + i : i;
+    }
+
+    startTime();
+</script>
+@include('Admin.layout.footer')

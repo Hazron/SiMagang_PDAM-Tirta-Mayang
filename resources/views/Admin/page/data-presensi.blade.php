@@ -1,69 +1,98 @@
-    @include('Admin.layout.header')
-    @include('Admin.Layout.sidebar')
+@include('Admin.layout.header')
+@include('Admin.layout.sidebar')
 
-    <!-- Content wrapper -->
-    <div class="content-wrapper">
-        <!-- Content -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Presensi /</span> Data Presensi
+            Peserta</h4>
 
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Presensi /</span> Data Presensi
-                Peserta</h4>
-            <!-- Hoverable Table rows -->
-            <div class="card">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
-                    Daftar Presensi Peserta Magang
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="text-muted">Waktu Sekarang: <span id="clock"></span></span>
-                    </div>
-                </h5>
-
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                Daftar Presensi Peserta Magang
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <form id="filterForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="start_date" class="form-label">Dari Tanggal</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="end_date" class="form-label">Sampai Tanggal</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date">
+                            </div>
+                            <div class="col-md-2 align-self-end">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table id="presensiTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Nama</th>
+                                <th>Tanggal</th>
                                 <th>Jam Masuk</th>
                                 <th>Jam Keluar</th>
                                 <th>Status Presensi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
-
-                        </tbody>
                     </table>
-
-                    <!--/ Hoverable Table rows -->
-                    <hr class="my-5" />
-
-
-
-
                 </div>
-                <!-- / Content -->
-
-                <div class="content-backdrop fade"></div>
             </div>
-            <!-- Content wrapper -->
-            <script>
-                function startTime() {
-                    var today = new Date();
-                    var h = today.getHours();
-                    var m = today.getMinutes();
-                    var s = today.getSeconds();
-                    m = checkTime(m);
-                    s = checkTime(s);
-                    document.getElementById('clock').innerHTML =
-                        h + ":" + m + ":" + s;
-                    var t = setTimeout(startTime, 500);
-                }
+        </div>
+    </div>
+</div>
 
-                function checkTime(i) {
-                    if (i < 10) {
-                        i = "0" + i
-                    };
-                    return i;
+@include('Admin.layout.footer')
+
+<script>
+    $(document).ready(function() {
+        var table = $('#presensiTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('presensi.datatables') }}',
+                data: function(d) {
+                    d.start_date = $('#start_date').val();
+                    d.end_date = $('#end_date').val();
                 }
-                startTime();
-            </script>
-            @include('Admin.layout.footer')
+            },
+            columns: [{
+                    data: 'nama',
+                    name: 'nama'
+                },
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'jam_masuk',
+                    name: 'jam_masuk'
+                },
+                {
+                    data: 'jam_keluar',
+                    name: 'jam_keluar'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        $('#filterForm').on('submit', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+    });
+</script>

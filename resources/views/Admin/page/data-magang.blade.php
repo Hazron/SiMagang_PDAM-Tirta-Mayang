@@ -148,9 +148,12 @@
             serverSide: true,
             ajax: '{{ route('datapeserta') }}',
             columns: [{
-                    data: 'foto',
+                    data: 'fotoprofile',
                     render: function(data, type, row) {
-                        return `<img src="${data ? `path/to/foto/${data}` : '../assets/img/blank-profile.png'}" alt="Foto" width="75">`;
+                        let fotoUrl = data ?
+                            `{{ asset('assets/img/fotoprofile_user/') }}/${data}` :
+                            '../assets/img/blank-profile.png';
+                        return `<img src="${fotoUrl}" alt="Foto" width="75">`;
                     }
                 },
                 {
