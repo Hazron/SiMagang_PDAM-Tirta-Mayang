@@ -22,4 +22,8 @@ class Departemen extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'departemen_id', 'id_departemen');
+    }
 }
