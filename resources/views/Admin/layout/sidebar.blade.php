@@ -32,7 +32,7 @@
         <span class="menu-header-text">Data Departemen</span>
     </li>
     <li class="menu-item">
-        <a href="#" class="menu-link">
+        <a href= "{{ route('data-departemen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Data Pembimbing Deparetemen</div>
         </a>

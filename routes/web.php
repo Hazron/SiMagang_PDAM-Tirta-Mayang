@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\dashboardAdminController;
 use App\Http\Controllers\Admin\DataDosenController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\PresensiController;
-
+use App\Http\Controllers\Admin\DepartemenController;
 
 use App\Http\Controllers\Homepage;
 
@@ -45,6 +45,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // DATA PRESENSI MAGANG
     Route::get('/admin/data-presensi', [PresensiController::class, 'index'])->name('data-presensi');
     Route::get('presensi/datatables', [PresensiController::class, 'datatables'])->name('presensi.datatables');
+
+    // DATA DEPARTEMEN
+    Route::get('admin/data-departemen', [DepartemenController::class, 'index'])->name('data-departemen');
+    Route::get('admin/data-departemen/{id_departemen}', [DepartemenController::class, 'detail'])->name('deatil-departemen');
+    Route::post('admin/data-departemen/store', [DepartemenController::class, 'store'])->name('store-departemen');
 });
 
 // ADMIN

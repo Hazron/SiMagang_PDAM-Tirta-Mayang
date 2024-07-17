@@ -78,11 +78,12 @@
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Departemen</label>
-                        <select class="form-select" name="departemen" required>
+                        <select class="form-select" name="departemen_id" required>
                             <option value="">Pilih Departemen</option>
-                            <option value="Departemen IT">Departemen IT</option>
-                            <option value="Departemen K3">Departemen K3</option>
-                            <option value="Departemen Perencanaan">Departemen Perencanaan</option>
+                            @foreach ($departemens as $departemen)
+                                <option value="{{ $departemen->id_departemen }}">{{ $departemen->nama_departemen }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-1">

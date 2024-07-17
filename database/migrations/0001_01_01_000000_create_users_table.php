@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('role', ['magang', 'admin', 'dosen']);
+            $table->enum('role', ['magang', 'admin', 'dosen', 'departemen']);
             $table->string('name');
             $table->string('nomor_induk');
             $table->string('asal_kampus')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('dosen_id')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
-            $table->string('departemen')->nullable();
+            $table->string('departemen_id')->nullable();
             $table->string('fotoprofile')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

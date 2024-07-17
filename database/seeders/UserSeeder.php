@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('admin'),
                 'status' => 'aktif',
                 'no_telpon' => '081234567890',
-                'departemen' => 'SDM',
+                'departemen_id' => '',
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),

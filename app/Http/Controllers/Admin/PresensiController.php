@@ -19,17 +19,14 @@ class PresensiController extends Controller
 
     public function datatables(Request $request)
     {
-        // Mendapatkan rentang tanggal dari request
         $start_date = $request->start_date ? Carbon::parse($request->start_date) : null;
         $end_date = $request->end_date ? Carbon::parse($request->end_date) : Carbon::now();
 
-        // Mendapatkan semua user dengan role 'magang'
         $users = User::where('role', 'magang')->get();
 
         $data = [];
 
         foreach ($users as $user) {
-            // Iterasi dari tanggal mulai hingga tanggal sekarang
             $tanggalMulai = $user->tanggal_mulai ? Carbon::parse($user->tanggal_mulai) : null;
             if (!$tanggalMulai) {
                 continue;
@@ -40,16 +37,14 @@ class PresensiController extends Controller
                     continue;
                 }
 
-                // Cek apakah user sudah melakukan presensi pada tanggal tersebut
                 $presensi = Presensi::where('user_id', $user->id)
                     ->whereDate('tanggal', $date->format('Y-m-d'))
                     ->first();
 
-                // Jika belum melakukan presensi, maka statusnya 'tidak hadir'
                 if (!$presensi) {
                     $data[] = [
-                        'nama' => $user->name,
                         'tanggal' => $date->format('Y-m-d'),
+                        'nama' => $user->name,
                         'jam_masuk' => '-',
                         'jam_keluar' => '-',
                         'status' => 'Tidak Hadir',
@@ -57,8 +52,8 @@ class PresensiController extends Controller
                     ];
                 } else {
                     $data[] = [
-                        'nama' => $user->name,
                         'tanggal' => $presensi->tanggal,
+                        'nama' => $user->name,
                         'jam_masuk' => $presensi->jam_masuk,
                         'jam_keluar' => $presensi->jam_keluar,
                         'status' => ucfirst($presensi->status),

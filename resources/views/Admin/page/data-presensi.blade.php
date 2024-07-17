@@ -16,7 +16,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="start_date" class="form-label">Dari Tanggal</label>
-                                <input type="date" class="form-control" id="start_date" name="start_date">
+                                <input type="date" class="form-control" id="start_date" name="start_date"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                             </div>
                             <div class="col-md-4">
                                 <label for="end_date" class="form-label">Sampai Tanggal</label>
@@ -32,8 +33,9 @@
                     <table id="presensiTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Nama</th>
                                 <th>Tanggal</th>
+                                <th>Nama</th>
+
                                 <th>Jam Masuk</th>
                                 <th>Jam Keluar</th>
                                 <th>Status Presensi</th>
@@ -62,12 +64,12 @@
                 }
             },
             columns: [{
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
                     data: 'tanggal',
                     name: 'tanggal'
+                },
+                {
+                    data: 'nama',
+                    name: 'nama'
                 },
                 {
                     data: 'jam_masuk',

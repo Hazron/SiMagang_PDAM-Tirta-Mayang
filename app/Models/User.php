@@ -13,9 +13,9 @@ class User extends Authenticatable
 
     protected $fillable = [
         'role', 'name', 'nomor_induk', 'asal_kampus', 'jurusan', 'alamat',
-        'email', 'no_telpon', 'password', 'status', 'departemen', 'logbook_id',
-        'presensi_id', 'dosen_id', 'pembimbing', 'fotoprofile', 'tanggal_mulai',
-        'tanggal_selesai',
+        'email', 'no_telpon', 'password', 'status', 'dosen_id',
+        'tanggal_mulai', 'tanggal_selesai', 'departemen_id',
+        'fotoprofile', 'email_verified_at',
     ];
 
     protected $hidden = [
@@ -41,5 +41,10 @@ class User extends Authenticatable
     public function presensi()
     {
         return $this->hasMany(Presensi::class);
+    }
+
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'departemen_id', 'id_departemen');
     }
 }
