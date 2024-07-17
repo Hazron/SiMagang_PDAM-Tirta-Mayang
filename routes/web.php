@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DataDosenController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\PresensiController;
 use App\Http\Controllers\Admin\DepartemenController;
+use App\Http\Controllers\Admin\LogbookController;
 
 use App\Http\Controllers\Homepage;
 
@@ -50,6 +51,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/data-departemen', [DepartemenController::class, 'index'])->name('data-departemen');
     Route::get('admin/data-departemen/{id_departemen}', [DepartemenController::class, 'detail'])->name('deatil-departemen');
     Route::post('admin/data-departemen/store', [DepartemenController::class, 'store'])->name('store-departemen');
+
+    //DATA LOGBOOK
+    Route::get('admin/data-lobook', [LogbookController::class, 'index'])->name('data-logbook');
+    Route::get('datatables-Logbook', [LogbookController::class, 'datatables'])->name('datatables-Logbook');
 });
 
 // ADMIN

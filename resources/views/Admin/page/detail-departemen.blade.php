@@ -57,7 +57,7 @@
                                             class="img-thumbnail" style="width: 50px; height: 50px;">
                                     @endif
                                 </td>
-                                <td>{{ $user->name }}</td>
+                                <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a></td>
                                 <td>{{ $user->asal_kampus }}</td>
                                 <td>{{ $user->jurusan }}</td>
                                 <td>{{ $departemen->nama_departemen }}</td>
