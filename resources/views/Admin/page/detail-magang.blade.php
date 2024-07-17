@@ -59,7 +59,12 @@
                             <tr>
                                 <td>Departemen</td>
                                 <td>:</td>
-                                <td>{{ $peserta->departemen }}</td>
+                                <td>{{ $peserta->departemen->nama_departemen ?? 'Tidak ditentukan' }}</td>
+                            </tr>
+                            <tr>
+                                <td>Departemen Pembimbing</td>
+                                <td>:</td>
+                                <td>{{ $peserta->departemen->nama_pembimbing ?? 'Tidak ditentukan' }}</td>
                             </tr>
                             <tr>
                                 <td>Nomor Telepon</td>

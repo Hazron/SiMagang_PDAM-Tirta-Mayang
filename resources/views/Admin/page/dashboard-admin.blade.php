@@ -100,7 +100,7 @@
                                         class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                         <div class="me-2">
                                             <h6 class="mb-0">{{ $user->name }}</h6>
-                                            <span class="text-muted">{{ $user->departemen }}</span>
+                                            <span class="text-muted">{{ $user->departemen->nama_departemen }}</span>
                                         </div>
                                         <div class="user-progress d-flex align-items-center gap-1">
                                             <h6 class="mb-0 text-{{ $status === 'Hadir' ? 'success' : 'danger' }}">

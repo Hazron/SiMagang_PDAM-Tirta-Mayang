@@ -40,7 +40,7 @@
                                 @foreach ($pesertaMagang as $user)
                                     <tr>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $user->departemen }}</td>
+                                        <td>{{ $user->departemen->nama_departemen }}</td>
                                         <td>{{ $user->durasi_magang }}</td>
                                         <td>
                                             <form
@@ -91,7 +91,7 @@
                                         style="width: 50px; height: 50px;">
                                 </td>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->departemen }}</td>
+                                <td>{{ $user->departemen->nama_departemen }}</td>
                                 <td>{{ Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(Carbon\Carbon::parse($user->tanggal_selesai)) }}
                                     Hari</td>
                                 <td>Aksi</td>
