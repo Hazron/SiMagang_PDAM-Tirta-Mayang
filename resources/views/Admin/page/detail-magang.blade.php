@@ -85,7 +85,7 @@
                             <tr>
                                 <td>Dosen Pembimbing</td>
                                 <td>:</td>
-                                <td>{{ $peserta->dosen ? $peserta->dosen->name : 'Tidak ada dosen pembimbing' }}</td>
+                                <td>{{ $peserta->dosen ? $peserta->dosen->nama : 'Tidak ada dosen pembimbing' }}</td>
                         </table>
                     </div>
                 </div>

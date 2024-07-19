@@ -34,9 +34,9 @@ class PesertaController extends Controller
                 $nama = '<a href="' . route('detail-peserta', ['id' => $data->id]) . '">' . $data->name . '</a>';
                 return $nama;
             })
-        ->addColumn('departemen', function ($data) {
-            return $data->departemen ? $data->departemen->nama_departemen : 'Tidak ada departemen';
-        })
+            ->addColumn('departemen', function ($data) {
+                return $data->departemen ? $data->departemen->nama_departemen : 'Tidak ada departemen';
+            })
             ->rawColumns(['action', 'nama'])
             ->make(true);
     }
@@ -53,7 +53,7 @@ class PesertaController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'nomor_induk' => 'required|string|unique:users',
+            'nomor_induk' => 'required|string',
             'departemen_id' => 'required|exists:departemen,id_departemen',
             'email' => 'required|string|email|unique:users',
             'no_telpon' => 'required|string',
@@ -73,7 +73,7 @@ class PesertaController extends Controller
             'alamat' => $data['alamat'],
             'no_telpon' => $data['no_telpon'],
             'email' => $data['email'],
-            'password' => Hash::make($data['nomor_induk'] . $data['nomor_induk']),
+            'password' => Hash::make('magang'),
             'status' => 'aktif',
             'departemen_id' => $data['departemen_id'],
             'tanggal_mulai' => $data['tanggal_mulai'],

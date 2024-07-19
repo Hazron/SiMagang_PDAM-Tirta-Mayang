@@ -13,7 +13,7 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
             @error('email')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">PASSWORD ANDA SALAH</p>
             @enderror
         </div>
 
@@ -27,7 +27,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
 
             @error('password')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">PASSWORD ANDA SALAH</p>
             @enderror
         </div>
 

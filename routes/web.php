@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\PresensiController;
 use App\Http\Controllers\Admin\DepartemenController;
 use App\Http\Controllers\Admin\LogbookController;
 
+//MAGANG
+use App\Http\Controllers\Magang\dashboardMagangController;
+
 use App\Http\Controllers\Homepage;
 
 Route::get('/', [Homepage::class, 'index']);
@@ -55,6 +58,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     //DATA LOGBOOK
     Route::get('admin/data-lobook', [LogbookController::class, 'index'])->name('data-logbook');
     Route::get('datatables-Logbook', [LogbookController::class, 'datatables'])->name('datatables-Logbook');
+});
+
+Route::middleware(['auth', 'magang'])->group(function () {
+    Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
 });
 
 // ADMIN
