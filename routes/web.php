@@ -62,6 +62,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
+    Route::get('presensi-magang/store', [dashboardMagangController::class, 'index'])->name('presensi-magang');
+    Route::post('presensi-magang/store', [dashboardMagangController::class, 'storePresensi'])->name('presensi-magang.store');
 });
 
 // ADMIN

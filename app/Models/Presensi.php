@@ -9,13 +9,10 @@ class Presensi extends Model
 {
     use HasFactory;
 
-    public function presensi()
-    {
-        return $this->hasMany(Presensi::class);
-    }
+
 
     protected $fillable = [
-        'user_id', 'tanggal', 'jam_masuk', 'jam_keluar', 'status'
+        'user_id', 'tanggal', 'jam_masuk', 'jam_keluar', 'latitude', 'longitude', 'status'
     ];
 
     public function user()

@@ -1,5 +1,5 @@
 @include('Admin.layout.header')
-@include('Admin.Layout.sidebar')
+@include('magang.Layout.sidebar')
 
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -27,41 +27,110 @@
                 </div>
             </div>
         </div>
+        {{-- Alert Messages --}}
+        @if (Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+
+        @if (Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
+            </div>
+        @endif
+
+        {{-- KEHADIRAN PESERTA --}}
         <div class="row">
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card mb-4 me-4" style="width: 100%;">
-                    <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                                <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success"
-                                    class="rounded" />
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="avatar avatar-lg rounded">
+                                    <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success"
+                                        class="rounded" />
+                                </div>
+                            </div>
+                            <div class="col text-start">
+                                @if ($presensiExists)
+                                    <h5>HARI TELAH MELAKUKAN PRESENSI</h5>
+                                    <p>Anda telah melakukan presensi hari ini. Jangan lupa Presensi Pulang mulai jam
+                                        13.00</p>
+                                @else
+                                    <h5>HARI BELUM MELAKUKAN PRESENSI</h5>
+                                    <p>Anda belum melakukan presensi hari ini</p>
+                                @endif
                             </div>
                         </div>
-
-
-
-                        <!-- List Kehadiran Magang -->
-
+                        <div class="mt-3">
+                            @if ($presensiExists)
+                                <button type="button" class="btn btn-success w-100" disabled>
+                                    <span class="tf-icons bx bx-check-circle"></span>&nbsp; Anda Sudah Melakukan
+                                    Presensi Hari Ini
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-primary w-100" id="presensiButton"
+                                    onclick="getLocation(this)">
+                                    <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Hari Ini
+                                </button>
+                            @endif
+                        </div>
                     </div>
-                    <!-- BATAS CONTENT   -->
                 </div>
             </div>
-            <script>
-                function startTime() {
-                    var today = new Date();
-                    var h = today.getHours();
-                    var m = today.getMinutes();
-                    var s = today.getSeconds();
-                    m = checkTime(m);
-                    s = checkTime(s);
-                    document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
-                    setTimeout(startTime, 500);
-                }
+        </div>
+    </div>
+</div>
 
-                function checkTime(i) {
-                    return i < 10 ? "0" + i : i;
-                }
+@include('Admin.layout.footer')
 
-                startTime();
-            </script>
-            @include('Admin.layout.footer')
+<form action="{{ route('presensi-magang.store') }}" method="POST" id="form-presensi" style="display: none;">
+    @csrf
+    <input type="hidden" id="latitude" name="latitude" value="">
+    <input type="hidden" id="longitude" name="longitude" value="">
+    <input type="hidden" name="tanggal" value="{{ date('Y-m-d') }}">
+</form>
+
+<script>
+    function getLocation(button) {
+        console.log('getLocation called');
+        if (navigator.geolocation) {
+            console.log('Geolocation is supported');
+            navigator.geolocation.getCurrentPosition(function(position) {
+                showPosition(position);
+                button.disabled = true; // Disable the button
+                button.innerHTML =
+                    '<span class="tf-icons bx bx-check-circle"></span>&nbsp; Presensi sedang diproses...'; // Change button text
+            }, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        console.log('showPosition called');
+        console.log('Latitude: ' + position.coords.latitude);
+        console.log('Longitude: ' + position.coords.longitude);
+        document.getElementById("latitude").value = position.coords.latitude;
+        document.getElementById("longitude").value = position.coords.longitude;
+        document.getElementById("form-presensi").submit();
+    }
+
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    }
+</script>
