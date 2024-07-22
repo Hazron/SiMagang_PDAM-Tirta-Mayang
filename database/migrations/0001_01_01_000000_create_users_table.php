@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
             $table->string('departemen_id')->nullable();
+            $table->time('jam_selesai')->nullable();
             $table->string('fotoprofile')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

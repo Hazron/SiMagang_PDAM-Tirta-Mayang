@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_presensi');
             $table->date('tanggal');
             $table->time('jam_masuk');
-            $table->time('jam_keluar');
+            $table->time('jam_keluar')->nullable();
             $table->enum('status', ['hadir', 'tidak hadir', 'izin']);
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();

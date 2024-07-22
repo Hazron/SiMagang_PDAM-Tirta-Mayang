@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('logbook', function (Blueprint $table) {
-            $table->id('id_presensi');
+            $table->id('id_logbook');
             $table->date('tanggal');
             $table->text('deskripsi_kegiatan');
-            $table->string('dokumentasi')->nullable();
-            $table->string('user_id');
+            $table->string('dokumentasi')->nullable(); //file image
+            $table->enum('status', ['menunggu persetujuan', 'disetujui'])->default('menunggu persetujuan');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

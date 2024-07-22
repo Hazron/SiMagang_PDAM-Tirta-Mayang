@@ -7,11 +7,26 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Magang /</span> Data Peserta Magang
         </h4>
+
+        <!-- Flash Messages -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <!-- Hoverable Table rows -->
         <div class="card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 Daftar Peserta Magang
-                <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                <button type="button" class="btn btn-info float-end" data-bs-toggle="modal"
+                    data-bs-target="#modalTambah">
                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Tambah Data
                 </button>
             </h5>
@@ -94,6 +109,11 @@
                         <label class="form-label">Tanggal Selesai Magang</label>
                         <input type="date" class="form-control" placeholder="Asal" name="tanggal_selesai" required>
                     </div>
+                    <div class="mb-1">
+                        <label class="form-label">Jam Selesai Magang</label>
+                        <input type="time" class="form-control" placeholder="Jam Selesai magang" name="jam_selesai"
+                            required>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
@@ -137,7 +157,6 @@
     </div>
     <!-- End Modal Edit -->
 @endforeach
-
 
 @include('Admin.layout.footer')
 

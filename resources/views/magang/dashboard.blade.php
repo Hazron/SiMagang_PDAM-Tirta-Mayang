@@ -40,8 +40,9 @@
             </div>
         @endif
 
-        {{-- KEHADIRAN PESERTA --}}
         <div class="row">
+            {{-- KEHADIRAN PESERTA --}}
+
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card mb-4 me-4" style="width: 100%;">
                     <div class="card-body p-4">
@@ -79,7 +80,32 @@
                     </div>
                 </div>
             </div>
+
+            {{-- LOGBOOK --}}
+            <div class="col-lg-4 col-md-8 order-1">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="avatar avatar-lg rounded">
+                                    <img src="../assets/img/icons/unicons/chart.png" alt="chart-line" class="rounded" />
+                                </div>
+                            </div>
+                            <div class="col text-start">
+                                <h5 class="card-title">Anda Belum Melakukan Logbook Hari Ini</h5>
+                                <p class="mb-0">Mohon isi logbook anda sebelum pulang</p>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-primary w-100" id="logbookButton">
+                                <span class="tf-icons bx bx-edit-alt"></span>&nbsp; Buat Logbook Hari Ini
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 

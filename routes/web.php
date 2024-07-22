@@ -13,8 +13,10 @@ use App\Http\Controllers\Admin\LogbookController;
 
 //MAGANG
 use App\Http\Controllers\Magang\dashboardMagangController;
+use App\Http\Controllers\Magang\profileController as MagangProfileController;
 
 use App\Http\Controllers\Homepage;
+
 
 Route::get('/', [Homepage::class, 'index']);
 
@@ -64,6 +66,8 @@ Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
     Route::get('presensi-magang/store', [dashboardMagangController::class, 'index'])->name('presensi-magang');
     Route::post('presensi-magang/store', [dashboardMagangController::class, 'storePresensi'])->name('presensi-magang.store');
+
+    Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 });
 
 // ADMIN

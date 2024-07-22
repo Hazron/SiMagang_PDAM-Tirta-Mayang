@@ -51,7 +51,7 @@ class PesertaController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'nomor_induk' => 'required|string',
             'departemen_id' => 'required|exists:departemen,id_departemen',
@@ -62,26 +62,36 @@ class PesertaController extends Controller
             'alamat' => 'required|string',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
+            'jam_selesai' => 'required|date_format:H:i',
         ]);
 
-        User::create([
+        $jamSelesai = Carbon::createFromFormat('H:i', $validatedData['jam_selesai'])->format('H:i');
+
+
+        $user = User::create([
             'role' => 'magang',
-            'name' => $data['name'],
-            'nomor_induk' => $data['nomor_induk'],
-            'asal_kampus' => $data['asal'],
-            'jurusan' => $data['jurusan'],
-            'alamat' => $data['alamat'],
-            'no_telpon' => $data['no_telpon'],
-            'email' => $data['email'],
+            'name' => $validatedData['name'],
+            'nomor_induk' => $validatedData['nomor_induk'],
+            'asal_kampus' => $validatedData['asal'],
+            'jurusan' => $validatedData['jurusan'],
+            'alamat' => $validatedData['alamat'],
+            'no_telpon' => $validatedData['no_telpon'],
+            'email' => $validatedData['email'],
             'password' => Hash::make('magang'),
             'status' => 'aktif',
-            'departemen_id' => $data['departemen_id'],
-            'tanggal_mulai' => $data['tanggal_mulai'],
-            'tanggal_selesai' => $data['tanggal_selesai'],
+            'departemen_id' => $validatedData['departemen_id'],
+            'tanggal_mulai' => $validatedData['tanggal_mulai'],
+            'tanggal_selesai' => $validatedData['tanggal_selesai'],
+            'jam_selesai' => $jamSelesai,
         ]);
 
-        return redirect()->route('data-magang')->with('success', 'Data magang berhasil ditambahkan');
+        if ($user) {
+            return redirect()->route('data-magang')->with('success', 'Data magang berhasil ditambahkan');
+        }
+
+        return back()->withInput()->with('error', 'Gagal menambahkan data magang');
     }
+
 
     public function detail($id)
     {
