@@ -61,12 +61,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/data-lobook', [LogbookController::class, 'index'])->name('data-logbook');
     Route::get('datatables-Logbook', [LogbookController::class, 'datatables'])->name('datatables-Logbook');
 });
-
 Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
-    Route::get('presensi-magang/store', [dashboardMagangController::class, 'index'])->name('presensi-magang');
     Route::post('presensi-magang/store', [dashboardMagangController::class, 'storePresensi'])->name('presensi-magang.store');
-
+    Route::post('pulang-magang/store', [dashboardMagangController::class, 'pulangPresensi'])->name('pulang-magang.store');
     Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 });
 

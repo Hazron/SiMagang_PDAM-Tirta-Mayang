@@ -30,19 +30,55 @@ class DashboardMagangController extends Controller
         ]);
 
         try {
+            $jamMasuk = Carbon::now('Asia/Jakarta')->format('H:i');
+            $status = ($jamMasuk <= '08:00') ? 'hadir' : 'terlambat';
+
             $presensi = Presensi::create([
                 'user_id' => Auth::user()->id,
                 'tanggal' => Carbon::parse($request->tanggal),
-                'jam_masuk' => Carbon::now('Asia/Jakarta')->format('H:i'),
-                'jam_keluar' => Carbon::now('Asia/Jakarta')->format('H:i'),
+                'jam_masuk' => $jamMasuk,
+                'jam_keluar' => $jamMasuk,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
-                'status' => 'hadir',
+                'status' => $status,
             ]);
 
             Session::flash('success', 'Presensi berhasil disimpan');
         } catch (\Exception $e) {
             Session::flash('error', 'Gagal menyimpan presensi: ' . $e->getMessage());
+        }
+
+        return redirect()->back();
+    }
+
+    public function pulangPresensi(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $currentTime = Carbon::now('Asia/Jakarta')->format('H:i');
+            $jamSelesai = $user->jam_selesai;
+
+            if ($currentTime >= $jamSelesai) {
+                $presensi = Presensi::where('user_id', $user->id)
+                    ->whereDate('tanggal', Carbon::today())
+                    ->first();
+
+                if ($presensi) {
+                    $jamPulang = Carbon::now('Asia/Jakarta')->format('H:i');
+
+                    $presensi->update([
+                        'jam_keluar' => $jamPulang,
+                    ]);
+
+                    Session::flash('success', 'Presensi berhasil diperbarui');
+                } else {
+                    Session::flash('error', 'Gagal memperbarui presensi: Data presensi tidak ditemukan');
+                }
+            } else {
+                Session::flash('error', 'Gagal memperbarui presensi: Belum mencapai jam selesai');
+            }
+        } catch (\Exception $e) {
+            Session::flash('error', 'Gagal memperbarui presensi: ' . $e->getMessage());
         }
 
         return redirect()->back();
