@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Magang;
 
 use App\Http\Controllers\Controller;
 use App\Models\Presensi;
+use App\Models\Logbook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 
 class DashboardMagangController extends Controller
 {
+
     public function index()
     {
         $today = Carbon::today();
@@ -18,7 +20,11 @@ class DashboardMagangController extends Controller
             ->whereDate('created_at', $today)
             ->exists();
 
-        return view('magang.dashboard', compact('presensiExists'));
+        $logbookToday = Logbook::where('user_id', Auth::user()->id)
+            ->whereDate('tanggal', $today)
+            ->first();
+
+        return view('magang.dashboard', compact('presensiExists', 'logbookToday'));
     }
 
     public function storePresensi(Request $request)
@@ -82,5 +88,30 @@ class DashboardMagangController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function storeLogbook(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'deskripsi_kegiatan' => 'required',
+            'dokumentasi' => 'nullable|file|image',
+        ]);
+
+        $logbook = new Logbook();
+        $logbook->tanggal = $request->tanggal;
+        $logbook->deskripsi_kegiatan = $request->deskripsi_kegiatan;
+        $logbook->user_id = Auth::user()->id;
+
+        if ($request->hasFile('dokumentasi')) {
+            $file = $request->file('dokumentasi');
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('logbook', $filename, 'public');
+            $logbook->dokumentasi = $filename;
+        }
+
+        $logbook->save();
+
+        return redirect()->back()->with('success', 'Logbook berhasil disimpan');
     }
 }

@@ -81,7 +81,6 @@
                 </div>
             </div>
 
-            {{-- LOGBOOK --}}
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card">
                     <div class="card-body p-4">
@@ -92,22 +91,69 @@
                                 </div>
                             </div>
                             <div class="col text-start">
-                                <h5 class="card-title">Anda Belum Melakukan Logbook Hari Ini</h5>
-                                <p class="mb-0">Mohon isi logbook anda sebelum pulang</p>
+                                @if (!$logbookToday)
+                                    <h5 class="card-title">Anda Belum Melakukan Logbook Hari Ini</h5>
+                                    <p class="mb-0">Mohon isi logbook anda sebelum pulang</p>
+                                @else
+                                    <h5 class="card-title">Anda Telah Mengisi Logbook Hari Ini</h5>
+                                    <p class="mb-0">Terima kasih telah mengisi logbook hari ini</p>
+                                @endif
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <button type="button" class="btn btn-primary w-100" id="logbookButton">
-                                <span class="tf-icons bx bx-edit-alt"></span>&nbsp; Buat Logbook Hari Ini
-                            </button>
-                        </div>
+                        @if (!$logbookToday)
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-primary w-100" id="logbookButton"
+                                    data-bs-toggle="modal" data-bs-target="#logbookModal">
+                                    <span class="tf-icons bx bx-edit-alt"></span>&nbsp; Buat Logbook Hari Ini
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="logbookModal" tabindex="-1" aria-labelledby="logbookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('logbook.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logbookModalLabel">Logbook Harian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tanggal" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal"
+                            value="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deskripsi_kegiatan" class="form-label">Deskripsi
+                            Kegiatan</label>
+                        <textarea class="form-control" id="deskripsi_kegiatan" name="deskripsi_kegiatan" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dokumentasi" class="form-label">Dokumentasi
+                            (Opsional)</label>
+                        <input type="file" class="form-control" id="dokumentasi" name="dokumentasi"
+                            accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @include('Admin.layout.footer')
 

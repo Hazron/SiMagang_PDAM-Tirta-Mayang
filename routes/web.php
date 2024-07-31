@@ -65,6 +65,8 @@ Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
     Route::post('presensi-magang/store', [dashboardMagangController::class, 'storePresensi'])->name('presensi-magang.store');
     Route::post('pulang-magang/store', [dashboardMagangController::class, 'pulangPresensi'])->name('pulang-magang.store');
+    Route::post('logbook-magang/store', [dashboardMagangController::class, 'storeLogbook'])->name('logbook.store');
+
     Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 });
 

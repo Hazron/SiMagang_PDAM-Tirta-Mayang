@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_logbook');
             $table->date('tanggal');
             $table->text('deskripsi_kegiatan');
-            $table->string('dokumentasi')->nullable(); //file image
+            $table->string('dokumentasi')->nullable(); //file image, opsional
             $table->enum('status', ['menunggu persetujuan', 'disetujui'])->default('menunggu persetujuan');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
