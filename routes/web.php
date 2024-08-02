@@ -58,8 +58,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admin/data-departemen/store', [DepartemenController::class, 'store'])->name('store-departemen');
 
     //DATA LOGBOOK
-    Route::get('admin/data-lobook', [LogbookController::class, 'index'])->name('data-logbook');
-    Route::get('datatables-Logbook', [LogbookController::class, 'datatables'])->name('datatables-Logbook');
+    Route::get('admin/data-logbook', [LogbookController::class, 'index'])->name('data-logbook');
+    Route::get('datatables-Logbook', [LogbookController::class, 'datatables'])->name('logbook.datatables');
+    Route::get('/admin/logbook/{id}', [LogbookController::class, 'show']);
+    Route::get('/admin/logbook/{user_id}/{tanggal}', [LogbookController::class, 'show'])->name('logbook.show');
 });
 Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');

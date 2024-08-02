@@ -44,17 +44,17 @@ class LogbookController extends Controller
                     $data[] = [
                         'tanggal' => $date->format('Y-m-d'),
                         'nama' => $user->name,
-                        'departemen' => $user->departemen->nama_departemen,
+                        'departemen' => $user->departemen ? $user->departemen->nama_departemen : '',
                         'jam_input' => '-',
-                        'status_logbook' => 'Tidak Ada',
+                        'status_logbook' => 'Tidak Ada Logbook',
                         'user_id' => $user->id,
                     ];
                 } else {
                     $data[] = [
                         'tanggal' => $logbook->tanggal,
                         'nama' => $user->name,
-                        'departemen' => $user->departemen->nama_departemen,
-                        'jam_input' => $logbook->jam_input,
+                        'departemen' => $user->departemen ? $user->departemen->nama_departemen : '',
+                        'jam_input' => 'kosong dulu ntar diperbaiki',
                         'status_logbook' => ucfirst($logbook->status),
                         'user_id' => $user->id,
                     ];
@@ -69,5 +69,26 @@ class LogbookController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+
+    public function show($user_id, $tanggal)
+    {
+        $logbook = Logbook::where('user_id', $user_id)
+            ->whereDate('tanggal', $tanggal)
+            ->first();
+
+        if ($logbook) {
+            return response()->json([
+                'tanggal' => $logbook->tanggal,
+                'deskripsi' => $logbook->deskripsi_kegiatan,
+                'dokumentasi' => $logbook->dokumentasi
+            ]);
+        }
+
+        return response()->json([
+            'tanggal' => $tanggal,
+            'deskripsi' => 'Tidak ada deskripsi',
+            'dokumentasi' => null
+        ]);
     }
 }
