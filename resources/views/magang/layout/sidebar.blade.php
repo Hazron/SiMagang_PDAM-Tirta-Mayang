@@ -15,7 +15,7 @@
         <span class="menu-header-text">Presensi</span>
     </li>
     <li class="menu-item">
-        <a href="#" class="menu-link">
+        <a href="{{ route('magang.presensi') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Presensi Anda</div>
         </a>
@@ -35,12 +35,18 @@
 
 
     <!-- Components -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">LogBook</span></li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Nilai</span></li>
     <!-- Cards -->
     <li class="menu-item">
         <a href= "#" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Nilai Akhir Anda</div>
+        </a>
+    </li>
+    <li class="menu-item">
+        <a href= "#" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Laporan Akhir</div>
         </a>
     </li>
 

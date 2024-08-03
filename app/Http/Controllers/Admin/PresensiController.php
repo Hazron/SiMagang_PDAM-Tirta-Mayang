@@ -22,7 +22,7 @@ class PresensiController extends Controller
         $start_date = $request->start_date ? Carbon::parse($request->start_date) : null;
         $end_date = $request->end_date ? Carbon::parse($request->end_date) : Carbon::now();
 
-        $users = User::where('role', 'magang')->get();
+        $users = User::where('role', 'magang')->where('status', 'aktif')->get();
 
         $data = [];
 

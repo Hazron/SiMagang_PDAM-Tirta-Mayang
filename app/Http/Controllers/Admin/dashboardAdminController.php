@@ -14,7 +14,7 @@ class dashboardAdminController extends Controller
         $users = User::with(['presensi' => function ($query) {
             $query->whereDate('tanggal', Carbon::today());
         }])
-            ->where('role', 'magang')
+            ->where('role', 'magang')->where('status', 'aktif')
             ->get();
 
         return view('admin.page.dashboard-admin', compact('users'));

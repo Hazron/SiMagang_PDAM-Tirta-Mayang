@@ -12,7 +12,7 @@
                         <div class="col-sm-7">
                             <div class="card-body">
                                 <h5 class="card-title text-primary">Selamat Datang di SiMagang Tirta Mayang, sebagai
-                                    {{ Auth::user()->role }}</h5>
+                                    {{ $user->role }}</h5>
                                 <p class="mb-4">Ayo Semangat terus beraktifitas</p>
                             </div>
                         </div>
@@ -41,8 +41,15 @@
         @endif
 
         <div class="row">
-            {{-- KEHADIRAN PESERTA --}}
-
+            @php
+                $tanggal = date('D');
+                $statusPresensi = 'Tidak dapat melakukan presensi';
+                $disabledButton = 'disabled';
+                if ($tanggal == 'Sun' || $tanggal == 'Sat') {
+                    $statusPresensi = 'Anda tidak dapat melakukan presensi pada hari libur';
+                    $disabledButton = 'style="display: none;"';
+                }
+            @endphp
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card mb-4 me-4" style="width: 100%;">
                     <div class="card-body p-4">
@@ -54,14 +61,8 @@
                                 </div>
                             </div>
                             <div class="col text-start">
-                                @if ($presensiExists)
-                                    <h5>HARI TELAH MELAKUKAN PRESENSI</h5>
-                                    <p>Anda telah melakukan presensi hari ini. Jangan lupa Presensi Pulang mulai jam
-                                        13.00</p>
-                                @else
-                                    <h5>HARI BELUM MELAKUKAN PRESENSI</h5>
-                                    <p>Anda belum melakukan presensi hari ini</p>
-                                @endif
+                                <h5>PRESENSI HARI INI</h5>
+                                <p>{{ $statusPresensi }}</p>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -70,17 +71,23 @@
                                     <span class="tf-icons bx bx-check-circle"></span>&nbsp; Anda Sudah Melakukan
                                     Presensi Hari Ini
                                 </button>
-                            @else
+                            @elseif(!$presensiExists && $tanggal != 'Sun' && $tanggal != 'Sat')
                                 <button type="button" class="btn btn-primary w-100" id="presensiButton"
-                                    onclick="getLocation(this)">
+                                    onclick="getLocation(this)" {{ $disabledButton }}>
                                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Hari Ini
+                                </button>
+                            @endif
+                            @if ($canPresensiPulang && $presensiExists && $tanggal != 'Sun' && $tanggal != 'Sat')
+                                <button type="button" class="btn btn-primary w-100 mt-3"
+                                    onclick="getLocationPulang(this)" {{ $disabledButton }}>
+                                    <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Pulang
                                 </button>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
-
+            {{-- LOGBOOK --}}
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card">
                     <div class="card-body p-4">
@@ -91,7 +98,10 @@
                                 </div>
                             </div>
                             <div class="col text-start">
-                                @if (!$logbookToday)
+                                @if ($tanggal == 'Sun' || $tanggal == 'Sat')
+                                    <h5 class="card-title">LOGBOOK HARI INI</h5>
+                                    <p class="mb-0">Anda tidak dapat melakukan presensi pada hari libur</p>
+                                @elseif (!$logbookToday)
                                     <h5 class="card-title">Anda Belum Melakukan Logbook Hari Ini</h5>
                                     <p class="mb-0">Mohon isi logbook anda sebelum pulang</p>
                                 @else
@@ -100,7 +110,7 @@
                                 @endif
                             </div>
                         </div>
-                        @if (!$logbookToday)
+                        @if (!$logbookToday && $tanggal != 'Sun' && $tanggal != 'Sat')
                             <div class="mt-3">
                                 <button type="button" class="btn btn-primary w-100" id="logbookButton"
                                     data-bs-toggle="modal" data-bs-target="#logbookModal">
@@ -203,6 +213,32 @@
             case error.UNKNOWN_ERROR:
                 alert("An unknown error occurred.");
                 break;
+        }
+    }
+
+    function getLocation(button) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                // Kirim data presensi ke server
+                console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords
+                    .longitude);
+                // Lakukan logika lainnya seperti mengirim data ke server
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function getLocationPulang(button) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                // Kirim data presensi pulang ke server
+                console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords
+                    .longitude);
+                // Lakukan logika lainnya seperti mengirim data ke server
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
         }
     }
 </script>

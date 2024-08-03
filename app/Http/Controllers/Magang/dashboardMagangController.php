@@ -15,16 +15,21 @@ class DashboardMagangController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
         $today = Carbon::today();
-        $presensiExists = Presensi::where('user_id', Auth::user()->id)
+        $now = Carbon::now();
+
+        $presensiExists = Presensi::where('user_id', $user->id)
             ->whereDate('created_at', $today)
             ->exists();
 
-        $logbookToday = Logbook::where('user_id', Auth::user()->id)
+        $logbookToday = Logbook::where('user_id', $user->id)
             ->whereDate('tanggal', $today)
             ->first();
 
-        return view('magang.dashboard', compact('presensiExists', 'logbookToday'));
+        $canPresensiPulang = $now->format('H:i:s') >= $user->jam_selesai;
+
+        return view('magang.dashboard', compact('presensiExists', 'logbookToday', 'user', 'canPresensiPulang'));
     }
 
     public function storePresensi(Request $request)
