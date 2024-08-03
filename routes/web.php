@@ -73,6 +73,8 @@ Route::middleware(['auth', 'magang'])->group(function () {
 
     // PRESENSI MAGANG
     Route::get('magang/presensi', [PresensiMagangController::class, 'index'])->name('magang.presensi');
+    Route::get('/presensi/data', [PresensiMagangController::class, 'getData'])->name('magang.presensi.data');
+
 
     Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 });
