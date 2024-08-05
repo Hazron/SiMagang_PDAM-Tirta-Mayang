@@ -16,8 +16,8 @@ class DashboardMagangController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $today = Carbon::today();
-        $now = Carbon::now();
+        $today = Carbon::today('Asia/Jakarta');
+        $now = Carbon::now('Asia/Jakarta');
 
         $presensiExists = Presensi::where('user_id', $user->id)
             ->whereDate('created_at', $today)
@@ -46,9 +46,9 @@ class DashboardMagangController extends Controller
 
             $presensi = Presensi::create([
                 'user_id' => Auth::user()->id,
-                'tanggal' => Carbon::parse($request->tanggal),
+                'tanggal' => Carbon::parse($request->tanggal, 'Asia/Jakarta'),
                 'jam_masuk' => $jamMasuk,
-                'jam_keluar' => $jamMasuk,
+                'jam_keluar' => null,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'status' => $status,
@@ -104,7 +104,7 @@ class DashboardMagangController extends Controller
         ]);
 
         $logbook = new Logbook();
-        $logbook->tanggal = $request->tanggal;
+        $logbook->tanggal = Carbon::parse($request->tanggal, 'Asia/Jakarta');
         $logbook->deskripsi_kegiatan = $request->deskripsi_kegiatan;
         $logbook->user_id = Auth::user()->id;
 

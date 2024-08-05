@@ -42,12 +42,18 @@
 
         <div class="row">
             @php
-                $tanggal = date('D');
+                use Carbon\Carbon;
+
+                $tanggal = Carbon::now('Asia/Jakarta')->locale('id')->isoFormat('ddd D MMM Y');
+                $hariIni = Carbon::now('Asia/Jakarta')->isoFormat('ddd');
                 $statusPresensi = 'Tidak dapat melakukan presensi';
                 $disabledButton = 'disabled';
-                if ($tanggal == 'Sun' || $tanggal == 'Sat') {
+                if ($hariIni == 'Sun' || $hariIni == 'Sat') {
                     $statusPresensi = 'Anda tidak dapat melakukan presensi pada hari libur';
                     $disabledButton = 'style="display: none;"';
+                } else {
+                    $statusPresensi = 'Presensi hari ini tersedia';
+                    $disabledButton = '';
                 }
             @endphp
             <div class="col-lg-4 col-md-8 order-1">
@@ -71,15 +77,15 @@
                                     <span class="tf-icons bx bx-check-circle"></span>&nbsp; Anda Sudah Melakukan
                                     Presensi Hari Ini
                                 </button>
-                            @elseif(!$presensiExists && $tanggal != 'Sun' && $tanggal != 'Sat')
+                            @elseif(!$presensiExists && $hariIni != 'Sun' && $hariIni != 'Sat')
                                 <button type="button" class="btn btn-primary w-100" id="presensiButton"
                                     onclick="getLocation(this)" {{ $disabledButton }}>
                                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Hari Ini
                                 </button>
                             @endif
-                            @if ($canPresensiPulang && $presensiExists && $tanggal != 'Sun' && $tanggal != 'Sat')
+                            @if ($canPresensiPulang && $presensiExists && $hariIni != 'Sun' && $hariIni != 'Sat')
                                 <button type="button" class="btn btn-primary w-100 mt-3"
-                                    onclick="getLocationPulang(this)" {{ $disabledButton }}>
+                                    onclick="window.location.href='{{ route('magang.presensi') }}'">
                                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Pulang
                                 </button>
                             @endif
@@ -87,6 +93,8 @@
                     </div>
                 </div>
             </div>
+
+
             {{-- LOGBOOK --}}
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card">
@@ -98,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="col text-start">
-                                @if ($tanggal == 'Sun' || $tanggal == 'Sat')
+                                @if ($hariIni == 'Sun' || $hariIni == 'Sat')
                                     <h5 class="card-title">LOGBOOK HARI INI</h5>
                                     <p class="mb-0">Anda tidak dapat melakukan presensi pada hari libur</p>
                                 @elseif (!$logbookToday)
@@ -110,7 +118,7 @@
                                 @endif
                             </div>
                         </div>
-                        @if (!$logbookToday && $tanggal != 'Sun' && $tanggal != 'Sat')
+                        @if (!$logbookToday && $hariIni != 'Sun' && $hariIni != 'Sat')
                             <div class="mt-3">
                                 <button type="button" class="btn btn-primary w-100" id="logbookButton"
                                     data-bs-toggle="modal" data-bs-target="#logbookModal">
@@ -192,14 +200,14 @@
 
     function showPosition(position) {
         console.log('showPosition called');
-        console.log('Latitude: ' + position.coords.latitude);
-        console.log('Longitude: ' + position.coords.longitude);
-        document.getElementById("latitude").value = position.coords.latitude;
-        document.getElementById("longitude").value = position.coords.longitude;
-        document.getElementById("form-presensi").submit();
+        console.log('Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude);
+        document.getElementById('latitude').value = position.coords.latitude;
+        document.getElementById('longitude').value = position.coords.longitude;
+        document.getElementById('form-presensi').submit();
     }
 
     function showError(error) {
+        console.log('showError called');
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 alert("User denied the request for Geolocation.");
@@ -216,29 +224,26 @@
         }
     }
 
-    function getLocation(button) {
+    function getLocationPulang(button) {
+        console.log('getLocationPulang called');
         if (navigator.geolocation) {
+            console.log('Geolocation is supported');
             navigator.geolocation.getCurrentPosition(function(position) {
-                // Kirim data presensi ke server
-                console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords
-                    .longitude);
-                // Lakukan logika lainnya seperti mengirim data ke server
-            });
+                showPositionPulang(position);
+                button.disabled = true;
+                button.innerHTML =
+                    '<span class="tf-icons bx bx-check-circle"></span>&nbsp; Presensi Pulang sedang diproses...'; // Change button text
+            }, showError);
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
 
-    function getLocationPulang(button) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                // Kirim data presensi pulang ke server
-                console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords
-                    .longitude);
-                // Lakukan logika lainnya seperti mengirim data ke server
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
+    function showPositionPulang(position) {
+        console.log('showPositionPulang called');
+        console.log('Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude);
+        document.getElementById('latitude').value = position.coords.latitude;
+        document.getElementById('longitude').value = position.coords.longitude;
+        document.getElementById('form-presensi').submit();
     }
 </script>

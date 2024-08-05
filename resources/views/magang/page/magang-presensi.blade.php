@@ -17,10 +17,12 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Hari</th>
                                     <th>Status</th>
                                     <th>Tanggal</th>
                                     <th>Jam Masuk Presensi</th>
                                     <th>Jam Keluar Presensi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -31,8 +33,6 @@
         </div>
     </div>
 
-
-    <!-- Content wrapper -->
     @include('Admin.Layout.footer')
     <script>
         $(document).ready(function() {
@@ -41,13 +41,22 @@
                 serverSide: true,
                 ajax: {
                     url: '{{ route('magang.presensi.data') }}',
-                    type: 'GET'
+                    type: 'GET',
+                    data: function(d) {
+                        d.start_date = '{{ now()->startOfWeek()->format('Y-m-d') }}';
+                        d.end_date = '{{ now()->addDays(3)->format('Y-m-d') }}';
+                    }
                 },
                 columns: [{
                         data: null,
                         name: 'no',
                         searchable: false,
                         orderable: false
+                    },
+
+                    {
+                        data: 'hari',
+                        name: 'hari'
                     },
                     {
                         data: 'status',
@@ -65,9 +74,13 @@
                         data: 'jam_keluar',
                         name: 'jam_keluar'
                     },
+                    {
+                        data: 'aksi',
+                        name: 'aksi'
+                    },
                 ],
                 order: [
-                    [2, 'asc']
+                    [3, 'asc']
                 ],
                 rowCallback: function(row, data, index) {
                     var pageInfo = table.page.info();
@@ -76,9 +89,8 @@
                     var number = page * length + index + 1;
                     $('td:eq(0)', row).html(number);
 
-                    // Add class for status
                     var status = data.status;
-                    var statusCell = $('td:eq(1)', row);
+                    var statusCell = $('td:eq(2)', row);
                     if (status == 'hadir') {
                         statusCell.addClass('text-success');
                     } else if (status == 'tidak hadir') {
@@ -89,6 +101,35 @@
                         statusCell.addClass('text-info');
                     }
                 }
+            });
+
+            $('#dataTableMagangPresensi').on('click', '.presensiPulangBtn', function() {
+                var button = $(this);
+                var tanggal = button.data('tanggal');
+
+                button.prop('disabled', true).text('Sedang memproses...');
+
+                $.ajax({
+                    url: '{{ route('magang.presensi.pulang') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        tanggal: tanggal
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            table.ajax.reload();
+                        } else {
+                            alert(response.message);
+                            button.prop('disabled', false).text('Presensi Pulang');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Terjadi kesalahan, silakan coba lagi.');
+                        button.prop('disabled', false).text('Presensi Pulang');
+                    }
+                });
             });
         });
     </script>

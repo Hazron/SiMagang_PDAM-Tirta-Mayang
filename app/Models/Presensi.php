@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Presensi extends Model
 {
     use HasFactory;
-
-
-
+    protected $primaryKey = 'id_presensi';
     protected $fillable = [
         'user_id', 'tanggal', 'jam_masuk', 'jam_keluar', 'latitude', 'longitude', 'status'
     ];
