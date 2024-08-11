@@ -41,9 +41,11 @@ class PresensiMagangController extends Controller
 
         return DataTables::of($presensis)
             ->addColumn('aksi', function ($data) use ($user) {
-                // Check if jam_masuk is set and jam_keluar is not set
+                $current_date = Carbon::now()->isoFormat('dddd');
+                if ($current_date != $data['hari']) {
+                    return '-';
+                }
                 if ($data['jam_masuk'] && !$data['jam_keluar']) {
-                    // Compare current time with user jam_selesai if set
                     $current_time = Carbon::now();
                     $jam_selesai = $user->jam_selesai ? Carbon::parse($user->jam_selesai) : null;
 

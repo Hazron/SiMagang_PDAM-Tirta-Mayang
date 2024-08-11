@@ -17,7 +17,7 @@ class DepartemenMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role != 'pembimbing') {
+        if (Auth::user()->role != 'departemen') {
             return redirect()->back();
         }
         return $next($request);

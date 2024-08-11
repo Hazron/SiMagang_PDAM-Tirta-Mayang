@@ -46,15 +46,10 @@
 
                 $tanggal = Carbon::now('Asia/Jakarta')->locale('id')->isoFormat('ddd D MMM Y');
                 $hariIni = Carbon::now('Asia/Jakarta')->isoFormat('ddd');
-                $statusPresensi = 'Tidak dapat melakukan presensi';
-                $disabledButton = 'disabled';
-                if ($hariIni == 'Sun' || $hariIni == 'Sat') {
-                    $statusPresensi = 'Anda tidak dapat melakukan presensi pada hari libur';
-                    $disabledButton = 'style="display: none;"';
-                } else {
-                    $statusPresensi = 'Presensi hari ini tersedia';
-                    $disabledButton = '';
-                }
+                $isHoliday = $hariIni == 'Sun' || $hariIni == 'Sat';
+                $statusPresensi = $isHoliday
+                    ? 'Anda tidak dapat melakukan presensi pada hari libur'
+                    : 'Presensi hari ini tersedia';
             @endphp
             <div class="col-lg-4 col-md-8 order-1">
                 <div class="card mb-4 me-4" style="width: 100%;">
@@ -77,13 +72,13 @@
                                     <span class="tf-icons bx bx-check-circle"></span>&nbsp; Anda Sudah Melakukan
                                     Presensi Hari Ini
                                 </button>
-                            @elseif(!$presensiExists && $hariIni != 'Sun' && $hariIni != 'Sat')
+                            @elseif(!$presensiExists && !$isHoliday)
                                 <button type="button" class="btn btn-primary w-100" id="presensiButton"
-                                    onclick="getLocation(this)" {{ $disabledButton }}>
+                                    onclick="getLocation(this)">
                                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Hari Ini
                                 </button>
                             @endif
-                            @if ($canPresensiPulang && $presensiExists && $hariIni != 'Sun' && $hariIni != 'Sat')
+                            @if ($canPresensiPulang && $presensiExists && !$isHoliday)
                                 <button type="button" class="btn btn-primary w-100 mt-3"
                                     onclick="window.location.href='{{ route('magang.presensi') }}'">
                                     <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Lakukan Presensi Pulang
@@ -93,7 +88,6 @@
                     </div>
                 </div>
             </div>
-
 
             {{-- LOGBOOK --}}
             <div class="col-lg-4 col-md-8 order-1">
@@ -106,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="col text-start">
-                                @if ($hariIni == 'Sun' || $hariIni == 'Sat')
+                                @if ($isHoliday)
                                     <h5 class="card-title">LOGBOOK HARI INI</h5>
                                     <p class="mb-0">Anda tidak dapat melakukan presensi pada hari libur</p>
                                 @elseif (!$logbookToday)
@@ -118,7 +112,7 @@
                                 @endif
                             </div>
                         </div>
-                        @if (!$logbookToday && $hariIni != 'Sun' && $hariIni != 'Sat')
+                        @if (!$logbookToday && !$isHoliday)
                             <div class="mt-3">
                                 <button type="button" class="btn btn-primary w-100" id="logbookButton"
                                     data-bs-toggle="modal" data-bs-target="#logbookModal">
@@ -129,8 +123,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
 
     </div>
 </div>

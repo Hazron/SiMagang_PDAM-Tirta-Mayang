@@ -12,23 +12,23 @@
 
     <!-- Data Magang -->
     <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Presensi</span>
+        <span class="menu-header-text">Data Peserta Magang</span>
     </li>
     <li class="menu-item">
         <a href="{{ route('magang.presensi') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Presensi Anda</div>
+            <div data-i18n="Analytics">Peserta Magang</div>
         </a>
     </li>
 
     <!-- Data Departemen -->
     <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Logbook Anda</span>
+        <span class="menu-header-text">Logbook Peserta Magang</span>
     </li>
     <li class="menu-item">
-        <a href= "{{ route('magang.logbook')}}" class="menu-link">
+        <a href= "{{ route('magang.logbook') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Logbook Anda</div>
+            <div data-i18n="Analytics">Data Logbook</div>
         </a>
     </li>
 
@@ -91,7 +91,8 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                        <small class="text-muted">{{ Auth::user()->role }}</small>
+                                        <small class="text-muted">
+                                            {{ Auth::user()->departemens->nama_departemen }}</small>
                                     </div>
                                 </div>
                             </a></li>

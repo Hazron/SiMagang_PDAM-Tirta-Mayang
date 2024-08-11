@@ -14,7 +14,11 @@ use App\Http\Controllers\Admin\LogbookController;
 //MAGANG
 use App\Http\Controllers\Magang\dashboardMagangController;
 use App\Http\Controllers\Magang\PresensiMagangController;
+use App\Http\Controllers\Magang\LogbookMagangController;
 use App\Http\Controllers\Magang\profileController as MagangProfileController;
+
+//DEPARTEMEN
+use App\Http\Controllers\Departemen\dashboardDepartemenController;
 
 use App\Http\Controllers\Homepage;
 
@@ -76,9 +80,18 @@ Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('/presensi/data', [PresensiMagangController::class, 'getData'])->name('magang.presensi.data');
     Route::post('/presensi/pulang', [PresensiMagangController::class, 'presensiPulang'])->name('magang.presensi.pulang');
 
+    //LOGBOOK MAGANG
+    Route::get('magang/logbook', [LogbookMagangController::class, 'index'])->name('magang.logbook');
+    Route::get('/magang/logbook/data', [LogbookMagangController::class, 'getData'])->name('magang.logbook.data');
+    Route::post('/magang/logbook/update/{id}', [LogbookMagangController::class, 'update'])->name('magang.logbook.update');
+    Route::post('/logbook/store', [LogbookController::class, 'store'])->name('magang.logbook.store');
 
 
     Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
+});
+
+Route::middleware(['auth', 'departemen'])->group(function () {
+    Route::get('/dashboard-departemen', [dashboardDepartemenController::class, 'index'])->name('dashboard-departemen');
 });
 
 // ADMIN

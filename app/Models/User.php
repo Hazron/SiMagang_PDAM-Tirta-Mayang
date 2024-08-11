@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Departemen::class, 'departemen_id', 'id_departemen');
     }
+
+    public function departemens()
+    {
+        return $this->hasOne(Departemen::class, 'user_id', 'id');
+    }
 }
