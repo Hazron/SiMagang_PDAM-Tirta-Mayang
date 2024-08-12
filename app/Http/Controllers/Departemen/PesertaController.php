@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class PesertaController extends Controller
 {
@@ -40,17 +42,41 @@ class PesertaController extends Controller
                 return $user->asal_kampus;
             })
             ->addColumn('pembimbing', function ($user) {
-                return $user->dosen ? $user->dosen->nama_pembimbing : 'Belum ditentukan';
+                return $user->dosen ? $user->dosen->nama : 'Belum ditentukan';
             })
             ->addColumn('tanggal_mulai', function ($user) {
-                return $user->tanggal_mulai;
+                return Carbon::parse($user->tanggal_mulai)->format('d F Y') . ' / ' . Carbon::parse($user->tanggal_selesai)->format('d F Y');
             })
             ->rawColumns(['foto', 'nama'])
             ->make(true);
     }
     public function detailView($id)
     {
-        $peserta = User::findOrFail($id);
-        return view('Departemen.Page.detailpeserta', compact('peserta'));
+        $peserta = User::with(['departemen', 'dosen'])->findOrFail($id);
+
+        $startDate = Carbon::parse($peserta->tanggal_mulai);
+        $endDate = $peserta->tanggal_selesai ? Carbon::parse($peserta->tanggal_selesai) : Carbon::now();
+        $endDate = min($endDate, Carbon::now());
+
+        $presensi = $peserta->presensi()
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->tanggal)->format('Y-m');
+            });
+
+        $logbook = $peserta->logbook()
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->tanggal)->format('Y-m');
+            });
+
+        $monthRange = [];
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addMonth()) {
+            $monthRange[] = $date->format('Y-m');
+        }
+
+        return view('Departemen.Page.detailpeserta', compact('peserta', 'presensi', 'logbook', 'monthRange', 'startDate', 'endDate'));
     }
 }

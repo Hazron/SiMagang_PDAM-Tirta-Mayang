@@ -12,14 +12,28 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'role', 'name', 'nomor_induk', 'asal_kampus', 'jurusan', 'alamat',
-        'email', 'no_telpon', 'password', 'status', 'dosen_id',
-        'tanggal_mulai', 'tanggal_selesai', 'jam_selesai', 'departemen_id',
-        'fotoprofile', 'email_verified_at',
+        'role',
+        'name',
+        'nomor_induk',
+        'asal_kampus',
+        'jurusan',
+        'alamat',
+        'email',
+        'no_telpon',
+        'password',
+        'status',
+        'dosen_id',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'jam_selesai',
+        'departemen_id',
+        'fotoprofile',
+        'email_verified_at',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
@@ -41,6 +55,11 @@ class User extends Authenticatable
     public function presensi()
     {
         return $this->hasMany(Presensi::class);
+    }
+
+    public function logbook()
+    {
+        return $this->hasMany(Logbook::class);
     }
 
     public function departemen()
