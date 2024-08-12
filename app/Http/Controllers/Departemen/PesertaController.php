@@ -23,14 +23,15 @@ class PesertaController extends Controller
         $peserta = User::where('departemen_id', $departemenId)
             ->where('role', 'magang')
             ->where('status', 'aktif');
+
         return DataTables::of($peserta)
             ->addColumn('foto', function ($user) {
                 return $user->fotoprofile
                     ? '<img src="' . asset('storage/' . $user->fotoprofile) . '" alt="Foto Profil" class="img-thumbnail" width="50">'
-                    : '<img src="' . asset('path/to/default/image.jpg') . '" alt="Foto Default" class="img-thumbnail" width="50">';
+                    : '<img src="' . asset('assets/img/blank-profile.png') . '" alt="Foto Default" class="img-thumbnail" width="65">';
             })
             ->addColumn('nama', function ($user) {
-                return $user->name;
+                return '<a href="' . route('profile-departemen', $user->id) . '">' . $user->name . '</a>';
             })
             ->addColumn('status', function ($user) {
                 return $user->status;
@@ -44,7 +45,12 @@ class PesertaController extends Controller
             ->addColumn('tanggal_mulai', function ($user) {
                 return $user->tanggal_mulai;
             })
-            ->rawColumns(['foto'])
+            ->rawColumns(['foto', 'nama'])
             ->make(true);
+    }
+    public function detailView($id)
+    {
+        $peserta = User::findOrFail($id);
+        return view('Departemen.Page.detailpeserta', compact('peserta'));
     }
 }

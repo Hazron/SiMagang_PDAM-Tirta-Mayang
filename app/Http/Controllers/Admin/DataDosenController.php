@@ -76,11 +76,11 @@ class DataDosenController extends Controller
 
     public function detail($id)
     {
-        // Ambil data dosen pembimbing dengan relasi dosen
         $dosen = DosenPembimbing::with('dosen')->where('id_pembimbing', $id)->firstOrFail();
 
         $pesertaMagang = User::where('role', 'magang')
             ->whereNull('dosen_id')
+            ->where('asal_kampus', $dosen->asal_kampus)
             ->get();
 
         $pesertaBimbingan = User::where('role', 'magang')

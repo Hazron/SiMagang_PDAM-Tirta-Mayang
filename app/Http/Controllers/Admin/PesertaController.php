@@ -110,7 +110,6 @@ class PesertaController extends Controller
         $logbook = [];
 
         foreach ($period as $date) {
-            // Skip Saturdays and Sundays
             if ($date->isWeekend()) {
                 continue;
             }

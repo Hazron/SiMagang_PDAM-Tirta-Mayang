@@ -96,6 +96,7 @@ Route::middleware(['auth', 'departemen'])->group(function () {
 
     Route::get('departemen/peserta', [DepartemenPesertaController::class, 'index'])->name('departemen.peserta');
     Route::get('/departemen/peserta/data', [DepartemenPesertaController::class, 'getData'])->name('departemen.peserta.data');
+    Route::get('departemen/peserta/profile/{id}', [DepartemenPesertaController::class, 'detailView'])->name('profile-departemen');
 
 });
 
