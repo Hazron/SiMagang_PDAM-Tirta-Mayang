@@ -3,7 +3,7 @@
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
     <li class="menu-item">
-        <a href="{{ route('dashboard-magang') }}" class="menu-link">
+        <a href="{{ route('dashboard-departemen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -15,7 +15,7 @@
         <span class="menu-header-text">Data Peserta Magang</span>
     </li>
     <li class="menu-item">
-        <a href="{{ route('magang.presensi') }}" class="menu-link">
+        <a href="{{ route('departemen.peserta') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Peserta Magang</div>
         </a>

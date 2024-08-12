@@ -19,6 +19,7 @@ use App\Http\Controllers\Magang\profileController as MagangProfileController;
 
 //DEPARTEMEN
 use App\Http\Controllers\Departemen\dashboardDepartemenController;
+use App\Http\Controllers\Departemen\PesertaController as DepartemenPesertaController;
 
 use App\Http\Controllers\Homepage;
 
@@ -92,6 +93,10 @@ Route::middleware(['auth', 'magang'])->group(function () {
 
 Route::middleware(['auth', 'departemen'])->group(function () {
     Route::get('/dashboard-departemen', [dashboardDepartemenController::class, 'index'])->name('dashboard-departemen');
+
+    Route::get('departemen/peserta', [DepartemenPesertaController::class, 'index'])->name('departemen.peserta');
+    Route::get('/departemen/peserta/data', [DepartemenPesertaController::class, 'getData'])->name('departemen.peserta.data');
+
 });
 
 // ADMIN
