@@ -22,15 +22,13 @@ class DashboardDepartemenController extends Controller
             ->with([
                 'presensi' => function ($query) {
                     $query->whereDate('tanggal', Carbon::today());
+                },
+                'logbook' => function ($query) {
+                    $query->whereDate('tanggal', Carbon::today());
                 }
             ])
             ->get();
 
-        $logbookToday = Logbook::where('user_id', $user->id)
-            ->whereDate('tanggal', Carbon::today())
-            ->first();
-
-        return view('Departemen.Page.Dashboard', compact('user', 'siswaMagang', 'logbookToday'));
+        return view('Departemen.Page.Dashboard', compact('user', 'siswaMagang'));
     }
-
 }

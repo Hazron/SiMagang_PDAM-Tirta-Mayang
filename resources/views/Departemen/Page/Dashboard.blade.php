@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            {{-- CONTENT 1 --}}
+            {{-- CONTENT 1 DONE --}}
             <div class="col-lg-5 col-md-8 order-1">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
@@ -71,12 +71,13 @@
             </div>
             {{-- END CONTENT 1 --}}
 
-            {{-- CONTENT 2 --}}
+            <!-- Content for Logbook Hari Ini -->
             <div class="col-lg-7 col-md-8 order-1">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">Logbook Peserta Magang Hari Ini -
-                            {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</h5>
+                            {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+                        </h5>
                     </div>
                     <div class="card-body scrollable-card-body">
                         <ul class="p-0 m-0">
@@ -94,10 +95,16 @@
                                             <span
                                                 class="text-muted">{{ $pesertaMagang->departemen->nama_departemen }}</span>
                                         </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <h6 class="mb-0 text-{{ $status === 'Hadir' ? 'success' : 'danger' }}">
-                                                {{ $status }}</h6>
-                                            <span class="text-muted">{{ $jamMasuk }}</span>
+                                        <div class="user-progress d-flex flex-column align-items-start gap-1">
+                                            @php
+                                                $logbook = $pesertaMagang->logbook->first();
+                                            @endphp
+                                            @if ($logbook)
+                                                <h6 class="mb-0 text-success">Sudah Membuat Logbook</h6>
+                                                <span class="text-muted">{{ $logbook->status }}</span>
+                                            @else
+                                                <h6 class="mb-0 text-danger">Tidak/Belum membuat Logbook</h6>
+                                            @endif
                                         </div>
                                     </div>
                                 </li>
@@ -107,7 +114,6 @@
                 </div>
             </div>
 
-            {{-- END CONTENT 2 --}}
         </div>
     </div>
 </div>

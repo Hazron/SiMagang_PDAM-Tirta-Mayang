@@ -143,6 +143,7 @@
                                         <th>Tanggal</th>
                                         <th>Deskripsi Kegiatan</th>
                                         <th>Dokumentasi (Opsional)</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,12 +157,13 @@
                                                         <td>{{ $log->deskripsi_kegiatan }}</td>
                                                         <td>
                                                             @if ($log->dokumentasi)
-                                                                <img src="{{ asset('path/to/dokumentasi/' . $log->dokumentasi) }}"
-                                                                    alt="Dokumentasi" style="max-width: 100px;">
+                                                                <img src="{{ asset('imgLogbook/' . $log->dokumentasi) }}"
+                                                                    alt="Dokumentasi" style="max-width: 250px;">
                                                             @else
                                                                 Tidak ada dokumentasi
                                                             @endif
                                                         </td>
+                                                        <td>{{ $log->status }}</td>
                                                     @else
                                                         <td colspan="2" class="text-center">Tidak Membuat Logbook
                                                         </td>
