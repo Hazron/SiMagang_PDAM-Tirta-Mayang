@@ -43,18 +43,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addLogbookForm">
+                    <form id="addLogbookForm" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" id="addTanggal" name="tanggal">
                         <div class="mb-3">
-                            <label for="tanggalLogbook" class="form-label">Tanggal</label>
-                            <input type="date" class="form-control" id="tanggalLogbook" name="tanggal" required>
+                            <label for="addDeskripsiKegiatan" class="form-label">Deskripsi Kegiatan</label>
+                            <textarea class="form-control" id="addDeskripsiKegiatan" name="deskripsi_kegiatan" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="deskripsiKegiatan" class="form-label">Deskripsi Kegiatan</label>
-                            <textarea class="form-control" id="deskripsiKegiatan" name="deskripsi_kegiatan" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="dokumentasi" class="form-label">Dokumentasi</label>
-                            <input type="file" class="form-control" id="dokumentasi" name="dokumentasi">
+                            <label for="addDokumentasi" class="form-label">Dokumentasi</label>
+                            <input type="file" class="form-control" id="addDokumentasi" name="dokumentasi">
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
@@ -62,8 +60,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- Modal -->
     <div class="modal fade" id="editLogbookModal" tabindex="-1" aria-labelledby="editLogbookModalLabel"
         aria-hidden="true">
@@ -74,7 +70,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editLogbookForm">
+                    <form id="editLogbookForm" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
                         <div class="mb-3">
                             <label for="editDeskripsiKegiatan" class="form-label">Deskripsi Kegiatan</label>
                             <textarea class="form-control" id="editDeskripsiKegiatan" name="deskripsi_kegiatan" required></textarea>
@@ -82,8 +80,9 @@
                         <div class="mb-3">
                             <label for="editDokumentasi" class="form-label">Dokumentasi</label>
                             <input type="file" class="form-control" id="editDokumentasi" name="dokumentasi">
+                            <div id="currentDokumentasi" class="mt-2"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -140,14 +139,19 @@
             ]
         });
 
-        // Add logbook
+        $('#dataTableMagangLogbook').on('click', '.tambahLogbookBtn', function() {
+            var tanggal = $(this).data('tanggal');
+            $('#addTanggal').val(tanggal);
+            $('#addLogbookModal').modal('show');
+        });
+
         $('#addLogbookForm').on('submit', function(e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
-                url: '{{ route('magang.logbook.store') }}',
+                url: '{{ route('magang.logbook.store.table') }}',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -157,15 +161,16 @@
                     table.ajax.reload();
                     alert(response.success);
                 },
-                error: function(response) {
-                    console.log(response);
-                    alert('Failed to add logbook.');
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    var errorMessage = xhr.responseJSON ? xhr.responseJSON.error :
+                        'Gagal menambahkan logbook.';
+                    alert(errorMessage);
                 }
             });
         });
     });
 
-    // Edit logbook
     $('#dataTableMagangLogbook').on('click', '.editLogbookBtn', function() {
         var logbookId = $(this).data('id');
         var tanggal = $(this).data('tanggal');
@@ -177,28 +182,38 @@
         $('#editDeskripsiKegiatan').val(deskripsi);
         $('#editDokumentasi').val('');
 
-        $('#editLogbookForm').on('submit', function(e) {
-            e.preventDefault();
+        // Tampilkan gambar dokumentasi jika ada
+        if (dokumentasi) {
+            $('#currentDokumentasi').html('<img src="public/imgLogbook/' + dokumentasi +
+                '" alt="Current Dokumentasi" width="200">');
+        } else {
+            $('#currentDokumentasi').html('Tidak ada dokumentasi');
+        }
+    });
 
-            var formData = new FormData(this);
-            var id = $(this).attr('data-id');
+    $('#editLogbookForm').on('submit', function(e) {
+        e.preventDefault();
 
-            $.ajax({
-                url: '{{ route('magang.logbook.update', '') }}/' + id,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#editLogbookModal').modal('hide');
-                    table.ajax.reload();
-                    alert(response.success);
-                },
-                error: function(response) {
-                    console.log(response);
-                    alert('Failed to update logbook.');
-                }
-            });
+        var formData = new FormData(this);
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            url: '{{ route('magang.logbook.update', '') }}/' + id,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#editLogbookModal').modal('hide');
+                table.ajax.reload();
+                alert(response.success);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                var errorMessage = xhr.responseJSON ? xhr.responseJSON.error :
+                    'Gagal memperbarui logbook.';
+                alert(errorMessage);
+            }
         });
     });
 </script>

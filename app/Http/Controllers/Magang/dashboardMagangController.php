@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
-class DashboardMagangController extends Controller
+class dashboardMagangController extends Controller
 {
 
     public function index()
@@ -100,7 +100,7 @@ class DashboardMagangController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'deskripsi_kegiatan' => 'required',
-            'dokumentasi' => 'nullable|file|image',
+            'dokumentasi' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         $logbook = new Logbook();
@@ -110,9 +110,16 @@ class DashboardMagangController extends Controller
 
         if ($request->hasFile('dokumentasi')) {
             $file = $request->file('dokumentasi');
-            $filename = $file->getClientOriginalName();
-            $file->storeAs('logbook', $filename, 'public');
-            $logbook->dokumentasi = $filename;
+            if ($file->getSize() <= 2048000) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                $path = public_path('imgLogbook');
+                $file->move($path, $filename);
+
+                $logbook->dokumentasi = $filename;
+            } else {
+                return redirect()->back()->with('error', 'Ukuran file dokumentasi melebihi 2MB.');
+            }
         }
 
         $logbook->save();

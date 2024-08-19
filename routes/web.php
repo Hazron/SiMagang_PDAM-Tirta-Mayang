@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Magang\profileMagangController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ use App\Http\Controllers\Admin\LogbookController;
 use App\Http\Controllers\Magang\dashboardMagangController;
 use App\Http\Controllers\Magang\PresensiMagangController;
 use App\Http\Controllers\Magang\LogbookMagangController;
-use App\Http\Controllers\Magang\profileController as MagangProfileController;
+use App\Http\Controllers\Magang\profileMagangController as MagangProfileController;
 
 //DEPARTEMEN
 use App\Http\Controllers\Departemen\dashboardDepartemenController;
@@ -84,11 +85,14 @@ Route::middleware(['auth', 'magang'])->group(function () {
     //LOGBOOK MAGANG
     Route::get('magang/logbook', [LogbookMagangController::class, 'index'])->name('magang.logbook');
     Route::get('/magang/logbook/data', [LogbookMagangController::class, 'getData'])->name('magang.logbook.data');
-    Route::post('/magang/logbook/update/{id}', [LogbookMagangController::class, 'update'])->name('magang.logbook.update');
+    Route::put('/magang/logbook/{id}', [LogbookMagangController::class, 'update'])->name('magang.logbook.update');
+
+    Route::post('/magang/logbook/store', [LogbookMagangController::class, 'store'])->name('magang.logbook.store.table');
     Route::post('/logbook/store', [LogbookController::class, 'store'])->name('magang.logbook.store');
 
+    //PROFILE MAGANG
+    Route::get('magang/profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 
-    Route::get('profile', [MagangProfileController::class, 'index'])->name('profile-magang');
 });
 
 Route::middleware(['auth', 'departemen'])->group(function () {

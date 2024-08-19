@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Departemen;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Logbook;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -25,7 +26,11 @@ class DashboardDepartemenController extends Controller
             ])
             ->get();
 
-        return view('Departemen.Page.Dashboard', compact('user', 'siswaMagang'));
+        $logbookToday = Logbook::where('user_id', $user->id)
+            ->whereDate('tanggal', Carbon::today())
+            ->first();
+
+        return view('Departemen.Page.Dashboard', compact('user', 'siswaMagang', 'logbookToday'));
     }
 
 }

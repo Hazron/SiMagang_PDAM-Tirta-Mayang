@@ -8,6 +8,7 @@ use App\Models\Logbook;
 use App\Models\User;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class LogbookMagangController extends Controller
 {
@@ -24,6 +25,9 @@ class LogbookMagangController extends Controller
         $dates = [];
 
         for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+            if ($date->isWeekend()) {
+                continue;
+            }
             $dates[] = $date->format('Y-m-d');
         }
 
@@ -43,7 +47,7 @@ class LogbookMagangController extends Controller
             ->addIndexColumn()
             ->addColumn('dokumentasi', function ($logbook) {
                 if ($logbook['dokumentasi']) {
-                    return '<img src="' . asset('storage/' . $logbook['dokumentasi']) . '" alt="Dokumentasi" width="50">';
+                    return '<img src="' . asset('imgLogbook/' . $logbook['dokumentasi']) . '" alt="Dokumentasi" width="300">';
                 }
                 return 'Tidak ada';
             })
@@ -69,36 +73,48 @@ class LogbookMagangController extends Controller
         $logbook->deskripsi_kegiatan = $request->deskripsi_kegiatan;
 
         if ($request->hasFile('dokumentasi')) {
-            $filePath = $request->file('dokumentasi')->store('logbook_dokumentasi', 'public');
-            $logbook->dokumentasi = $filePath;
-        } else {
-            $logbook->dokumentasi = 'Tidak ada';
+            if ($logbook->dokumentasi && file_exists(public_path('imgLogbook/' . $logbook->dokumentasi))) {
+                unlink(public_path('imgLogbook/' . $logbook->dokumentasi));
+            }
+
+            $file = $request->file('dokumentasi');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('imgLogbook'), $filename);
+            $logbook->dokumentasi = $filename;
         }
 
         $logbook->save();
 
-        return response()->json(['success' => 'Logbook updated successfully.']);
+        return redirect()->back();
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'tanggal' => 'required|date',
-            'deskripsi_kegiatan' => 'required|string',
-            'dokumentasi' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'tanggal' => 'required|date',
+                'deskripsi_kegiatan' => 'required|string',
+                'dokumentasi' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-        $logbook = new Logbook();
-        $logbook->tanggal = $request->input('tanggal');
-        $logbook->deskripsi_kegiatan = $request->input('deskripsi_kegiatan');
+            $logbook = new Logbook();
+            $logbook->user_id = Auth::id();
+            $logbook->tanggal = $request->tanggal;
+            $logbook->deskripsi_kegiatan = $request->deskripsi_kegiatan;
 
-        if ($request->hasFile('dokumentasi')) {
-            $logbook->dokumentasi = $request->file('dokumentasi')->store('logbooks', 'public');
+            if ($request->hasFile('dokumentasi')) {
+                $file = $request->file('dokumentasi');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('imgLogbook'), $filename);
+                $logbook->dokumentasi = $filename;
+            }
+
+            $logbook->save();
+
+            return response()->json(['success' => 'Logbook berhasil ditambahkan.']);
+        } catch (\Exception $e) {
+            \Log::error('Error adding logbook: ' . $e->getMessage());
+            return response()->json(['error' => 'Gagal menambahkan logbook: ' . $e->getMessage()], 500);
         }
-
-        $logbook->user_id = auth()->user()->id;
-        $logbook->save();
-
-        return response()->json(['success' => 'Logbook added successfully!']);
     }
 }

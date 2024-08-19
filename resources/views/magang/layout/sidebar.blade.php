@@ -26,7 +26,7 @@
         <span class="menu-header-text">Logbook Anda</span>
     </li>
     <li class="menu-item">
-        <a href= "{{ route('magang.logbook')}}" class="menu-link">
+        <a href= "{{ route('magang.logbook') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Logbook Anda</div>
         </a>
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li><a class="dropdown-item" href="#">My Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('profile-magang') }}">My Profile</a></li>
                         <li><a class="dropdown-item" href="#">Setting Password</a></li>
                         <li><a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

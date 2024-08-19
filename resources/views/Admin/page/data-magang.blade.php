@@ -76,11 +76,12 @@
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Asal Instasi</label>
-                        <input type="text" class="form-control" placeholder="Asal" name="asal" required>
+                        <input type="text" class="form-control" placeholder="Asal Instasi" name="asal" required>
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Jurusan</label>
-                        <input type="text" class="form-control" placeholder="Asal" name="jurusan" required>
+                        <input type="text" class="form-control" placeholder="Jurusan Instasi" name="jurusan"
+                            required>
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Alamat</label>

@@ -41,7 +41,6 @@
                             <th>Jurusan</th>
                             <th>Departemen</th>
                             <th>Durasi Magang</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -53,7 +52,7 @@
                                             alt="{{ $user->name }}" class="img-thumbnail"
                                             style="width: 50px; height: 50px;">
                                     @else
-                                        <img src="{{ asset('path/to/default-image.jpg') }}" alt="Default Image"
+                                        <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Default Image"
                                             class="img-thumbnail" style="width: 50px; height: 50px;">
                                     @endif
                                 </td>
@@ -63,9 +62,6 @@
                                 <td>{{ $departemen->nama_departemen }}</td>
                                 <td>{{ \Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($user->tanggal_selesai)) }}
                                     hari</td>
-                                <td>
-                                    <a href="#" class="btn btn-info">Detail</a>
-                                </td>
                             </tr>
                         @empty
                             <tr>
