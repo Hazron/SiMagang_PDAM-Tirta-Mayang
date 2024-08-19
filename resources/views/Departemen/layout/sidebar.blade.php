@@ -26,7 +26,7 @@
         <span class="menu-header-text">Logbook Peserta Magang</span>
     </li>
     <li class="menu-item">
-        <a href= "{{ route('magang.logbook') }}" class="menu-link">
+        <a href= "{{ route('data-logbook-departemen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Data Logbook</div>
         </a>

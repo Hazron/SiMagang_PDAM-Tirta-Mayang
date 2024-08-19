@@ -21,6 +21,7 @@ use App\Http\Controllers\Magang\profileMagangController as MagangProfileControll
 //DEPARTEMEN
 use App\Http\Controllers\Departemen\dashboardDepartemenController;
 use App\Http\Controllers\Departemen\PesertaController as DepartemenPesertaController;
+use App\Http\Controllers\Departemen\LogbookDepartemenController;
 
 use App\Http\Controllers\Homepage;
 
@@ -101,6 +102,11 @@ Route::middleware(['auth', 'departemen'])->group(function () {
     Route::get('departemen/peserta', [DepartemenPesertaController::class, 'index'])->name('departemen.peserta');
     Route::get('/departemen/peserta/data', [DepartemenPesertaController::class, 'getData'])->name('departemen.peserta.data');
     Route::get('departemen/peserta/profile/{id}', [DepartemenPesertaController::class, 'detailView'])->name('profile-departemen');
+
+    route::get('departemen/data-logbook', [LogbookDepartemenController::class, 'index'])->name('data-logbook-departemen');
+    route::get('departemen/datatables-logbook', [LogbookDepartemenController::class, 'datatables'])->name('logbook-departemen.datatables');
+    Route::get('/departemen/showModal/{user_id}/{tanggal}', [LogbookDepartemenController::class, 'showModal'])->name('logbook.showModal');
+    Route::post('/departemen/approve-logbook', [LogbookDepartemenController::class, 'approveLogbook'])->name('logbook.approve');
 
 });
 

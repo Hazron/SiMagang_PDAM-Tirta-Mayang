@@ -54,6 +54,15 @@ class PesertaController extends Controller
     {
         $peserta = User::with(['departemen', 'dosen'])->findOrFail($id);
 
+        if ($peserta->role !== 'magang') {
+            return redirect()->back();
+        }
+
+        $currentUser = auth()->user();
+        if ($peserta->departemen_id !== $currentUser->departemen_id) {
+            return redirect()->back();
+        }
+
         $startDate = Carbon::parse($peserta->tanggal_mulai);
         $endDate = $peserta->tanggal_selesai ? Carbon::parse($peserta->tanggal_selesai) : Carbon::now();
         $endDate = min($endDate, Carbon::now());
@@ -79,4 +88,5 @@ class PesertaController extends Controller
 
         return view('Departemen.Page.detailpeserta', compact('peserta', 'presensi', 'logbook', 'monthRange', 'startDate', 'endDate'));
     }
+
 }
