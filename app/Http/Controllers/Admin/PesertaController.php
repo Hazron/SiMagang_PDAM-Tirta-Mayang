@@ -77,7 +77,7 @@ class PesertaController extends Controller
             'alamat' => $validatedData['alamat'],
             'no_telpon' => $validatedData['no_telpon'],
             'email' => $validatedData['email'],
-            'password' => Hash::make('magang'),
+            'password' => Hash::make($validatedData['nomor_induk']),
             'status' => 'aktif',
             'departemen_id' => $validatedData['departemen_id'],
             'tanggal_mulai' => $validatedData['tanggal_mulai'],

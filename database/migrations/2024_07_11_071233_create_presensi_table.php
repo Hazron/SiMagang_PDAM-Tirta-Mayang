@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->time('jam_masuk');
             $table->time('jam_keluar')->nullable();
             $table->enum('status', ['hadir', 'tidak hadir', 'izin', 'terlambat']);
-            $table->string('keterangan_terlambat')->nullable(); //jika status 'terlambat'
+            $table->string('if_terlambat')->nullable(); //jika status 'terlambat'
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->unsignedBigInteger('user_id');

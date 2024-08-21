@@ -23,6 +23,9 @@ use App\Http\Controllers\Departemen\dashboardDepartemenController;
 use App\Http\Controllers\Departemen\PesertaController as DepartemenPesertaController;
 use App\Http\Controllers\Departemen\LogbookDepartemenController;
 
+//DOSEN
+use App\Http\Controllers\Dosen\dashboardDosenController;
+
 use App\Http\Controllers\Homepage;
 
 Route::get('/', [Homepage::class, 'index']);
@@ -108,6 +111,10 @@ Route::middleware(['auth', 'departemen'])->group(function () {
     Route::get('/departemen/showModal/{user_id}/{tanggal}', [LogbookDepartemenController::class, 'showModal'])->name('logbook.showModal');
     Route::post('/departemen/approve-logbook', [LogbookDepartemenController::class, 'approveLogbook'])->name('logbook.approve');
 
+});
+
+Route::middleware(['auth', 'dosen'])->group(function () {
+    route::get('/dashboard-dosen', [dashboardDosenController::class, 'index'])->name('dashboard-dosen');
 });
 
 // ADMIN

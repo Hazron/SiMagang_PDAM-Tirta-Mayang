@@ -45,16 +45,18 @@ class DepartemenController extends Controller
                 'no_telpon' => $validated['no_telpon'],
                 'password' => Hash::make($validated['nomor_induk']),
                 'status' => 'aktif',
-                'alamat' => 'default alamat', //SEMENTARA DEFAULT
+                'alamat' => 'default alamat',
+                'departemen_id' => null,
             ]);
 
-            // Simpan data ke tabel departemen
-            Departemen::create([
+            $departemen = Departemen::create([
                 'nama_departemen' => $validated['nama_departemen'],
                 'nama_pembimbing' => $validated['nama_pembimbing'],
                 'user_id' => $user->id,
                 'status' => 'aktif',
             ]);
+
+            $user->update(['departemen_id' => $departemen->id_departemen]);
 
             DB::commit();
 
@@ -64,4 +66,5 @@ class DepartemenController extends Controller
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
+
 }

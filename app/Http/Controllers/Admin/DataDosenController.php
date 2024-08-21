@@ -64,12 +64,14 @@ class DataDosenController extends Controller
             'dosen_id' => null,
         ]);
 
-        DosenPembimbing::create([
+        $dosenPembimbing = DosenPembimbing::create([
             'nama' => $request->name,
             'asal_kampus' => $request->asal,
             'user_id' => $user->id,
             'status' => 'aktif',
         ]);
+
+        $user->update(['dosen_id' => $dosenPembimbing->id_dosen]);
 
         return redirect()->route('data-dosen')->with('success', 'Dosen berhasil ditambahkan');
     }
