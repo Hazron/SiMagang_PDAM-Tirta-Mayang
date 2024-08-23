@@ -25,6 +25,7 @@ use App\Http\Controllers\Departemen\LogbookDepartemenController;
 
 //DOSEN
 use App\Http\Controllers\Dosen\dashboardDosenController;
+use App\Http\Controllers\Dosen\ListPesertaController;
 
 use App\Http\Controllers\Homepage;
 
@@ -115,6 +116,8 @@ Route::middleware(['auth', 'departemen'])->group(function () {
 
 Route::middleware(['auth', 'dosen'])->group(function () {
     route::get('/dashboard-dosen', [dashboardDosenController::class, 'index'])->name('dashboard-dosen');
+    Route::get('dosen/list-peserta', [ListPesertaController::class, 'index'])->name('list-peserta-bimbingan-dosen');
+    Route::get('data/bimbingan', [ListPesertaController::class . 'getData'])->name('peserta.data.dosen');
 });
 
 // ADMIN
