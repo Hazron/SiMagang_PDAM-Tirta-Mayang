@@ -2,21 +2,20 @@
 
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('dashboard-departemen') ? 'active' : '' }}">
         <a href="{{ route('dashboard-departemen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
 
-
     <!-- Data Magang -->
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Data Peserta Magang</span>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('departemen.peserta') ? 'active' : '' }}">
         <a href="{{ route('departemen.peserta') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-group"></i>
             <div data-i18n="Analytics">Peserta Magang</div>
         </a>
     </li>
@@ -25,27 +24,19 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Logbook Peserta Magang</span>
     </li>
-    <li class="menu-item">
-        <a href= "{{ route('data-logbook-departemen') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+    <li class="menu-item {{ request()->routeIs('data-logbook-departemen') ? 'active' : '' }}">
+        <a href="{{ route('data-logbook-departemen') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-collection"></i>
             <div data-i18n="Analytics">Data Logbook</div>
         </a>
     </li>
 
-
-
     <!-- Components -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Nilai</span></li>
     <!-- Cards -->
-    <li class="menu-item">
-        <a href= "#" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Nilai Akhir Anda</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a href= "#" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+    <li class="menu-item {{ request()->routeIs('laporan-akhir') ? 'active' : '' }}">
+        <a href="#" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-file"></i>
             <div data-i18n="Analytics">Laporan Akhir</div>
         </a>
     </li>

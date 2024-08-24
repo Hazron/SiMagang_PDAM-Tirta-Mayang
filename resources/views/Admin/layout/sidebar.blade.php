@@ -2,27 +2,26 @@
 
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('dashboard-admin') ? 'active' : '' }}">
         <a href="{{ route('dashboard-admin') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
 
-
     <!-- Data Magang -->
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Data Magang</span>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('data-magang') ? 'active' : '' }}">
         <a href="{{ route('data-magang') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-group"></i>
             <div data-i18n="Analytics">Data Peserta Magang</div>
         </a>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('data-dosen') ? 'active' : '' }}">
         <a href="{{ route('data-dosen') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-user-pin"></i>
             <div data-i18n="Analytics">Data Dosen Instasi</div>
         </a>
     </li>
@@ -31,36 +30,37 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Data Departemen</span>
     </li>
-    <li class="menu-item">
-        <a href= "{{ route('data-departemen') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Data Pembimbing Deparetemen</div>
+    <li class="menu-item {{ request()->routeIs('data-departemen') ? 'active' : '' }}">
+        <a href="{{ route('data-departemen') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-briefcase"></i>
+            <div data-i18n="Analytics">Data Pembimbing Departemen</div>
         </a>
     </li>
 
-
     <!-- Layouts -->
-
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Presensi</span>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('data-presensi') ? 'active' : '' }}">
         <a href="{{ route('data-presensi') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-calendar"></i>
             <div data-i18n="Analytics">Data Presensi</div>
         </a>
     </li>
+
     <!-- Components -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">LogBook</span></li>
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">LogBook</span>
+    </li>
     <!-- Cards -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('data-logbook') ? 'active' : '' }}">
         <a href="{{ route('data-logbook') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-collection"></i>
             <div data-i18n="Basic">Data LogBook</div>
         </a>
     </li>
-
 </ul>
+
 </aside>
 
 <!-- / Menu -->

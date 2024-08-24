@@ -8,7 +8,17 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>
+        @if (auth()->user()->role == 'admin')
+            Dashboard Admin |
+        @elseif (auth()->user()->role == 'dosen')
+            Dashboard Dosen |
+        @elseif (auth()->user()->role == 'magang')
+            Dashboard Magang |
+        @elseif (auth()->user()->role == 'departemen')
+            Dashboard Departemen |
+        @endif Si Magang Tirta Mayang
+    </title>
 
     <meta name="description" content="" />
 
