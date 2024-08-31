@@ -13,7 +13,6 @@ class dosenpembimbing extends Model
 
     protected $primaryKey = 'id_pembimbing';
 
-
     protected $fillable = [
         'id_pembimbing',
         'nama',

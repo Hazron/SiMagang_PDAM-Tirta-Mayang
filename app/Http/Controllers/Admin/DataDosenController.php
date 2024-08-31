@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\DosenPembimbing;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+
 
 class DataDosenController extends Controller
 {
@@ -24,7 +26,7 @@ class DataDosenController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit' . $data->id_pembimbing . '">Edit</a>';
-                $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" onclick="deleteDosen(' . $data->id_pembimbing . ')">Delete</a>';
+                $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" onclick="deleteDosen(' . $data->id_pembimbing . ',' . $data->dosen->id . ')">Delete</a>';
                 return $btn;
             })
             ->addColumn('fotoprofile', function ($data) {
@@ -108,14 +110,36 @@ class DataDosenController extends Controller
 
     public function destroy($id)
     {
-        $dosen = DosenPembimbing::findOrFail($id);
-        $user = User::where('dosen_id', $id)->first();
+        DB::beginTransaction();
 
-        if ($user) {
-            $user->delete();
+        try {
+            // Find the DosenPembimbing record
+            $dosenPembimbing = DosenPembimbing::findOrFail($id);
+
+            // Find the associated User record (the dosen)
+            $user = User::where('role', 'dosen')
+                ->where('dosen_id', $dosenPembimbing->id_pembimbing)
+                ->first();
+
+            if ($user) {
+                // Update all magang users associated with this dosen
+                User::where('role', 'magang')
+                    ->where('dosen_id', $dosenPembimbing->id_pembimbing)
+                    ->update(['dosen_id' => null]);
+
+                // Delete the User record of the dosen
+                $user->delete();
+            }
+
+            // Delete the DosenPembimbing record
+            $dosenPembimbing->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Dosen berhasil dihapus.'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Gagal menghapus dosen: ' . $e->getMessage()], 500);
         }
-        $dosen->delete();
-
-        return response()->json(['success' => 'Dosen berhasil dihapus.']);
     }
 }

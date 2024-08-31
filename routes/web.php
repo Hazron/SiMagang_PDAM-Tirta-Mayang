@@ -59,6 +59,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/data-dosen/{id_pembimbing}', [DataDosenController::class, 'detail'])->name('detail-dosen');
     Route::post('/assign-dosen', [DataDosenController::class, 'assignDosen'])->name('assign.dosen');
     Route::delete('/admin/delete-dosen/{id}', [DataDosenController::class, 'destroy'])->name('delete-dosen');
+    Route::delete('/admin/destroy-dosen/{id}', [DataDosenController::class, 'destroy'])->name('destroy-dosen');
+
 
     // DATA PRESENSI MAGANG
     Route::get('/admin/data-presensi', [PresensiController::class, 'index'])->name('data-presensi');
