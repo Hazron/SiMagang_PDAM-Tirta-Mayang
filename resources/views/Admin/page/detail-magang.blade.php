@@ -3,7 +3,11 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="{{ route('data-magang') }}" class="btn btn-secondary">
+                <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Kembali
+            </a>
+        </div>
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Data Magang / </span>
             {{ $peserta->name }} | {{ $peserta->asal_kampus }}

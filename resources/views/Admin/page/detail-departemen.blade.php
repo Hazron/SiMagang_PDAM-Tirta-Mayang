@@ -3,7 +3,11 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="{{ route('data-departemen') }}" class="btn btn-secondary">
+                <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Kembali
+            </a>
+        </div>
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Data Dosen / </span>
             {{ $departemen->nama_pembimbing }} | {{ $departemen->nama_departemen }}
@@ -93,7 +97,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach ($getDepartemen as $user)
+                                    <tr>
+                                        <td>{{ $user->name ?? '-' }}</td>
+                                        <td>{{ $user->departemen->nama_departemen ?? '-' }}</td>
+                                        <td>{{ $user->asal_kampus ?? '-' }}</td>
+                                        <td>
+                                            @php
+                                                $startDate = Carbon\Carbon::parse($user->tanggal_mulai);
+                                                $endDate = Carbon\Carbon::parse($user->tanggal_selesai);
+                                                $diff = $startDate->diffInDays($endDate);
+                                            @endphp
+                                            {{ $diff }} Hari
+                                        </td>
+                                        <td>
+                                            <form {{-- action="{{ route('assign.departemen', ['departemen_id' => $departemen->id_departemen, 'user_id' => $user->id]) }}"
+                                                method="POST"> --}}>
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">Tambahkan</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

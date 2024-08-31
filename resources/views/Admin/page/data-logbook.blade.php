@@ -126,7 +126,8 @@
                     $('#modalTanggal').text(response.tanggal);
                     $('#modalDeskripsi').text(response.deskripsi);
                     if (response.dokumentasi) {
-                        $('#modalDokumentasi').html('<a href="/storage/' + response
+                        $('#modalDokumentasi').html('<a href="/imgLogbook/' +
+                            response
                             .dokumentasi + '" target="_blank">Lihat Dokumentasi</a>');
                     } else {
                         $('#modalDokumentasi').text('Tidak ada dokumentasi');

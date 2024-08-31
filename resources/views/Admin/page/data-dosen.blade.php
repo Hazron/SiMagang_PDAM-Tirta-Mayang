@@ -131,44 +131,6 @@
                         ]
                     });
 
-                    // Delete user
-                    $('#dosenDataTables').on('click', '.delete', function() {
-                        var id = $(this).data('id');
-                        var url = "{{ url('admin/delete-dosen') }}" + '/' + id;
-
-                        swal({
-                                title: "Apakah Anda yakin?",
-                                text: "Data akan dihapus secara permanen!",
-                                icon: "warning",
-                                buttons: true,
-                                dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                                if (willDelete) {
-                                    $.ajax({
-                                        url: url,
-                                        type: 'DELETE',
-                                        data: {
-                                            "_token": "{{ csrf_token() }}",
-                                        },
-                                        success: function(response) {
-                                            swal("Data berhasil dihapus!", {
-                                                icon: "success",
-                                            });
-                                            table.ajax.reload();
-                                        },
-                                        error: function(xhr) {
-                                            swal("Oops...",
-                                                "Terjadi kesalahan saat menghapus data!",
-                                                "error");
-                                        }
-                                    });
-                                } else {
-                                    swal("Data batal dihapus!");
-                                }
-                            });
-                    });
-
                     // Edit user (AJAX form submission for edit)
                     $('form[id^="editForm"]').on('submit', function(event) {
                         event.preventDefault();
@@ -194,4 +156,34 @@
                         });
                     });
                 });
+
+                function deleteDosen(id) {
+                    swal({
+                            title: "Apakah Anda yakin?",
+                            text: "Setelah dihapus, Anda tidak akan dapat memulihkan data dosen ini!",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                    url: "{{ url('admin/delete-dosen') }}/" + id,
+                                    type: 'DELETE',
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    success: function(response) {
+                                        swal("Data dosen berhasil dihapus!", {
+                                            icon: "success",
+                                        });
+                                        $('#dosenDataTables').DataTable().ajax.reload();
+                                    },
+                                    error: function(xhr) {
+                                        swal("Oops...", "Terjadi kesalahan saat menghapus data!", "error");
+                                    }
+                                });
+                            }
+                        });
+                }
             </script>

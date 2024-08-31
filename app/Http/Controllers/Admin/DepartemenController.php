@@ -20,8 +20,14 @@ class DepartemenController extends Controller
     public function detail($id_departemen)
     {
         $departemen = Departemen::find($id_departemen);
-        $users = User::where('departemen_id', $id_departemen)->get();
-        return view('admin.page.detail-departemen', compact('departemen', 'users'));
+        $users = User::where('departemen_id', $id_departemen)
+            ->where('role', 'magang')
+            ->get();
+
+        $getDepartemen = User::where('role', 'magang')
+            ->whereNull('departemen_id')
+            ->get();
+        return view('admin.page.detail-departemen', compact('departemen', 'users', 'getDepartemen'));
     }
 
     public function store(Request $request)
@@ -67,4 +73,16 @@ class DepartemenController extends Controller
         }
     }
 
+
+    public function destroy($id_departemen)
+    {
+        Departemen::destroy($id_departemen);
+
+        return response()->json(['success' => 'Data berhasil dihapus.']);
+    }
+
+    public function assignDepartemen($id_departemen)
+    {
+
+    }
 }

@@ -58,6 +58,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/store-dosen', [DataDosenController::class, 'store'])->name('store-dosen');
     Route::get('/admin/data-dosen/{id_pembimbing}', [DataDosenController::class, 'detail'])->name('detail-dosen');
     Route::post('/assign-dosen', [DataDosenController::class, 'assignDosen'])->name('assign.dosen');
+    Route::delete('/admin/delete-dosen/{id}', [DataDosenController::class, 'destroy'])->name('delete-dosen');
 
     // DATA PRESENSI MAGANG
     Route::get('/admin/data-presensi', [PresensiController::class, 'index'])->name('data-presensi');
@@ -67,6 +68,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/data-departemen', [DepartemenController::class, 'index'])->name('data-departemen');
     Route::get('admin/data-departemen/{id_departemen}', [DepartemenController::class, 'detail'])->name('deatil-departemen');
     Route::post('admin/data-departemen/store', [DepartemenController::class, 'store'])->name('store-departemen');
+    Route::delete('/admin/delete-departemen/{id}', [DepartemenController::class, 'destroy'])->name('delete-departemen');
+
 
     //DATA LOGBOOK
     Route::get('admin/data-logbook', [LogbookController::class, 'index'])->name('data-logbook');

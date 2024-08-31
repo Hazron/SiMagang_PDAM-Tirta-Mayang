@@ -8,7 +8,6 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Departemen /</span> Data
             Pembimbing Departemen</h4>
-        <!-- Hoverable Table rows -->
         <div class="card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 Daftar Departemen PDAM
@@ -43,8 +42,10 @@
                                     </td>
                                     <td>{{ $departemen->nama_pembimbing }}</td>
                                     <td>
-                                        <button type="submit" class="btn btn-primary">Edit</button>
-                                        </form>
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="confirmDelete({{ $departemen->id_departemen }})">
+                                            Hapus
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -109,6 +110,7 @@
 
             <div class="content-backdrop fade"></div>
         </div>
+
         <!-- Content wrapper -->
         @include('Admin.layout.footer')
     </div>

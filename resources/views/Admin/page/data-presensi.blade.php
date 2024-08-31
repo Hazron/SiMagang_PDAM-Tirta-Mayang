@@ -39,7 +39,6 @@
                                 <th>Jam Masuk</th>
                                 <th>Jam Keluar</th>
                                 <th>Status Presensi</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                     </table>
@@ -83,12 +82,6 @@
                     data: 'status',
                     name: 'status'
                 },
-                {
-                    data: 'aksi',
-                    name: 'aksi',
-                    orderable: false,
-                    searchable: false
-                }
             ]
         });
 

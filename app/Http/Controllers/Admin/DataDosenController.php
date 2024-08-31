@@ -24,7 +24,7 @@ class DataDosenController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit' . $data->id_pembimbing . '">Edit</a>';
-                $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" data-id="' . $data->id_pembimbing . '">Delete</a>';
+                $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" onclick="deleteDosen(' . $data->id_pembimbing . ')">Delete</a>';
                 return $btn;
             })
             ->addColumn('fotoprofile', function ($data) {
@@ -71,7 +71,7 @@ class DataDosenController extends Controller
             'status' => 'aktif',
         ]);
 
-        $user->update(['dosen_id' => $dosenPembimbing->id_dosen]);
+        $user->update(['dosen_id' => $dosenPembimbing->id_pembimbing]);
 
         return redirect()->route('data-dosen')->with('success', 'Dosen berhasil ditambahkan');
     }
@@ -104,5 +104,18 @@ class DataDosenController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Peserta magang berhasil ditambahkan ke dosen.');
+    }
+
+    public function destroy($id)
+    {
+        $dosen = DosenPembimbing::findOrFail($id);
+        $user = User::where('dosen_id', $id)->first();
+
+        if ($user) {
+            $user->delete();
+        }
+        $dosen->delete();
+
+        return response()->json(['success' => 'Dosen berhasil dihapus.']);
     }
 }
