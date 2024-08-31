@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\DB;
+
 
 
 class PesertaController extends Controller
@@ -136,12 +138,14 @@ class PesertaController extends Controller
                     'tanggal' => $date,
                     'deskripsi_kegiatan' => $logbookData[$formattedDate]->deskripsi_kegiatan,
                     'dokumentasi' => $logbookData[$formattedDate]->dokumentasi,
+                    'status' => 'tercatat',
                 ];
             } else {
                 $logbook[] = [
                     'tanggal' => $date,
                     'deskripsi_kegiatan' => 'Tidak ada kegiatan tercatat',
                     'dokumentasi' => null,
+                    'status' => '-',
                 ];
             }
         }
@@ -151,8 +155,7 @@ class PesertaController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        DB::table('users')->where('id', $id)->delete();
 
         return response()->json(['success' => 'Data berhasil dihapus!']);
     }

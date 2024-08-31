@@ -113,25 +113,20 @@ class DataDosenController extends Controller
         DB::beginTransaction();
 
         try {
-            // Find the DosenPembimbing record
             $dosenPembimbing = DosenPembimbing::findOrFail($id);
 
-            // Find the associated User record (the dosen)
             $user = User::where('role', 'dosen')
                 ->where('dosen_id', $dosenPembimbing->id_pembimbing)
                 ->first();
 
             if ($user) {
-                // Update all magang users associated with this dosen
                 User::where('role', 'magang')
                     ->where('dosen_id', $dosenPembimbing->id_pembimbing)
                     ->update(['dosen_id' => null]);
 
-                // Delete the User record of the dosen
                 $user->delete();
             }
 
-            // Delete the DosenPembimbing record
             $dosenPembimbing->delete();
 
             DB::commit();

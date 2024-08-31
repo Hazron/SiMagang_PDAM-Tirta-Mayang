@@ -45,9 +45,14 @@
                     </thead>
                 </table>
             </div>
+
+        </div>
+        <div class="form-text">
+            PASTIKAN SUDAH MEMILIKI DATA DEPARTEMEN, AGAR DAPAT MEMILIH DEPARTEMEN SETIAP PESERTA MAGANG
         </div>
     </div>
 </div>
+
 
 <!-- Modal Tambah -->
 <div class="modal fade text-left" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
@@ -69,6 +74,8 @@
                         <label class="form-label">Nomor Induk</label>
                         <input type="text" class="form-control" placeholder="Nomor Induk" name="nomor_induk"
                             required>
+                        <div class="form-text">Nomor Induk digunakan untuk password login. pastikan nomor induk dengan
+                            benar dimiliki peserta magang</div>
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Email</label>
@@ -112,8 +119,10 @@
                     </div>
                     <div class="mb-1">
                         <label class="form-label">Jam Selesai Magang</label>
-                        <input type="time" class="form-control" placeholder="Jam Selesai magang" name="jam_selesai"
-                            required>
+                        <input type="time" class="form-control" placeholder="Jam Selesai magang"
+                            name="jam_selesai" required>
+                        <div class="form-text">Jam Selesai Magang digunakan untuk menentukan Waktu Presensi Pulang
+                            peserta Magang</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

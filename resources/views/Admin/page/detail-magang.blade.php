@@ -101,22 +101,30 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Tanggal</th>
+                                    <th>Hari dan Tanggal</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Keluar</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($presensi as $presensiItem)
+                                @foreach (array_chunk($presensi, 5) as $presensiChunk)
                                     <tr>
-                                        <td>{{ $presensiItem['tanggal']->translatedFormat('j F Y') }}</td>
-                                        <td>{{ $presensiItem['jam_masuk'] ?? '-' }}</td>
-                                        <td>{{ $presensiItem['jam_keluar'] ?? '-' }}</td>
-                                        <td style="color: {{ $presensiItem['status'] == 'hadir' ? 'green' : 'red' }};">
-                                            {{ ucfirst($presensiItem['status']) }}
-                                        </td>
+                                        <td colspan="5" class="text-center"><strong>Minggu ke -
+                                                {{ $loop->index + 1 }}
                                     </tr>
+                                    @foreach ($presensiChunk as $presensiItem)
+                                        <tr>
+                                            <td>{{ $presensiItem['tanggal']->locale('id_ID')->translatedFormat('l, j F Y') }}
+                                            </td>
+                                            <td>{{ $presensiItem['jam_masuk'] ?? '-' }}</td>
+                                            <td>{{ $presensiItem['jam_keluar'] ?? '-' }}</td>
+                                            <td
+                                                style="color: {{ $presensiItem['status'] == 'hadir' ? 'green' : 'red' }};">
+                                                {{ ucfirst($presensiItem['status']) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
 
                             </tbody>
@@ -134,22 +142,32 @@
                                     <th>Tanggal & Hari</th>
                                     <th>Deskripsi Kegiatan</th>
                                     <th>Dokumentasi (Opsional)</th>
+                                    <th>Status Logbook</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($logbook as $entry)
+                            <tbody>
+                                @foreach (array_chunk($logbook, 5) as $logbookChunk)
                                     <tr>
-                                        <td>{{ $entry['tanggal']->format('j F Y') }}</td>
-                                        <td>{{ $entry['deskripsi_kegiatan'] }}</td>
-                                        <td>
-                                            @if ($entry['dokumentasi'])
-                                                <img src="{{ asset('storage/' . $entry['dokumentasi']) }}"
-                                                    alt="Dokumentasi" width="50" height="50">
-                                            @else
-                                                Tidak ada dokumentasi
-                                            @endif
-                                        </td>
+                                        <td colspan="5" class="text-center"><strong>Minggu ke -
+                                                {{ $loop->index + 1 }}
                                     </tr>
+                                    @foreach ($logbookChunk as $logbookItem)
+                                        <tr>
+                                            <td>{{ $logbookItem['tanggal']->locale('id_ID')->translatedFormat('l, j F Y') }}
+                                            </td>
+                                            <td>{{ $logbookItem['deskripsi_kegiatan'] }}</td>
+                                            <td>
+                                                @if ($logbookItem['dokumentasi'])
+                                                    <img src="{{ asset('imgLogbook/' . $logbookItem['dokumentasi']) }}"
+                                                        alt="Dokumentasi" width="150" height="150">
+                                                @else
+                                                    Tidak ada dokumentasi
+                                                @endif
+                                            </td>
+                                            <td>{{ $logbookItem['status'] }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
