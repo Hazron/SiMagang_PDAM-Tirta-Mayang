@@ -12,7 +12,12 @@
             <span class="text-muted fw-light">Data Dosen / </span>
             {{ $departemen->nama_pembimbing }} | {{ $departemen->nama_departemen }}
         </h4>
-
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="position-relative mb-5">
             <img src="{{ asset('assets/img/banner1.jpg') }}" class="img-fluid w-100 rounded"
                 style="height:auto; max-height: 200px; filter: brightness(0.6);" alt="Banner Dosen" />
@@ -45,6 +50,7 @@
                             <th>Jurusan</th>
                             <th>Departemen</th>
                             <th>Durasi Magang</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -66,6 +72,7 @@
                                 <td>{{ $departemen->nama_departemen }}</td>
                                 <td>{{ \Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($user->tanggal_selesai)) }}
                                     hari</td>
+                                <td>aksi(ntarguetambah)</td>
                             </tr>
                         @empty
                             <tr>
@@ -78,7 +85,7 @@
         </div>
 
 
-        <!-- Modal Tambah -->
+        <!-- Modal assign -->
         <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -111,9 +118,10 @@
                                             {{ $diff }} Hari
                                         </td>
                                         <td>
-                                            <form {{-- action="{{ route('assign.departemen', ['departemen_id' => $departemen->id_departemen, 'user_id' => $user->id]) }}"
-                                                method="POST"> --}}>
+                                            <form action="{{ route('assign.departemen', $departemen->id_departemen) }}"
+                                                method="POST">
                                                 @csrf
+                                                <input type="hidden" name="user_id" value="{{ $user->id }}">
                                                 <button type="submit" class="btn btn-primary">Tambahkan</button>
                                             </form>
                                         </td>
@@ -125,6 +133,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 

@@ -73,7 +73,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/delete-departemen/{id}', [DepartemenController::class, 'destroy'])->name('delete-departemen');
     Route::put('/admin/update-departemen/{id}', [DepartemenController::class, 'update'])->name('update-departemen');
     Route::delete('/admin/delete-departemen/{id_departemen}/{user_id}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
-
+    Route::post('/admin/assign-departemen/{departemen_id}', [DepartemenController::class, 'assignDepartemen'])->name('assign.departemen');
 
     //DATA LOGBOOK
     Route::get('admin/data-logbook', [LogbookController::class, 'index'])->name('data-logbook');

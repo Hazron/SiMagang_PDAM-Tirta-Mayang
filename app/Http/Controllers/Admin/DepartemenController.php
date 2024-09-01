@@ -73,11 +73,27 @@ class DepartemenController extends Controller
         }
     }
 
-    public function assignDepartemen($id_departemen)
+    public function assignDepartemen(Request $request, $departemen_id)
     {
+        // Validasi input
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
 
+        // Cari user berdasarkan user_id
+        $user = User::findOrFail($request->input('user_id'));
+
+        // Pastikan user memiliki role 'magang'
+        if ($user->role !== 'magang') {
+            return redirect()->back()->withErrors(['error' => 'Hanya peserta magang yang bisa ditugaskan ke departemen.']);
+        }
+
+        // Update departemen_id pada user
+        $user->departemen_id = $departemen_id;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Peserta magang berhasil ditugaskan ke departemen.');
     }
-
     public function update(Request $request, $id_departemen)
     {
         $validated = $request->validate([
