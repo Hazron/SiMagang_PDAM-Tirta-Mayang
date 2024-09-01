@@ -73,16 +73,69 @@ class DepartemenController extends Controller
         }
     }
 
-
-    public function destroy($id_departemen)
-    {
-        Departemen::destroy($id_departemen);
-
-        return response()->json(['success' => 'Data berhasil dihapus.']);
-    }
-
     public function assignDepartemen($id_departemen)
     {
 
     }
+
+    public function update(Request $request, $id_departemen)
+    {
+        $validated = $request->validate([
+            'nama_departemen' => 'required|string|max:255',
+            'nama_pembimbing' => 'required|string|max:255',
+            'nomor_induk' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $departemen = Departemen::findOrFail($id_departemen);
+            $departemen->update([
+                'nama_departemen' => $validated['nama_departemen'],
+                'nama_pembimbing' => $validated['nama_pembimbing'],
+            ]);
+
+            $user = User::findOrFail($departemen->user_id);
+            $user->update([
+                'nomor_induk' => $validated['nomor_induk'],
+                'password' => Hash::make($validated['nomor_induk']),
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Data berhasil diupdate.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
+
+    public function destroy($id_departemen, $user_id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $departemen = Departemen::find($id_departemen);
+            if ($departemen) {
+                $departemen->delete();
+            }
+
+            $user = User::find($user_id);
+            if ($user) {
+                $user->delete();
+            }
+
+            User::where('departemen_id', $id_departemen)
+                ->where('role', 'magang')
+                ->update(['departemen_id' => null]);
+
+            DB::commit();
+
+            return response()->json(['success' => 'Departemen dan User berhasil dihapus.']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
 }

@@ -93,8 +93,6 @@ class PesertaController extends Controller
 
         return back()->withInput()->with('error', 'Gagal menambahkan data magang');
     }
-
-
     public function detail($id)
     {
         $peserta = User::with('dosen')->findOrFail($id);

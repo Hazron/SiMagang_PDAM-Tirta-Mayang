@@ -71,6 +71,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/data-departemen/{id_departemen}', [DepartemenController::class, 'detail'])->name('deatil-departemen');
     Route::post('admin/data-departemen/store', [DepartemenController::class, 'store'])->name('store-departemen');
     Route::delete('/admin/delete-departemen/{id}', [DepartemenController::class, 'destroy'])->name('delete-departemen');
+    Route::put('/admin/update-departemen/{id}', [DepartemenController::class, 'update'])->name('update-departemen');
+    Route::delete('/admin/delete-departemen/{id_departemen}/{user_id}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
 
 
     //DATA LOGBOOK
@@ -112,10 +114,12 @@ Route::middleware(['auth', 'departemen'])->group(function () {
     Route::get('/departemen/peserta/data', [DepartemenPesertaController::class, 'getData'])->name('departemen.peserta.data');
     Route::get('departemen/peserta/profile/{id}', [DepartemenPesertaController::class, 'detailView'])->name('profile-departemen');
 
+
     route::get('departemen/data-logbook', [LogbookDepartemenController::class, 'index'])->name('data-logbook-departemen');
     route::get('departemen/datatables-logbook', [LogbookDepartemenController::class, 'datatables'])->name('logbook-departemen.datatables');
     Route::get('/departemen/showModal/{user_id}/{tanggal}', [LogbookDepartemenController::class, 'showModal'])->name('logbook.showModal');
     Route::post('/departemen/approve-logbook', [LogbookDepartemenController::class, 'approveLogbook'])->name('logbook.approve');
+
 
 });
 
