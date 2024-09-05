@@ -39,6 +39,7 @@
             var table = $('#dataTableMagangPresensi').DataTable({
                 processing: true,
                 serverSide: true,
+                paging: false,
                 ajax: {
                     url: '{{ route('magang.presensi.data') }}',
                     type: 'GET',

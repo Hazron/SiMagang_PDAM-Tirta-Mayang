@@ -158,11 +158,11 @@
     $(document).on("shown.bs.modal", "#logbookModal", function() {
         var status = $("#modalStatus").text().trim();
         if (status == "kosong") {
-            $("#btnSetujui").hide();
+            $("#btnSetujui").show();
         } else if (status == "menunggu persetujuan") {
             $("#btnSetujui").show();
         } else {
-            $("#btnSetujui").hide();
+            $("#btnSetujui").show();
         }
     });
 </script>

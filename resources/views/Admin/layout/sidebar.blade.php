@@ -39,7 +39,7 @@
 
     <!-- Layouts -->
     <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Presensi</span>
+        <span class="menu-header-text">Presensi & Logbook</span>
     </li>
     <li class="menu-item {{ request()->routeIs('data-presensi') ? 'active' : '' }}">
         <a href="{{ route('data-presensi') }}" class="menu-link">
@@ -47,18 +47,19 @@
             <div data-i18n="Analytics">Data Presensi</div>
         </a>
     </li>
-
-    <!-- Components -->
-    <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">LogBook</span>
-    </li>
-    <!-- Cards -->
     <li class="menu-item {{ request()->routeIs('data-logbook') ? 'active' : '' }}">
         <a href="{{ route('data-logbook') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-collection"></i>
             <div data-i18n="Basic">Data LogBook</div>
         </a>
     </li>
+
+    <!-- Components -->
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Nilai Akhir & Laporan Akhir</span>
+    </li>
+    <!-- Cards -->
+
 </ul>
 
 </aside>

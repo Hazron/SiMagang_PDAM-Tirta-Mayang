@@ -68,16 +68,16 @@
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                         style="margin-bottom: -30px">
                         <div class="avatar">
-                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
-                                class="w-px-40 h-auto rounded-circle" />
+                            <img src="{{ asset(Auth::user()->fotoprofile ? 'profilePicture/' . Auth::user()->fotoprofile : 'assets/img/blank-profile.png') }}"
+                                alt class="w-px-40 h-auto rounded-circle" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
-                                                class="w-px-40 h-auto rounded-circle" />
+                                            <img src="{{ asset(Auth::user()->fotoprofile ? 'profilePicture/' . Auth::user()->fotoprofile : 'assets/img/blank-profile.png') }}"
+                                                alt class="w-px-40 h-auto rounded-circle" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">

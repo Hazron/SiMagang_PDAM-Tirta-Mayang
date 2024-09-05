@@ -85,7 +85,7 @@ class LogbookMagangController extends Controller
 
         $logbook->save();
 
-        return redirect()->back();
+        return redirect()->route('magang.logbook')->withInput()->with(['success' => 'Logbook berhasil diupdate']);
     }
 
     public function store(Request $request)

@@ -51,8 +51,8 @@
             serverSide: true,
             ajax: "{{ route('peserta.data.dosen') }}",
             columns: [{
-                    data: 'foto',
-                    name: 'foto',
+                    data: 'fotoprofile',
+                    name: 'fotoprofile',
                     orderable: false,
                     searchable: false
                 },
@@ -68,7 +68,6 @@
                     data: 'asal',
                     name: 'asal'
                 },
-
                 {
                     data: 'tanggal_mulai',
                     name: 'tanggal_mulai'

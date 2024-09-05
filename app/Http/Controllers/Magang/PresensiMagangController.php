@@ -7,25 +7,61 @@ use Illuminate\Http\Request;
 use App\Models\Presensi;
 use Carbon\Carbon;
 use Yajra\DataTables\Datatables;
+use Illuminate\Support\Facades\Auth;
+
 
 class PresensiMagangController extends Controller
 {
     public function index()
     {
-        return view('magang.page.magang-presensi');
+        $user = Auth::user();
+
+        $startDate = Carbon::parse($user->tanggal_mulai);
+        $endDate = Carbon::now();
+
+        $presensiData = Presensi::where('user_id', $user->id)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->get()
+            ->keyBy(function ($item) {
+                return Carbon::parse($item->tanggal)->format('Y-m-d');
+            });
+
+        $presensi = [];
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $formattedDate = $date->format('Y-m-d');
+            if (isset($presensiData[$formattedDate])) {
+                $presensi[] = [
+                    'tanggal' => $date,
+                    'jam_masuk' => $presensiData[$formattedDate]->jam_masuk,
+                    'jam_keluar' => $presensiData[$formattedDate]->jam_keluar,
+                    'status' => $presensiData[$formattedDate]->status,
+                ];
+            } else {
+                $presensi[] = [
+                    'tanggal' => $formattedDate,
+                    'jam_masuk' => null,
+                    'jam_keluar' => null,
+                    'status' => 'tidak hadir',
+                ];
+            }
+        }
+
+        return view('magang.page.magang-presensi', compact('presensi'));
+
     }
 
     public function getData(Request $request)
     {
         $user = auth()->user();
-        $start_date = Carbon::parse($request->start_date);
-        $end_date = Carbon::parse($request->end_date);
+        $start_date = Carbon::parse($user->tanggal_mulai);
+        $end_date = Carbon::now();
         $dates = [];
 
         for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
-            if (!$date->isWeekend()) {
-                $dates[] = $date->format('Y-m-d');
+            if ($date->isWeekend()) {
+                continue;
             }
+            $dates[] = $date->format('Y-m-d');
         }
 
         $presensis = collect($dates)->map(function ($date) use ($user) {

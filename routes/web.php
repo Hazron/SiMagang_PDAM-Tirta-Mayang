@@ -104,7 +104,8 @@ Route::middleware(['auth', 'magang'])->group(function () {
 
     //PROFILE MAGANG
     Route::get('magang/profile', [MagangProfileController::class, 'index'])->name('profile-magang');
-
+    Route::post('magang/profile/updatefotoProfile', [MagangProfileController::class, 'updatefotoProfile'])->name('profilePicture-magang.update');
+    Route::post('magang/profile/update', [MagangProfileController::class, 'updateProfile'])->name('profile-magang.update');
 });
 
 Route::middleware(['auth', 'departemen'])->group(function () {
@@ -119,7 +120,6 @@ Route::middleware(['auth', 'departemen'])->group(function () {
     route::get('departemen/datatables-logbook', [LogbookDepartemenController::class, 'datatables'])->name('logbook-departemen.datatables');
     Route::get('/departemen/showModal/{user_id}/{tanggal}', [LogbookDepartemenController::class, 'showModal'])->name('logbook.showModal');
     Route::post('/departemen/approve-logbook', [LogbookDepartemenController::class, 'approveLogbook'])->name('logbook.approve');
-
 
 });
 

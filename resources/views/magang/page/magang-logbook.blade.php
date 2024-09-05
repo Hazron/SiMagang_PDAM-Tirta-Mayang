@@ -205,8 +205,7 @@
             contentType: false,
             success: function(response) {
                 $('#editLogbookModal').modal('hide');
-                table.ajax.reload();
-                alert(response.success);
+                location.reload();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
