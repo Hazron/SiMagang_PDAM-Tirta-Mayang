@@ -16,6 +16,7 @@
                 {{ session('error') }}
             </div>
         @endif
+        </h4>
         <div class="row">
             <div class="col-lg-4 mb-4 order-0">
                 <div class="card text-center">
@@ -62,17 +63,18 @@
                                     <div class="form-group">
                                         <label for="name">Nama Lengkap</label>
                                         <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ auth()->user()->name }}" required>
+                                            value="{{ $user->name }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="asal_kampus">Asal Kampus</label>
-                                        <input type="text" class="form-control" id="asal_kampus" name="asal_kampus"
-                                            value="{{ auth()->user()->asal_kampus }}" required>
+                                        <label for="nomor induk">Nomor Induk</label>
+                                        <input type="text" class="form-control" id="nomor_induk" name="nomor_induk"
+                                            value="{{ $user->nomor_induk }}" required>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -83,9 +85,64 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="asal_kampus">Asal Kampus</label>
+                                        <input type="text" class="form-control" id="asal_kampus" name="asal_kampus"
+                                            value="{{ auth()->user()->asal_kampus }}" disabled>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Jurusan">Jurusan</label>
+                                        <input type="text" class="form-control" id="jurusan" name="jurusan"
+                                            value="{{ $user->jurusan }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Dosen Pembimbing">Dosen Pembimbing</label>
+                                        <input type="text" class="form-control" id="dosen_id" name="dosen_id"
+                                            value="{{ $user->dosen_id ? $user->dosen->nama : 'Lapor ke SDM untuk memilih Dosen Pembimbing' }}"
+                                            disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Departemen">Departemen</label>
+                                        <input type="text" class="form-control" id="departemen" name="departemen"
+                                            value="{{ $user->departemen->nama_departemen ? $user->departemen->nama_departemen : 'Lapor ke SDM untuk memilih Departemen' }}"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Durasi Magang">Durasi Magang</label>
+                                        <input type="text" class="form-control" id="durasi_magang"
+                                            name="durasi_magang"
+                                            value="{{ \Carbon\Carbon::parse($user->tanggal_mulai)->format('d-m-Y') }} s/d {{ \Carbon\Carbon::parse($user->tanggal_selesai)->format('d-m-Y') }}"
+                                            disabled>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="alamat">Alamat</label>
                                         <input type="text" class="form-control" id="alamat" name="alamat"
-                                            value="{{ auth()->user()->alamat }}" required>
+                                            value="{{ $user->alamat }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            value="{{ $user->email }}" required>
                                     </div>
                                 </div>
                             </div>

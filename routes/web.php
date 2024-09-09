@@ -3,6 +3,7 @@
 use App\Http\Controllers\Magang\profileMagangController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\setPasswordController;
 
 //ADMIN
 use App\Http\Controllers\Admin\dashboardAdminController;
@@ -84,6 +85,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 
 Route::middleware(['auth', 'magang'])->group(function () {
+    //DASHBOARD
     Route::get('/dashboard-magang', [dashboardMagangController::class, 'index'])->name('dashboard-magang');
     Route::post('presensi-magang/store', [dashboardMagangController::class, 'storePresensi'])->name('presensi-magang.store');
     Route::post('pulang-magang/store', [dashboardMagangController::class, 'pulangPresensi'])->name('pulang-magang.store');
@@ -98,7 +100,6 @@ Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('magang/logbook', [LogbookMagangController::class, 'index'])->name('magang.logbook');
     Route::get('/magang/logbook/data', [LogbookMagangController::class, 'getData'])->name('magang.logbook.data');
     Route::put('/magang/logbook/{id}', [LogbookMagangController::class, 'update'])->name('magang.logbook.update');
-
     Route::post('/magang/logbook/store', [LogbookMagangController::class, 'store'])->name('magang.logbook.store.table');
     Route::post('/logbook/store', [LogbookController::class, 'store'])->name('magang.logbook.store');
 
@@ -106,6 +107,10 @@ Route::middleware(['auth', 'magang'])->group(function () {
     Route::get('magang/profile', [MagangProfileController::class, 'index'])->name('profile-magang');
     Route::post('magang/profile/updatefotoProfile', [MagangProfileController::class, 'updatefotoProfile'])->name('profilePicture-magang.update');
     Route::post('magang/profile/update', [MagangProfileController::class, 'updateProfile'])->name('profile-magang.update');
+
+    //SET PASSWORD
+    Route::get('magang/password', [setPasswordController::class, 'magangView'])->name('password-magang');
+    Route::post('magang/password/update', [setPasswordController::class, 'updatePasswordMagang'])->name('password-magang.update');
 });
 
 Route::middleware(['auth', 'departemen'])->group(function () {

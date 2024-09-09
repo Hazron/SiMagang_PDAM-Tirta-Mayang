@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Magang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class profileMagangController extends Controller
 {
     public function index()
     {
-        return view('magang.page.magang-profile');
+        $user = auth()->user();
+
+        $user = User::where('id', $user->id)->first();
+
+        return view('magang.page.magang-profile', compact('user'));
     }
+
     public function updatefotoProfile(Request $request)
     {
         $request->validate([

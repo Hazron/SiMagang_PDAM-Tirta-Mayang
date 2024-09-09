@@ -87,8 +87,8 @@
                                 </div>
                             </a></li>
                         <li><a class="dropdown-item" href="{{ Route('profile-magang') }}">My Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Setting Password</a></li>
-                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                        <li><a class="dropdown-item" href="{{ Route('password-magang') }}">Setting Password</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}</a></li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
