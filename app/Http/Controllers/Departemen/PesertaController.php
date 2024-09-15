@@ -29,16 +29,16 @@ class PesertaController extends Controller
         return DataTables::of($peserta)
             ->addColumn('foto', function ($user) {
                 return $user->fotoprofile
-                    ? '<img src="' . asset('storage/' . $user->fotoprofile) . '" alt="Foto Profil" class="img-thumbnail" width="50">'
+                    ? '<img src="' . asset('profilePicture/' . $user->fotoprofile) . '" alt="Foto Profil" class="img-thumbnail" width="50">'
                     : '<img src="' . asset('assets/img/blank-profile.png') . '" alt="Foto Default" class="img-thumbnail" width="65">';
             })
             ->addColumn('nama', function ($user) {
                 return '<a href="' . route('profile-departemen', $user->id) . '">' . $user->name . '</a>';
             })
-            ->addColumn('status', function ($user) {
-                return $user->status;
+            ->addColumn('jurusan', function ($user) {
+                return $user->jurusan;
             })
-            ->addColumn('asal', function ($user) {
+            ->addColumn('asal_instansi', function ($user) {
                 return $user->asal_kampus;
             })
             ->addColumn('pembimbing', function ($user) {

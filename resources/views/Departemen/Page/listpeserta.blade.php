@@ -9,7 +9,6 @@
             Magang di Departemen {{ Auth::user()->departemens->nama_departemen }}
         </h4>
 
-        <!-- Flash Messages -->
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -22,7 +21,6 @@
             </div>
         @endif
 
-        <!-- Hoverable Table rows -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Daftar Peserta Magang</h3>
@@ -70,8 +68,8 @@
                     name: 'status'
                 },
                 {
-                    data: 'asal',
-                    name: 'asal'
+                    data: 'asal_instansi',
+                    name: 'asal_instansi'
                 },
                 {
                     data: 'pembimbing',

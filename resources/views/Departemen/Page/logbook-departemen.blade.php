@@ -35,6 +35,8 @@
                             <tr>
                                 <th>Tanggal</th>
                                 <th>Nama</th>
+                                <th>Jurusan</th>
+                                <th>Asal Instansi</th>
                                 <th>Status Logbook</th>
                                 <th>Aksi</th>
                             </tr>
@@ -94,6 +96,14 @@
                 {
                     data: 'nama',
                     name: 'nama'
+                },
+                {
+                    data: 'jurusan',
+                    name: 'jurusan'
+                },
+                {
+                    data: 'asal_instansi',
+                    name: 'asal_instansi'
                 },
                 {
                     data: 'status_logbook',

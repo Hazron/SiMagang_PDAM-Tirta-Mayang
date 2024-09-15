@@ -15,7 +15,6 @@ class LogbookDepartemenController extends Controller
     {
         return view('departemen.page.logbook-departemen');
     }
-
     public function datatables(Request $request)
     {
         $user = auth()->user();
@@ -49,6 +48,8 @@ class LogbookDepartemenController extends Controller
                     $data[] = [
                         'tanggal' => $date->format('Y-m-d'),
                         'nama' => $user->name,
+                        'jurusan' => $user->jurusan,
+                        'asal_instansi' => $user->asal_kampus,
                         'departemen' => $user->departemen ? $user->departemen->nama_departemen : '',
                         'jam_input' => '-',
                         'status_logbook' => '<span class="badge bg-secondary">Tidak Ada Logbook</span>',
@@ -62,8 +63,10 @@ class LogbookDepartemenController extends Controller
                     $data[] = [
                         'tanggal' => $logbook->tanggal,
                         'nama' => $user->name,
+                        'jurusan' => $user->jurusan,
+                        'asal_instansi' => $user->asal_kampus,
                         'departemen' => $user->departemen ? $user->departemen->nama_departemen : '',
-                        'jam_input' => '-', // Placeholder, sesuai kebutuhan
+                        'jam_input' => '-',
                         'status_logbook' => $statusBadge,
                         'user_id' => $user->id,
                     ];

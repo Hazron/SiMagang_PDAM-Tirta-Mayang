@@ -66,6 +66,12 @@
                                 <td>{{ $peserta->departemen->nama_departemen ?? 'Tidak ditentukan' }}</td>
                             </tr>
                             <tr>
+                                <td>Durasi Magang</td>
+                                <td>:</td>
+                                <td>{{ \Carbon\Carbon::parse($peserta->tanggal_mulai)->format('d F Y') }} s/d
+                                    {{ \Carbon\Carbon::parse($peserta->tanggal_selesai)->format('d F Y') }}</td>
+                            </tr>
+                            <tr>
                                 <td>Departemen Pembimbing</td>
                                 <td>:</td>
                                 <td>{{ $peserta->departemen->nama_pembimbing ?? 'Tidak ditentukan' }}</td>
