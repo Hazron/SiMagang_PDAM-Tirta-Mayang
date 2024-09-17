@@ -170,4 +170,44 @@ class PesertaController extends Controller
 
         return redirect()->back()->with('success', 'Status peserta berhasil diupdate');
     }
+
+    public function cabutDepartemen(Request $request, $id)
+    {
+        $request->validate([
+            'departemen_id' => 'required|exists:departemen,id_departemen',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::findOrFail($id);
+            $user->departemen_id = null; // Set departemen_id ke null
+            $user->save();
+
+            DB::commit();
+
+            return response()->json(['success' => 'Peserta magang berhasil dicabut dari departemen.']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function cabutDosen(Request $request, $id)
+    {
+        $request->validate([
+            'dosen_id' => 'required|exists:dosen,id_dosen',
+        ]);
+
+        try {
+            $user = User::findOrFail($id);
+            $user->dosen_id = null;
+            $user->save();
+
+            return response()->json(['success' => 'Peserta magang berhasil dicabut dari dosen.']);
+        } catch (\Exception $e) {
+            \Log::error('Error dalam cabutDosen: ' . $e->getMessage());
+            return response()->json(['error' => 'Terjadi kesalahan saat mencabut peserta.'], 500);
+        }
+    }
 }

@@ -58,21 +58,29 @@
                             <tr>
                                 <td>
                                     @if ($user->fotoprofile)
-                                        <img src="{{ asset('path/to/images/' . $user->fotoprofile) }}"
+                                        <img src="{{ asset('profilePicture/' . $user->fotoprofile) }}"
                                             alt="{{ $user->name }}" class="img-thumbnail"
-                                            style="width: 50px; height: 50px;">
+                                            style="width: 100px; height: 100px;">
                                     @else
                                         <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Default Image"
-                                            class="img-thumbnail" style="width: 50px; height: 50px;">
+                                            class="img-thumbnail" style="width: 100px; height: 100px;">
                                     @endif
                                 </td>
                                 <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a></td>
                                 <td>{{ $user->asal_kampus }}</td>
                                 <td>{{ $user->jurusan }}</td>
                                 <td>{{ $departemen->nama_departemen }}</td>
-                                <td>{{ \Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($user->tanggal_selesai)) }}
-                                    hari</td>
-                                <td>aksi(ntarguetambah)</td>
+                                <td title="{{ \Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($user->tanggal_selesai)) }} hari"
+                                    data-bs-toggle="tooltip" data-bs-placement="top">
+                                    {{ \Carbon\Carbon::parse($user->tanggal_mulai)->format('d-m-Y') }} s/d
+                                    {{ \Carbon\Carbon::parse($user->tanggal_selesai)->format('d-m-Y') }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')">
+                                        Cabut
+                                    </button>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -83,8 +91,6 @@
                 </table>
             </div>
         </div>
-
-
         <!-- Modal assign -->
         <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -136,6 +142,52 @@
 
 
     </div>
-
+    <script>
+        function confirmDelete(id, nama) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Peserta magang " + nama + " akan dicabut di {{ $departemen->nama_departemen }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('cabut-departemen', $departemen->id_departemen) }}",
+                        type: 'PUT',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": id, // id user atau peserta
+                            "departemen_id": "{{ $departemen->id_departemen }}" // pastikan departemen_id dikirim
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Terhapus!',
+                                    'Peserta magang ' + nama +
+                                    ' berhasil dicabut pada {{ $departemen->nama_departemen }}.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            // Tampilkan pesan error jika ada
+                            Swal.fire(
+                                'Error!',
+                                xhr.responseJSON.message || 'Terjadi kesalahan',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        }
+    </script>
     @include('admin.Layout.footer')
 </div>

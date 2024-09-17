@@ -93,8 +93,8 @@
                                 <li class="d-flex mb-4 pb-1">
                                     <div class="avatar flex-shrink-0 me-3">
                                         <!-- FOTO -->
-                                        <img src="{{ $user->foto_url ?? '../assets/img/blank-profile.png' }}"
-                                            alt="User" class="rounded" width="50" height="50" />
+                                        <img src="{{ $user->fotoprofile ? asset('profilePicture/' . $user->fotoprofile) : '../assets/img/blank-profile.png' }}"
+                                            alt="User" class="rounded" width="100" height="100" />
                                     </div>
                                     <div
                                         class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">

@@ -41,22 +41,36 @@
                         <tr>
                             <th>Foto</th>
                             <th>Nama</th>
+                            <th>Asal Instansi</th>
+                            <th>Jurusan</th>
                             <th>Departemen</th>
                             <th>Durasi Magang</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @forelse ($pesertaBimbingan as $user)
                             <tr>
                                 <td>
-                                    <img src="{{ $user->foto_url ? asset('profilePictures/' . $user->foto_url) : asset('assets/img/blank-profile.png') }}"
+                                    <img src="{{ $user->fotoprofile ? asset('profilePicture/' . $user->fotoprofile) : asset('assets/img/blank-profile.png') }}"
                                         alt="{{ $user->name }}" class="img-thumbnail"
-                                        style="width: 50px; height: 50px;">
+                                        style="width: 100px; height: 100px;">
                                 </td>
                                 <td><a href="{{ route('detail-peserta', $user->id) }}">{{ $user->name }}</a></td>
+                                <td>{{ $user->asal_kampus }}</td>
+                                <td>{{ $user->jurusan }}</td>
                                 <td>{{ $user->departemen->nama_departemen ?? '-' }}</td>
-                                <td>{{ Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(Carbon\Carbon::parse($user->tanggal_selesai)) }}
-                                    Hari</td>
+                                <td title="{{ \Carbon\Carbon::parse($user->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($user->tanggal_selesai)) }} hari"
+                                    data-bs-toggle="tooltip" data-bs-placement="top">
+                                    {{ \Carbon\Carbon::parse($user->tanggal_mulai)->format('d-m-Y') }} s/d
+                                    {{ \Carbon\Carbon::parse($user->tanggal_selesai)->format('d-m-Y') }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')">
+                                        Cabut
+                                    </button>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -67,7 +81,6 @@
                 </table>
             </div>
         </div>
-
         <!-- Modal Tambah -->
         <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">

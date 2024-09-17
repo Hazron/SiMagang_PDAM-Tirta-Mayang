@@ -17,7 +17,7 @@
             <img src="{{ asset('assets/img/banner1.jpg') }}" class="img-fluid w-100 rounded"
                 style="height:auto; max-height: 200px; filter: brightness(0.6);" alt="Banner Peserta" />
 
-            <img src="{{ $peserta->fotoprofile ? asset('assets/img/fotoprofile_user/' . $peserta->fotoprofile) : asset('assets/img/blank-profile.png') }}"
+            <img src="{{ $peserta->fotoprofile ? asset('profilePicture/' . $peserta->fotoprofile) : asset('assets/img/blank-profile.png') }}"
                 class="img-fluid rounded-circle position-absolute"
                 style="width: 150px; height: 150px; bottom: -30px; left: 20px; border: 5px solid white;"
                 alt="blank-profile" />

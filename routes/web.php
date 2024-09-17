@@ -52,7 +52,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/data-peserta/{id}', [PesertaController::class, 'detail'])->name('detail-peserta');
     Route::delete('/admin/delete-peserta/{id}', [PesertaController::class, 'destroy'])->name('destroy-peserta');
     Route::put('/admin/edit-peserta/{id}', [PesertaController::class, 'edit'])->name('update-peserta');
-
+    Route::put('/admin/cabut-departemen/{id}', [PesertaController::class, 'cabutDepartemen'])->name('cabut-departemen');
+    Route::match(['PUT', 'POST'], '/admin/cabut-dosen/{id}', [PesertaController::class, 'cabutDosen'])->name('cabut-dosen');
     //DATA DOSEN/GURU PEMBIMBING
     Route::get('/admin/data-dosen', [DataDosenController::class, 'index'])->name('data-dosen');
     Route::get('data-dosen', [DataDosenController::class, 'data'])->name('datadosen');

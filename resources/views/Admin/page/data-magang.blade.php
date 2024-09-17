@@ -181,9 +181,9 @@
                     data: 'fotoprofile',
                     render: function(data, type, row) {
                         let fotoUrl = data ?
-                            `{{ asset('assets/img/fotoprofile_user/') }}/${data}` :
+                            `{{ asset('profilePicture/') }}/${data}` :
                             '../assets/img/blank-profile.png';
-                        return `<img src="${fotoUrl}" alt="Foto" width="75">`;
+                        return `<img src="${fotoUrl}" alt="Foto" width="100">`;
                     }
                 },
                 {
