@@ -32,9 +32,29 @@
                                 <th>Nama</th>
                                 <th>Status</th>
                                 <th>Asal</th>
-                                <th>Tanggal Mulai Magang</th>
+                                <th>Tanggal Mulai & Tanggal Selesai Magang</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach ($peserta as $item)
+                            <tr>
+                                <td>
+                                    @if ($item->fotoprofile)
+                                        <img src="{{ asset('profilePicture/' . $item->fotoprofile) }}" alt="{{ $item->name }}"
+                                            class="img-thumbnail" style="width: 100px; height: 100px;">
+                                    @else
+                                        <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Default Image"
+                                            class="img-thumbnail" style="width: 100px; height: 100px;">
+                                    @endif
+                                </td>
+                                <td><a href="{{ route('detail-peserta-bimbingan-dosen', $item->id) }}">{{ $item->name }}</a></td>
+                                <td>{{ $item->status }}</td>
+                                <td>{{ $item->asal_kampus }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d F Y') }} s/d {{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d F Y') }}</td> 
+                            </tr>
+                            @endforeach
+                            
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -43,36 +63,3 @@
 </div>
 
 @include('Admin.layout.footer')
-
-<script>
-    $(function() {
-        $('#pesertaTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('peserta.data.dosen') }}",
-            columns: [{
-                    data: 'fotoprofile',
-                    name: 'fotoprofile',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'asal',
-                    name: 'asal'
-                },
-                {
-                    data: 'tanggal_mulai',
-                    name: 'tanggal_mulai'
-                }
-            ]
-        });
-    });
-</script>

@@ -53,7 +53,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/delete-peserta/{id}', [PesertaController::class, 'destroy'])->name('destroy-peserta');
     Route::put('/admin/edit-peserta/{id}', [PesertaController::class, 'edit'])->name('update-peserta');
     Route::put('/admin/cabut-departemen/{id}', [PesertaController::class, 'cabutDepartemen'])->name('cabut-departemen');
-    Route::match(['PUT', 'POST'], '/admin/cabut-dosen/{id}', [PesertaController::class, 'cabutDosen'])->name('cabut-dosen');
+    Route::post('/admin/cabut-dosen/{id}', [PesertaController::class, 'cabutDosen'])->name('cabut-dosen');
+
     //DATA DOSEN/GURU PEMBIMBING
     Route::get('/admin/data-dosen', [DataDosenController::class, 'index'])->name('data-dosen');
     Route::get('data-dosen', [DataDosenController::class, 'data'])->name('datadosen');
@@ -132,6 +133,8 @@ Route::middleware(['auth', 'departemen'])->group(function () {
 Route::middleware(['auth', 'dosen'])->group(function () {
     route::get('/dashboard-dosen', [dashboardDosenController::class, 'index'])->name('dashboard-dosen');
     Route::get('dosen/list-peserta', [ListPesertaController::class, 'index'])->name('list-peserta-bimbingan-dosen');
+    Route::get('dosen/detail-peserta/{id}', [ListPesertaController::class, 'detail'])->name('detail-peserta-bimbingan-dosen');
+    
     Route::get('data/bimbingan', [ListPesertaController::class . 'getData'])->name('peserta.data.dosen');
 });
 

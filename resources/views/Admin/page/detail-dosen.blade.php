@@ -65,16 +65,16 @@
                                     {{ \Carbon\Carbon::parse($user->tanggal_mulai)->format('d-m-Y') }} s/d
                                     {{ \Carbon\Carbon::parse($user->tanggal_selesai)->format('d-m-Y') }}
                                 </td>
+                                </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger"
-                                        onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')">
+                                    <button type="button" class="btn btn-danger" onclick="confirmCabut({{ $user->id }}, '{{ $user->name }}')">
                                         Cabut
                                     </button>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">Belum ada peserta bimbingan</td>
+                                <td colspan="6" class="text-center">Belum ada peserta bimbingan</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -131,8 +131,45 @@
             </div>
         </div>
 
+        <script>
+            function confirmCabut(id, name) {
+    Swal.fire({
+        title: 'Cabut Dosen?',
+        text: "Apakah kamu yakin ingin mencabut dosen pada peserta magang dengan nama " + name + "?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Lanjutkan'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/cabut-dosen/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ _method: 'POST' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Sukses!', data.success, 'success').then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire('Error!', data.error, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Error!', 'Terjadi kesalahan saat mencoba menghapus peserta.', 'error');
+            });
+        }
+    });
+}
+
+        </script>
 
     </div>
-
     @include('admin.Layout.footer')
 </div>

@@ -1,8 +1,7 @@
 <div class="menu-inner-shadow"></div>
-
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item {{ Request::is('dashboard-dosen') ? 'active' : '' }}">
+    <li class="menu-item {{ request()->routeIs('dashboard-dosen') ? 'active' : '' }}">
         <a href="{{ route('dashboard-dosen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
@@ -13,7 +12,7 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Data Peserta Magang</span>
     </li>
-    <li class="menu-item {{ Request::is('list-peserta-bimbingan-dosen') ? 'active' : '' }}">
+    <li class="menu-item {{ request()->routeIs('list-peserta-bimbingan-dosen') ? 'active' : '' }}">
         <a href="{{ route('list-peserta-bimbingan-dosen') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Peserta Magang</div>

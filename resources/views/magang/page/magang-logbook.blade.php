@@ -12,6 +12,9 @@
                     <h5 class="card-header d-flex justify-content-between align-items-center">
                         Daftar Kegiatan Magang
                     </h5>
+                    <h5 class="card-header d-flex justify-content-between align-items-center">
+                        Periode {{ \Carbon\Carbon::parse(auth()->user()->tanggal_mulai)->isoFormat('D MMMM Y') }} s/d {{ \Carbon\Carbon::parse(auth()->user()->tanggal_selesai)->isoFormat('D MMMM Y') }}
+                    </h5>
                     <div class="table-responsive">
                         <table class="table table-hover" id="dataTableMagangLogbook">
                             <thead>
@@ -181,14 +184,13 @@
         $('#editLogbookForm').attr('data-id', logbookId);
         $('#editDeskripsiKegiatan').val(deskripsi);
         $('#editDokumentasi').val('');
-
-        // Tampilkan gambar dokumentasi jika ada
         if (dokumentasi) {
-            $('#currentDokumentasi').html('<img src="public/imgLogbook/' + dokumentasi +
-                '" alt="Current Dokumentasi" width="200">');
-        } else {
-            $('#currentDokumentasi').html('Tidak ada dokumentasi');
-        }
+    var imageUrl = '{{ asset('imgLogbook') }}/' + dokumentasi;
+    $('#currentDokumentasi').html('<img src="' + imageUrl + '" alt="Current Dokumentasi" width="200">');
+} else {
+    $('#currentDokumentasi').html('Tidak ada dokumentasi');
+}
+
     });
 
     $('#editLogbookForm').on('submit', function(e) {

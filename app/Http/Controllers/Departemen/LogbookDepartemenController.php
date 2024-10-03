@@ -94,14 +94,16 @@ class LogbookDepartemenController extends Controller
             return response()->json([
                 'tanggal' => $logbook->tanggal,
                 'deskripsi' => $logbook->deskripsi_kegiatan,
-                'dokumentasi' => $logbook->dokumentasi
+                'dokumentasi' => $logbook->dokumentasi,
+                'status' => $logbook->status
             ]);
         }
 
         return response()->json([
             'tanggal' => $tanggal,
             'deskripsi' => 'Tidak ada deskripsi',
-            'dokumentasi' => null
+            'dokumentasi' => null,
+            'status' => 'tidak ada'
         ]);
     }
 
@@ -118,7 +120,6 @@ class LogbookDepartemenController extends Controller
             return response()->json(['success' => true, 'message' => 'Logbook berhasil disetujui.']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Logbook tidak ditemukan.']);
+        return response()->json(['success' => false, 'message' => 'Tidak dapat menyetujui. Logbook tidak ditemukan atau belum dibuat untuk tanggal ini.']);
     }
-
 }

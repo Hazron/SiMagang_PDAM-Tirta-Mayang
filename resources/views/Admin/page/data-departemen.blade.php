@@ -124,48 +124,50 @@
                 <!-- End Modal Tambah -->
 
                 {{-- MODAL EDIT --}}
-                <div class="modal fade" id="editModal{{ $departemen->id_departemen }}" tabindex="-1"
-                    aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Edit Data
-                                    Departemen</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ route('update-departemen', $departemen->id_departemen) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="mb-3">
-                                        <label for="nama_departemen" class="form-label">Nama
-                                            Departemen</label>
-                                        <input type="text" class="form-control" id="nama_departemen"
-                                            name="nama_departemen" value="{{ $departemen->nama_departemen }}"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nama_pembimbing" class="form-label">Nama
-                                            Pembimbing</label>
-                                        <input type="text" class="form-control" id="nama_pembimbing"
-                                            name="nama_pembimbing" value="{{ $departemen->nama_pembimbing }}"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nomor_induk">Nomor Induk</label>
-                                        <input type="text" class="form-control" id="nomor_induk"
-                                            name="nomor_induk" value="{{ $departemen->user->nomor_induk }}" required>
-                                        <div class="form-text">Nomor Induk digunakan untuk password login</div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Simpan
-                                        Perubahan</button>
-                                </form>
+                @foreach ($departemens as $departemen)
+                    <div class="modal fade" id="editModal{{ $departemen->id_departemen }}" tabindex="-1"
+                        aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Data
+                                        Departemen</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('update-departemen', $departemen->id_departemen) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-3">
+                                            <label for="nama_departemen" class="form-label">Nama
+                                                Departemen</label>
+                                            <input type="text" class="form-control" id="nama_departemen"
+                                                name="nama_departemen" value="{{ $departemen->nama_departemen }}"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nama_pembimbing" class="form-label">Nama
+                                                Pembimbing</label>
+                                            <input type="text" class="form-control" id="nama_pembimbing"
+                                                name="nama_pembimbing" value="{{ $departemen->nama_pembimbing }}"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nomor_induk">Nomor Induk</label>
+                                            <input type="text" class="form-control" id="nomor_induk"
+                                                name="nomor_induk" value="{{ $departemen->user->nomor_induk }}" required>
+                                            <div class="form-text">Nomor Induk digunakan untuk password login</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Simpan
+                                            Perubahan</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
             <!-- / Content -->
 

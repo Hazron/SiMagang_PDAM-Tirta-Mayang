@@ -54,10 +54,11 @@ class PresensiMagangController extends Controller
     {
         $user = auth()->user();
         $start_date = Carbon::parse($user->tanggal_mulai);
-        $end_date = Carbon::now();
+        $end_date = Carbon::parse($user->tanggal_selesai);
         $dates = [];
 
-        for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+        $dates = [];
+        for ($date = $start_date->copy(); $date->lte($end_date); $date->addDay()) {
             if ($date->isWeekend()) {
                 continue;
             }

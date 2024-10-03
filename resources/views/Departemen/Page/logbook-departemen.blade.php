@@ -3,7 +3,7 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin / Data Logbook /</span> Data Logbook Peserta
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Departemen / Data Logbook /</span> Data Logbook Peserta
         </h4>
 
         <div class="card">
@@ -69,7 +69,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" id="btnSetujui" style="display: none;">Setujui</button>
+                <button type="button" class="btn btn-primary" id="btnSetujui">Setujui</button>
             </div>
         </div>
     </div>
@@ -132,12 +132,17 @@
                     $('#modalTanggal').text(response.tanggal);
                     $('#modalDeskripsi').text(response.deskripsi);
                     if (response.dokumentasi) {
-                        $('#modalDokumentasi').html('<a href="/storage/' + response
-                            .dokumentasi + '" target="_blank">Lihat Dokumentasi</a>');
+                        $('#modalDokumentasi').html('<a href="/storage/' + response.dokumentasi + '" target="_blank">Lihat Dokumentasi</a>');
                     } else {
                         $('#modalDokumentasi').text('Tidak ada dokumentasi');
                     }
                     $('#logbookModal').modal('show');
+
+                    if (response.status === 'menunggu persetujuan') {
+                        $('#btnSetujui').show();
+                    } else {
+                        $('#btnSetujui').hide();
+                    }
 
                     $('#btnSetujui').off('click').on('click', function() {
                         $.ajax({

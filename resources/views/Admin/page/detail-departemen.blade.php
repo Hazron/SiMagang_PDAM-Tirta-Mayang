@@ -58,9 +58,8 @@
                             <tr>
                                 <td>
                                     @if ($user->fotoprofile)
-                                        <img src="{{ asset('profilePicture/' . $user->fotoprofile) }}"
-                                            alt="{{ $user->name }}" class="img-thumbnail"
-                                            style="width: 100px; height: 100px;">
+                                        <img src="{{ asset('profilePicture/' . $user->fotoprofile) }}" alt="{{ $user->name }}"
+                                            class="img-thumbnail" style="width: 100px; height: 100px;">
                                     @else
                                         <img src="{{ asset('assets/img/blank-profile.png') }}" alt="Default Image"
                                             class="img-thumbnail" style="width: 100px; height: 100px;">
@@ -111,27 +110,27 @@
                             </thead>
                             <tbody>
                                 @foreach ($getDepartemen as $user)
-                                    <tr>
-                                        <td>{{ $user->name ?? '-' }}</td>
-                                        <td>{{ $user->departemen->nama_departemen ?? '-' }}</td>
-                                        <td>{{ $user->asal_kampus ?? '-' }}</td>
-                                        <td>
-                                            @php
-                                                $startDate = Carbon\Carbon::parse($user->tanggal_mulai);
-                                                $endDate = Carbon\Carbon::parse($user->tanggal_selesai);
-                                                $diff = $startDate->diffInDays($endDate);
-                                            @endphp
-                                            {{ $diff }} Hari
-                                        </td>
-                                        <td>
-                                            <form action="{{ route('assign.departemen', $departemen->id_departemen) }}"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                <button type="submit" class="btn btn-primary">Tambahkan</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                                                <tr>
+                                                                    <td>{{ $user->name ?? '-' }}</td>
+                                                                    <td>{{ $user->departemen->nama_departemen ?? '-' }}</td>
+                                                                    <td>{{ $user->asal_kampus ?? '-' }}</td>
+                                                                    <td>
+                                                                        @php
+                                                                            $startDate = Carbon\Carbon::parse($user->tanggal_mulai);
+                                                                            $endDate = Carbon\Carbon::parse($user->tanggal_selesai);
+                                                                            $diff = $startDate->diffInDays($endDate);
+                                                                        @endphp
+                                                                        {{ $diff }} Hari
+                                                                    </td>
+                                                                    <td>
+                                                                        <form action="{{ route('assign.departemen', $departemen->id_departemen) }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                                            <button type="submit" class="btn btn-primary">Tambahkan</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -155,19 +154,18 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('cabut-departemen', $departemen->id_departemen) }}",
+                        url: "{{ route('cabut-departemen', ':id') }}".replace(':id', id),
                         type: 'PUT',
                         data: {
                             "_token": "{{ csrf_token() }}",
-                            "id": id, // id user atau peserta
-                            "departemen_id": "{{ $departemen->id_departemen }}" // pastikan departemen_id dikirim
+                            "id": id,
+                            "departemen_id": "{{ $departemen->id_departemen }}"
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response.success) {
                                 Swal.fire(
                                     'Terhapus!',
-                                    'Peserta magang ' + nama +
-                                    ' berhasil dicabut pada {{ $departemen->nama_departemen }}.',
+                                    'Peserta magang ' + nama + ' berhasil dicabut pada {{ $departemen->nama_departemen }}.',
                                     'success'
                                 ).then((result) => {
                                     if (result.isConfirmed) {
@@ -176,8 +174,7 @@
                                 });
                             }
                         },
-                        error: function(xhr) {
-                            // Tampilkan pesan error jika ada
+                        error: function (xhr) {
                             Swal.fire(
                                 'Error!',
                                 xhr.responseJSON.message || 'Terjadi kesalahan',
@@ -185,9 +182,11 @@
                             );
                         }
                     });
+
                 }
             });
         }
     </script>
+
     @include('admin.Layout.footer')
 </div>
